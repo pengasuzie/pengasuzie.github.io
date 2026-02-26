@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>docsbot — Drop-in AI Help Widget for React</title>
+<meta name="description" content="Add an AI help assistant to your site in under 5 minutes. A lightweight React widget powered by Claude that answers questions from your knowledge base.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="docsbot — Drop-in AI Help Widget for React">
+<meta property="og:description" content="Add an AI help assistant to your site in under 5 minutes. A lightweight React widget powered by Claude that answers questions from your knowledge base.">
+<meta property="og:image" content="https://pengasuzie.github.io/images/social-card.png">
+<meta property="og:url" content="https://pengasuzie.github.io/projects/docsbot/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="docsbot — Drop-in AI Help Widget for React">
+<meta name="twitter:description" content="Add an AI help assistant to your site in under 5 minutes. A lightweight React widget powered by Claude that answers questions from your knowledge base.">
+<meta name="twitter:image" content="https://pengasuzie.github.io/images/social-card.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === SECTIONS === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* === TWO COL === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* === CODE === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .keyword { color: #818cf8; }
+  .code-block .string { color: #86efac; }
+  .code-block .fn { color: #67e8f9; }
+  .code-block .tag { color: #fbbf24; }
+
+  /* === STEPS === */
+  .steps {
+    counter-reset: step;
+  }
+
+  .step {
+    padding: 40px 0;
+    border-top: 2px solid var(--black);
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .step-number {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--blue);
+    counter-increment: step;
+  }
+
+  .step h3 {
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+
+  .step p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+  }
+
+  /* === FEATURES === */
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* === WIDGET DEMO === */
+  .widget-demo {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+    max-width: 380px;
+  }
+
+  .widget-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+  }
+
+  .widget-header-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #1e293b;
+  }
+
+  .widget-header-title svg { color: var(--blue); }
+
+  .widget-suggested {
+    padding: 12px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .widget-suggested button {
+    font-family: inherit;
+    font-size: 12px;
+    padding: 6px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: white;
+    color: #475569;
+    cursor: default;
+  }
+
+  .widget-body { padding: 16px; }
+
+  .widget-msg {
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    max-width: 85%;
+  }
+
+  .widget-msg.user {
+    background: var(--blue);
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+  }
+
+  .widget-msg.bot {
+    background: #f8fafc;
+    color: #1e293b;
+    border-bottom-left-radius: 4px;
+  }
+
+  .widget-input {
+    display: flex;
+    gap: 6px;
+    padding: 10px;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .widget-input input {
+    flex: 1;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    color: #94a3b8;
+  }
+
+  .widget-input button {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: none;
+    background: var(--blue);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* === PROPS TABLE === */
+  .props-table {
+    width: 100%;
+    font-size: 14px;
+    border-collapse: collapse;
+  }
+
+  .props-table thead tr {
+    border-bottom: 2px solid var(--black);
+    text-align: left;
+  }
+
+  .props-table th {
+    padding: 8px 12px 8px 0;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .props-table td {
+    padding: 10px 12px 10px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+
+  .props-table code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--light);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .props-table .desc { color: var(--grey); }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 32px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .step { grid-template-columns: 1fr; gap: 16px; }
+    .step .code-block { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo"><a href="/">Bruce Stronge</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="https://github.com/pengasuzie/docsbot">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <h1>AI help widget<br>for <span>any site.</span></h1>
+        <p class="hero-sub">
+          Add a floating chat assistant powered by Claude to your site in under 5 minutes.
+          Point it at your docs, drop in the component, done. One dependency, fully themeable.
+        </p>
+        <a href="https://github.com/pengasuzie/docsbot" class="btn primary">Get Started</a>
+        <a href="#setup" class="btn">Setup Guide</a>
+      </div>
+      <div style="display: flex; justify-content: center;">
+        <div class="widget-demo">
+          <div class="widget-header">
+            <div class="widget-header-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+              Help
+            </div>
+          </div>
+          <div class="widget-suggested">
+            <button>How do I get started?</button>
+            <button>What features are available?</button>
+          </div>
+          <div class="widget-body">
+            <div class="widget-msg user">How do I invite team members?</div>
+            <div class="widget-msg bot">Go to <strong>Settings &rarr; Team</strong> and click <strong>Invite</strong>. Enter their email and assign a role: Admin, Editor, or Viewer. They'll get an invite link immediately.</div>
+            <div class="widget-msg user">Can I limit access by project?</div>
+            <div class="widget-msg bot">Yes &mdash; on the <strong>Projects</strong> page, click the lock icon next to any project to manage who can view or edit it.</div>
+          </div>
+          <div class="widget-input">
+            <input type="text" placeholder="Ask a question..." disabled>
+            <button disabled>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="container">
+    <div class="section-label">What You Get</div>
+    <div class="two-col">
+      <div>
+        <h2>Drop-in widget</h2>
+        <p>A floating chat panel with a trigger button. Import the component, pass your API endpoint, and you're done. The widget handles the conversation UI, typewriter animation, suggested questions, and mobile layout.</p>
+        <ul class="feature-list">
+          <li>Floating panel with trigger button</li>
+          <li>Typewriter animation for responses</li>
+          <li>Configurable suggested questions</li>
+          <li>Themeable via CSS custom properties</li>
+          <li>Position: bottom-right or bottom-left</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Headless hook</h2>
+        <p>Need full control? Use the <code style="background: var(--light); padding: 2px 6px; border-radius: 3px;">useDocsBot()</code> hook to build your own UI. You get messages, loading state, error handling, and send/clear functions.</p>
+        <ul class="feature-list">
+          <li>Full conversation state management</li>
+          <li>Loading and error states</li>
+          <li>Send and clear functions</li>
+          <li>Build any UI you want</li>
+          <li>Same backend handler</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section>
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <div class="two-col">
+      <div>
+        <h2>Three pieces</h2>
+        <p>The widget (React component), the hook (headless alternative), and the backend handler. The handler takes your knowledge base as a markdown string, builds a system prompt, and calls Claude Haiku. Cheap and fast.</p>
+        <p>Dynamic context lets you inject per-request data &mdash; current page, user role, account info &mdash; so answers are always relevant.</p>
+      </div>
+      <div style="display: flex; align-items: center;">
+        <div class="code-block" style="width: 100%;">
+<span class="comment">// The architecture</span>
+
+User clicks help <span class="keyword">&rarr;</span> DocsBot widget opens
+                    <span class="keyword">&rarr;</span>
+User types question <span class="keyword">&rarr;</span> POST /api/docsbot
+                       <span class="keyword">&rarr;</span>
+              <span class="fn">createDocsBotHandler</span>:
+              <span class="comment">- Builds system prompt</span>
+              <span class="comment">  (knowledge + context + page)</span>
+              <span class="comment">- Sends to Claude Haiku</span>
+              <span class="comment">- Returns answer</span>
+                       <span class="keyword">&rarr;</span>
+              Widget shows <span class="tag">typewriter animation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SETUP -->
+<section id="setup">
+  <div class="container">
+    <div class="section-label">Setup Guide</div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-number">01</div>
+        <div>
+          <h3>Install</h3>
+          <p>Two packages: the widget itself and the Anthropic SDK for the backend handler.</p>
+        </div>
+        <div class="code-block">
+<span class="fn">npm install</span> docsbot @anthropic-ai/sdk
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">02</div>
+        <div>
+          <h3>Create your knowledge base</h3>
+          <p>Write your docs as markdown. The handler injects this into the system prompt so Claude can answer questions about your product.</p>
+        </div>
+        <div class="code-block">
+<span class="comment">&lt;!-- knowledge.md --&gt;</span>
+<span class="tag"># My Product</span>
+
+<span class="tag">## Dashboard</span>
+The dashboard shows an overview
+of your account...
+
+<span class="tag">## Settings</span>
+Configure your account from the
+Settings page...
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">03</div>
+        <div>
+          <h3>Add the API route</h3>
+          <p>A single file. The handler reads your knowledge base, manages conversation history, and calls Claude. Works with Next.js, Express, or any Node server.</p>
+        </div>
+        <div class="code-block">
+<span class="comment">// app/api/docsbot/route.ts</span>
+<span class="keyword">import</span> { <span class="fn">createDocsBotHandler</span> }
+  <span class="keyword">from</span> <span class="string">"docsbot/api"</span>;
+
+<span class="keyword">const</span> handler = <span class="fn">createDocsBotHandler</span>({
+  apiKey: process.env.<span class="tag">ANTHROPIC_API_KEY</span>,
+  knowledge,
+});
+
+<span class="keyword">export const</span> POST = handler;
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">04</div>
+        <div>
+          <h3>Add the widget</h3>
+          <p>Import the component, import the styles, pass the endpoint. A help button appears in the bottom-right corner. That's it.</p>
+        </div>
+        <div class="code-block">
+<span class="keyword">import</span> { <span class="fn">DocsBot</span> } <span class="keyword">from</span> <span class="string">"docsbot"</span>;
+<span class="keyword">import</span> <span class="string">"docsbot/styles.css"</span>;
+
+<span class="keyword">&lt;</span><span class="fn">DocsBot</span>
+  endpoint=<span class="string">"/api/docsbot"</span>
+  suggestedQuestions={[
+    <span class="string">"How do I get started?"</span>,
+    <span class="string">"What features are available?"</span>,
+  ]}
+<span class="keyword">/&gt;</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOMIZATION -->
+<section>
+  <div class="container">
+    <div class="section-label">Customization</div>
+    <div class="two-col">
+      <div>
+        <h2>Theming</h2>
+        <p>Override CSS custom properties to match your brand. Colors, sizing, border radius, widget dimensions &mdash; all configurable.</p>
+        <div class="code-block" style="margin-top: 16px;">
+<span class="keyword">:root</span> {
+  <span class="fn">--docsbot-primary</span>: <span class="tag">#8b5cf6</span>;
+  <span class="fn">--docsbot-user-bg</span>: <span class="tag">#8b5cf6</span>;
+  <span class="fn">--docsbot-radius</span>: <span class="tag">16px</span>;
+  <span class="fn">--docsbot-width</span>: <span class="tag">420px</span>;
+  <span class="fn">--docsbot-height</span>: <span class="tag">600px</span>;
+}
+        </div>
+      </div>
+      <div>
+        <h2>Widget props</h2>
+        <table class="props-table">
+          <thead>
+            <tr>
+              <th>Prop</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>endpoint</code></td>
+              <td class="desc">Your API route URL (required)</td>
+            </tr>
+            <tr>
+              <td><code>title</code></td>
+              <td class="desc">Header title (default: "Help")</td>
+            </tr>
+            <tr>
+              <td><code>placeholder</code></td>
+              <td class="desc">Input placeholder text</td>
+            </tr>
+            <tr>
+              <td><code>position</code></td>
+              <td class="desc">"bottom-right" or "bottom-left"</td>
+            </tr>
+            <tr>
+              <td><code>suggestedQuestions</code></td>
+              <td class="desc">Array or function returning questions</td>
+            </tr>
+            <tr>
+              <td><code>currentPage</code></td>
+              <td class="desc">Page context for smarter answers</td>
+            </tr>
+            <tr>
+              <td><code>headers</code></td>
+              <td class="desc">Extra headers for authenticated APIs</td>
+            </tr>
+            <tr>
+              <td><code>onToggle</code></td>
+              <td class="desc">Callback when widget opens/closes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BACKEND CONFIG -->
+<section>
+  <div class="container">
+    <div class="section-label">Backend Configuration</div>
+    <div class="two-col">
+      <div>
+        <h2>Handler options</h2>
+        <p>The backend handler is configurable: swap models, set token limits, add dynamic context per request. The <code style="background: var(--light); padding: 2px 6px; border-radius: 3px;">getContext</code> function lets you inject user-specific or page-specific data into every request.</p>
+        <table class="props-table" style="margin-top: 16px;">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>apiKey</code></td>
+              <td class="desc">Anthropic API key (required)</td>
+            </tr>
+            <tr>
+              <td><code>knowledge</code></td>
+              <td class="desc">Markdown knowledge base</td>
+            </tr>
+            <tr>
+              <td><code>model</code></td>
+              <td class="desc">Claude model (default: Haiku)</td>
+            </tr>
+            <tr>
+              <td><code>maxTokens</code></td>
+              <td class="desc">Max response tokens (default: 512)</td>
+            </tr>
+            <tr>
+              <td><code>maxHistory</code></td>
+              <td class="desc">Conversation history limit (default: 10)</td>
+            </tr>
+            <tr>
+              <td><code>getContext</code></td>
+              <td class="desc">Dynamic per-request context builder</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h2>Dynamic context</h2>
+        <p>Add per-request context so answers reflect the user's current state. The function receives the request and can return any string to append to the system prompt.</p>
+        <div class="code-block" style="margin-top: 16px;">
+<span class="keyword">const</span> handler = <span class="fn">createDocsBotHandler</span>({
+  apiKey: process.env.<span class="tag">ANTHROPIC_API_KEY</span>,
+  knowledge,
+  <span class="fn">getContext</span>: <span class="keyword">async</span> ({ currentPage }) => {
+    <span class="keyword">return</span> <span class="string">`User is on the
+      ${currentPage} page.`</span>;
+  },
+});
+        </div>
+
+        <h2 style="margin-top: 32px;">Headless mode</h2>
+        <div class="code-block" style="margin-top: 12px;">
+<span class="keyword">import</span> { <span class="fn">useDocsBot</span> } <span class="keyword">from</span> <span class="string">"docsbot"</span>;
+
+<span class="keyword">const</span> {
+  messages,
+  loading,
+  error,
+  <span class="fn">sendMessage</span>,
+  <span class="fn">clearMessages</span>,
+} = <span class="fn">useDocsBot</span>({
+  endpoint: <span class="string">"/api/docsbot"</span>,
+});
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Stronge. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie/docsbot">GitHub</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
