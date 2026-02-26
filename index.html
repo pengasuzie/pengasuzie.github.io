@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bruce Fraser — AI Tools & Open Source</title>
+<meta name="description" content="Open-source AI tools for sales, marketing, and automation. Lead generation, text-to-speech, help widgets, and Claude agent skills.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 80px;
+    align-items: end;
+  }
+
+  .hero h1 {
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-aside {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    border-left: 3px solid var(--black);
+    padding-left: 24px;
+  }
+
+  /* === SECTION LABEL === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  /* === PROJECTS === */
+  .projects {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .project-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 2px solid var(--black);
+    margin-bottom: 0;
+  }
+
+  .project-card + .project-card {
+    margin-top: 0;
+  }
+
+  .project-info {
+    padding: 40px 40px 40px 0;
+  }
+
+  .project-demo {
+    padding: 40px 0 40px 40px;
+    border-left: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .project-tag {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--white);
+    background: var(--blue);
+    display: inline-block;
+    padding: 3px 8px;
+    margin-bottom: 16px;
+  }
+
+  .project-tag.coming { background: var(--grey); }
+
+  .project-info h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .project-info .desc {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .feature-list li {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 10px 24px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: var(--white);
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === CODE BLOCK === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .keyword { color: #818cf8; }
+  .code-block .string { color: #86efac; }
+  .code-block .fn { color: #67e8f9; }
+  .code-block .tag { color: #fbbf24; }
+
+  /* === CHAT WIDGET DEMO === */
+  .widget-demo {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+    max-width: 340px;
+  }
+
+  .widget-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+  }
+
+  .widget-header-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    color: #1e293b;
+  }
+
+  .widget-header-title svg { color: var(--blue); }
+
+  .widget-body { padding: 16px; }
+
+  .widget-msg {
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    max-width: 85%;
+  }
+
+  .widget-msg.user {
+    background: var(--blue);
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+  }
+
+  .widget-msg.bot {
+    background: #f8fafc;
+    color: #1e293b;
+    border-bottom-left-radius: 4px;
+  }
+
+  .widget-input {
+    display: flex;
+    gap: 6px;
+    padding: 8px;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .widget-input input {
+    flex: 1;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    color: #94a3b8;
+  }
+
+  .widget-input button {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: none;
+    background: var(--blue);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* === SKILLS GRID === */
+  .skills {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .skill {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .skill:not(:nth-child(4n+1)) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .skill-cat {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .skill h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .skill p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  /* === ABOUT === */
+  .about {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: 80px;
+  }
+
+  .about-text {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.8;
+  }
+
+  .about-text p + p { margin-top: 16px; }
+
+  .about-links {
+    border-left: 3px solid var(--black);
+    padding-left: 24px;
+  }
+
+  .about-links h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 16px;
+  }
+
+  .about-links a {
+    display: block;
+    padding: 8px 0;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    border-bottom: 1px solid var(--light);
+  }
+
+  .about-links a:hover { color: var(--blue); }
+
+  .about-links a span {
+    font-weight: 400;
+    color: var(--grey);
+    font-size: 13px;
+    margin-left: 8px;
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 36px; }
+    .hero-grid,
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .project-card { grid-template-columns: 1fr; }
+    .project-demo { padding: 0 0 40px; border-left: none; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .skill:not(:nth-child(4n+1)) { border-left: none; padding-left: 0; }
+    .skill:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+    .hero-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 24px; }
+    .about-links { border-left: none; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo">Bruce Fraser</div>
+      <nav>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#about">About</a>
+        <a href="https://github.com/pengasuzie">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <h1>Open source<br>AI tools that<br><span>actually work.</span></h1>
+      </div>
+      <div class="hero-aside">
+        I build AI automation tools and release them for free. Lead generation, voice synthesis, help widgets, and agent skills &mdash; extracted from production systems, not toy demos.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- PROJECTS                                      -->
+<!-- ============================================ -->
+
+<section class="projects" id="projects">
+  <div class="container">
+    <div class="section-label">Open Source Projects</div>
+
+    <!-- docsbot -->
+    <div class="project-card">
+      <div class="project-info">
+        <div class="project-tag">Released</div>
+        <h2>docsbot</h2>
+        <p class="desc">Drop-in AI help assistant for any website. Add a floating chat widget powered by Claude that answers questions from your knowledge base. Three lines of code.</p>
+        <ul class="feature-list">
+          <li>React widget with typewriter animation</li>
+          <li>Headless hook for custom UI</li>
+          <li>Backend handler for Next.js / Express</li>
+          <li>CSS custom properties for theming</li>
+          <li>One dependency (react-markdown)</li>
+        </ul>
+        <a href="https://github.com/pengasuzie/docsbot" class="btn primary">View on GitHub</a>
+      </div>
+      <div class="project-demo">
+        <div class="widget-demo">
+          <div class="widget-header">
+            <div class="widget-header-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+              Help
+            </div>
+          </div>
+          <div class="widget-body">
+            <div class="widget-msg user">How do I invite team members?</div>
+            <div class="widget-msg bot">Go to <strong>Settings &rarr; Team</strong> and click <strong>Invite</strong>. Enter their email and assign a role: Admin, Editor, or Viewer. They'll get an invite link immediately.</div>
+          </div>
+          <div class="widget-input">
+            <input type="text" placeholder="Ask a question..." disabled>
+            <button disabled>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- lead-monitor -->
+    <div class="project-card">
+      <div class="project-info">
+        <div class="project-tag coming">Coming Soon</div>
+        <h2>lead-monitor</h2>
+        <p class="desc">Automated lead generation that watches Reddit, Hacker News, and RSS feeds for buying signals. Scores relevance, deduplicates, and notifies you via email or Slack.</p>
+        <ul class="feature-list">
+          <li>Keyword matching with intent scoring</li>
+          <li>Reddit, Hacker News, and RSS sources</li>
+          <li>Email (Resend) and Slack notifications</li>
+          <li>30-day historical backfill</li>
+          <li>Run as cron job or on-demand</li>
+        </ul>
+        <a href="#" class="btn">Notify Me</a>
+      </div>
+      <div class="project-demo">
+        <div class="code-block">
+<span class="comment">// Configure your keywords and sources</span>
+<span class="keyword">const</span> config = {
+  keywords: {
+    high: [<span class="string">"need a tool for"</span>, <span class="string">"looking for"</span>],
+    medium: [<span class="string">"automate"</span>, <span class="string">"alternative to"</span>],
+  },
+  sources: {
+    reddit: [<span class="string">"r/sales"</span>, <span class="string">"r/startups"</span>],
+    rss: [<span class="string">"techcrunch.com/feed"</span>],
+    hn: <span class="keyword">true</span>,
+  },
+  notify: {
+    email: <span class="string">"you@company.com"</span>,
+    slack: <span class="string">"#leads"</span>,
+  },
+};
+        </div>
+      </div>
+    </div>
+
+    <!-- orpheus-tts -->
+    <div class="project-card">
+      <div class="project-info">
+        <div class="project-tag coming">Coming Soon</div>
+        <h2>orpheus-tts</h2>
+        <p class="desc">Local AI text-to-speech using llama-cpp. Run speech synthesis on your Mac with Metal acceleration &mdash; no cloud API needed. 8 voices, emotion control, fully offline.</p>
+        <ul class="feature-list">
+          <li>Runs locally with llama-cpp (GGUF models)</li>
+          <li>8 pre-configured voices</li>
+          <li>Emotion tags for expressive speech</li>
+          <li>Metal acceleration on Apple Silicon</li>
+          <li>Python CLI &mdash; pipe into any workflow</li>
+        </ul>
+        <a href="#" class="btn">Notify Me</a>
+      </div>
+      <div class="project-demo">
+        <div class="code-block">
+<span class="comment"># Generate speech from text</span>
+$ python orpheus-generate.py \
+    --text <span class="string">"Your daily briefing is ready"</span> \
+    --voice <span class="tag">tara</span> \
+    --output briefing.wav
+
+<span class="comment"># With emotion tags</span>
+$ python orpheus-generate.py \
+    --text <span class="string">"&lt;excited&gt;We hit our target!&lt;/excited&gt;"</span> \
+    --voice <span class="tag">leo</span> \
+    --output celebrate.wav
+
+<span class="comment"># Voices: tara, leah, jess, leo,</span>
+<span class="comment">#         dan, mia, zac, zoe</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- claude-skills -->
+    <div class="project-card">
+      <div class="project-info">
+        <div class="project-tag coming">Coming Soon</div>
+        <h2>claude-skills</h2>
+        <p class="desc">A library of 60+ Claude Code skills for sales, marketing, SEO, and business analysis. Install a skill, run a slash command, get structured output. Built from real consulting workflows.</p>
+        <ul class="feature-list">
+          <li>Lead generation and cold outreach</li>
+          <li>SEO audits, technical and content</li>
+          <li>Conversion rate optimization</li>
+          <li>Opportunity evaluation framework</li>
+          <li>Voice briefings and transcription</li>
+        </ul>
+        <a href="#" class="btn">Notify Me</a>
+      </div>
+      <div class="project-demo">
+        <div class="code-block">
+<span class="comment"># Install a skill</span>
+$ claude skill install <span class="tag">lead-research</span>
+
+<span class="comment"># Use it</span>
+$ claude
+> <span class="fn">/lead-research</span>
+
+<span class="string">Who is your ideal customer?</span>
+> Series A SaaS founders in Australia
+
+<span class="string">Searching LinkedIn, Crunchbase...</span>
+<span class="string">Found 47 qualified leads.</span>
+<span class="string">Writing outreach sequences...</span>
+
+<span class="comment"># Output: leads.csv + emails.md</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SKILLS SHOWCASE                               -->
+<!-- ============================================ -->
+
+<section class="skills" id="skills">
+  <div class="container">
+    <div class="section-label">What the Skills Cover</div>
+    <div class="skills-grid">
+      <div class="skill">
+        <div class="skill-cat">Sales</div>
+        <h3>Lead Generation</h3>
+        <p>Find prospects, score intent, build lists, write cold emails and follow-up sequences.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">SEO</div>
+        <h3>Full-Stack SEO</h3>
+        <p>Technical audits, content analysis, schema markup, sitemaps, competitor pages, and programmatic SEO.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Marketing</div>
+        <h3>Growth & CRO</h3>
+        <p>Landing pages, signup flows, onboarding, paywalls, popups, A/B tests, and churn prevention.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Strategy</div>
+        <h3>Business Analysis</h3>
+        <p>Market research, competitor landscape, viability scoring, due diligence, and go/no-go decisions.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Content</div>
+        <h3>Copywriting</h3>
+        <p>Homepage copy, landing pages, email sequences, social content, ad creative, and editing.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Voice</div>
+        <h3>Audio Tools</h3>
+        <p>Text-to-speech with voice cloning, audio transcription with speaker identification.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Ads</div>
+        <h3>Paid Media</h3>
+        <p>Google Ads, Meta, LinkedIn ad copy and creative. Campaign planning and budget allocation.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Product</div>
+        <h3>Launch & Pricing</h3>
+        <p>Launch strategy, Product Hunt playbooks, pricing tiers, free tool strategy, referral programs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ABOUT                                         -->
+<!-- ============================================ -->
+
+<section class="about" id="about">
+  <div class="container">
+    <div class="section-label">About</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm Bruce, an AI consultant based in Brisbane, Australia. I build production AI systems for startups &mdash; document intelligence, workflow automation, LLM integration &mdash; and I open-source the tools I build along the way.</p>
+        <p>Everything on this page was extracted from real projects. The lead monitor runs daily for a client. The help widget is live in production. The skills power my consulting practice. I'm releasing them because I think more people should have access to these tools without starting from scratch.</p>
+        <p>If you're in sales, marketing, or building a startup and want to automate with AI &mdash; grab the tools, read the code, and ship something.</p>
+      </div>
+      <div class="about-links">
+        <h3>Links</h3>
+        <a href="https://github.com/pengasuzie">GitHub <span>&rarr; all repos</span></a>
+        <a href="https://github.com/pengasuzie/docsbot">docsbot <span>&rarr; AI help widget</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Fraser. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie">GitHub</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
