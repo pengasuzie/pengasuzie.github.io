@@ -338,9 +338,9 @@
   <div class="container">
     <h1>Local AI voice tools<br>for <span>Claude Code.</span></h1>
     <p class="hero-sub">
-      Convert text to speech with 50 voices. Transcribe audio with speaker identification.
-      Everything runs on your machine &mdash; no cloud APIs, no API keys, no recurring costs.
-      Install the skills, run a slash command, get audio.
+      Three Claude Code skills that chain together: transcribe a meeting, analyze it with
+      full project context, then generate an audio briefing. Everything runs locally &mdash;
+      no cloud APIs, no API keys, no recurring costs.
     </p>
     <a href="https://github.com/pengasuzie/ai-voice-kit" class="btn primary">Get Started</a>
     <a href="#setup" class="btn">Setup Guide</a>
@@ -350,7 +350,39 @@
 <!-- WHAT'S INCLUDED -->
 <section>
   <div class="container">
-    <div class="section-label">What's Included</div>
+    <div class="section-label">Three Skills, One Chain</div>
+
+    <!-- Chain diagram -->
+    <div style="background: var(--black); color: #a1a1aa; border-radius: 8px; padding: 24px 32px; font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 2; margin-bottom: 48px; text-align: center;">
+      <span style="color: #67e8f9;">/voice-to-text</span> <span style="color: #52525b;">&rarr;</span> transcript
+      <span style="color: #52525b;">&rarr;</span> <span style="color: #67e8f9;">/strategic-analysis</span> <span style="color: #52525b;">&rarr;</span> analysis + voice text
+      <span style="color: #52525b;">&rarr;</span> <span style="color: #67e8f9;">/text-to-voice</span> <span style="color: #52525b;">&rarr;</span> <span style="color: #fbbf24;">briefing.mp3</span>
+    </div>
+
+    <div class="two-col" style="margin-bottom: 48px;">
+      <div>
+        <h2>/voice-to-text</h2>
+        <p>Transcribe any audio or video file with automatic speaker identification. Handles meetings, interviews, podcasts, voice memos &mdash; any recording with one or more speakers.</p>
+        <ul class="feature-list">
+          <li>Speaker diarization (who said what)</li>
+          <li>Supports m4a, mp3, wav, mp4, mkv, and more</li>
+          <li>Replace generic labels with real names</li>
+          <li>Output as txt, srt, vtt, or json</li>
+          <li>30-min file transcribes in ~3-5 minutes</li>
+        </ul>
+      </div>
+      <div>
+        <h2>/strategic-analysis</h2>
+        <p>The bridge between transcription and audio. Reads your transcript, gathers full project context (CLAUDE.md, docs, git history), and produces a strategic analysis with a TTS-ready voice version.</p>
+        <ul class="feature-list">
+          <li>4 modes: sales, consulting, competitive, debrief</li>
+          <li>Project-aware (reads CLAUDE.md, docs, git log)</li>
+          <li>Outputs analysis.md + analysis-voice.txt</li>
+          <li>Voice text written for natural spoken delivery</li>
+          <li>Works standalone or chained with the other skills</li>
+        </ul>
+      </div>
+    </div>
     <div class="two-col">
       <div>
         <h2>/text-to-voice</h2>
@@ -363,16 +395,13 @@
           <li>Optional: Orpheus (emotion tags) or Coqui (voice cloning)</li>
         </ul>
       </div>
-      <div>
-        <h2>/voice-to-text</h2>
-        <p>Transcribe any audio or video file with automatic speaker identification. Handles meetings, interviews, podcasts, voice memos &mdash; any recording with one or more speakers.</p>
-        <ul class="feature-list">
-          <li>Speaker diarization (who said what)</li>
-          <li>Supports m4a, mp3, wav, mp4, mkv, and more</li>
-          <li>Replace generic labels with real names</li>
-          <li>Output as txt, srt, vtt, or json</li>
-          <li>30-min file transcribes in ~3-5 minutes</li>
-        </ul>
+      <div style="display: flex; align-items: center;">
+        <div class="code-block" style="width: 100%;">
+<span class="comment"># Each skill works standalone too</span>
+<span class="output">&gt;</span> <span class="cmd">/text-to-voice</span> any-text-file.txt
+<span class="output">&gt;</span> <span class="cmd">/voice-to-text</span> any-recording.m4a
+<span class="output">&gt;</span> <span class="cmd">/strategic-analysis</span> any-document.md
+        </div>
       </div>
     </div>
   </div>
@@ -395,6 +424,7 @@
 
 <span class="cmd">cp</span> <span class="flag">-r</span> ai-voice-kit/skills/text-to-voice ~/.claude/skills/
 <span class="cmd">cp</span> <span class="flag">-r</span> ai-voice-kit/skills/voice-to-text ~/.claude/skills/
+<span class="cmd">cp</span> <span class="flag">-r</span> ai-voice-kit/skills/strategic-analysis ~/.claude/skills/
         </div>
       </div>
 
@@ -522,26 +552,28 @@
 <!-- CHAIN -->
 <section>
   <div class="container">
-    <div class="section-label">Chain the Skills</div>
+    <div class="section-label">The Full Chain</div>
     <div class="two-col">
       <div>
-        <h2>Transcribe, then re-voice</h2>
-        <p>Record a meeting on your phone, transcribe it with speaker labels, then turn the summary into an audio briefing you can listen to on your commute.</p>
-        <p>Or: dictate rough notes into a voice memo, transcribe, clean up in Claude, then generate a polished audio version.</p>
+        <h2>Meeting to audio briefing</h2>
+        <p>Record a client call on your phone. Transcribe it with speaker labels. Run a strategic analysis that pulls in your full project context. Then generate an audio briefing you can listen to on the drive home.</p>
+        <p>The strategic analysis skill reads your CLAUDE.md, docs, competitor files, and git history &mdash; so the output is grounded in everything you know, not just the transcript.</p>
       </div>
       <div class="code-block">
-<span class="comment"># Step 1: Transcribe a recording</span>
-<span class="output">&gt;</span> <span class="cmd">/voice-to-text</span> meeting.m4a
+<span class="comment"># Step 1: Transcribe</span>
+<span class="output">&gt;</span> <span class="cmd">/voice-to-text</span> client-call.m4a
+<span class="comment">2 speakers detected. 4,231 words.</span>
 
-<span class="comment">Transcribing... 2 speakers detected.</span>
-<span class="output">Output: meeting.txt (4,231 words)</span>
+<span class="comment"># Step 2: Analyze</span>
+<span class="output">&gt;</span> <span class="cmd">/strategic-analysis</span> client-call.txt
+<span class="comment">Gathering project context...</span>
+<span class="output">├── analysis.md</span>
+<span class="output">└── analysis-voice.txt</span>
 
-<span class="comment"># Step 2: Turn it into audio</span>
-<span class="output">&gt;</span> <span class="cmd">/text-to-voice</span> meeting.txt
-
-<span class="output">Output:</span>
-<span class="output">├── meeting.mp3  (18m 34s, 16.2 MB)</span>
-<span class="output">└── Engine: Kokoro, Voice: am_adam</span>
+<span class="comment"># Step 3: Generate audio</span>
+<span class="output">&gt;</span> <span class="cmd">/text-to-voice</span> analysis-voice.txt
+<span class="output">├── analysis-voice.mp3  (6m 18s)</span>
+<span class="output">└── Engine: Kokoro, Voice: bf_lily</span>
       </div>
     </div>
   </div>

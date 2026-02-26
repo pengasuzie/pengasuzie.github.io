@@ -591,30 +591,33 @@
         <h2>ai-voice-kit</h2>
         <p class="desc">Local AI voice tools for Claude Code. Text-to-speech with 50 voices (Kokoro), audio transcription with speaker identification (WhisperX). No cloud APIs, runs on your machine.</p>
         <ul class="feature-list">
+          <li>3 skills: voice-to-text, strategic-analysis, text-to-voice</li>
           <li>50 voices, generates audio in seconds</li>
           <li>Transcription with speaker diarization</li>
-          <li>Markdown to speech-friendly text</li>
-          <li>Chain: transcribe &rarr; summarise &rarr; re-voice</li>
-          <li>3 engines: Kokoro, Orpheus, Coqui XTTS</li>
+          <li>4 analysis modes: sales, consulting, competitive, debrief</li>
+          <li>Full chain: recording &rarr; analysis &rarr; audio briefing</li>
         </ul>
         <a href="https://github.com/pengasuzie/ai-voice-kit" class="btn primary">View on GitHub</a>
         <a href="ai-voice-kit.html" class="btn">Setup Guide</a>
       </div>
       <div class="project-demo">
         <div class="code-block">
-<span class="comment"># Install the skills</span>
-$ cp -r ai-voice-kit/skills/* ~/.claude/skills/
+<span class="comment"># The full chain</span>
+> <span class="fn">/voice-to-text</span> client-call.m4a
+<span class="string">Transcribing... 2 speakers found.</span>
 
-<span class="comment"># Use it in Claude Code</span>
-> <span class="fn">/text-to-voice</span> meeting-notes.md
+> <span class="fn">/strategic-analysis</span> client-call.txt
+<span class="string">Gathering project context...</span>
+<span class="string">Output: analysis.md + analysis-voice.txt</span>
 
-<span class="string">Reading... 847 words, ~4 min audio.</span>
-<span class="string">Converting markdown to speech text...</span>
+> <span class="fn">/text-to-voice</span> analysis-voice.txt
 <span class="string">Generating with Kokoro (bf_lily)...</span>
 
 <span class="tag">Output:</span>
-<span class="tag">&boxvr;&boxh; meeting-notes.mp3  (4m 12s)</span>
+<span class="tag">&boxvr;&boxh; analysis-voice.mp3  (6m 18s)</span>
 <span class="tag">&boxur;&boxh; Engine: Kokoro, Voice: bf_lily</span>
+
+<span class="comment"># Listen on the drive home.</span>
         </div>
       </div>
     </div>
