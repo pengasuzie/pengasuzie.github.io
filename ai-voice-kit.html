@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Voice Kit — Local Text-to-Speech & Transcription for Claude Code</title>
+<meta name="description" content="Convert text to speech with 50 voices and transcribe audio with speaker identification. Runs locally, no cloud APIs. Claude Code skills you can install in minutes.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === SECTIONS === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* === TWO COL === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* === CODE === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .cmd { color: #67e8f9; }
+  .code-block .string { color: #86efac; }
+  .code-block .flag { color: #818cf8; }
+  .code-block .output { color: #fbbf24; }
+
+  /* === STEPS === */
+  .steps {
+    counter-reset: step;
+  }
+
+  .step {
+    padding: 40px 0;
+    border-top: 2px solid var(--black);
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .step-number {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--blue);
+    counter-increment: step;
+  }
+
+  .step h3 {
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+
+  .step p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+  }
+
+  /* === VOICES === */
+  .voice-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .voice {
+    padding: 16px 16px 16px 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .voice:not(:nth-child(4n+1)) {
+    padding-left: 16px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .voice-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .voice-desc {
+    font-size: 12px;
+    color: var(--grey);
+  }
+
+  /* === FEATURES === */
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .step { grid-template-columns: 1fr; gap: 16px; }
+    .step .code-block { grid-column: 1; }
+    .voice-grid { grid-template-columns: 1fr 1fr; }
+    .voice:not(:nth-child(4n+1)) { border-left: none; padding-left: 0; }
+    .voice:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo"><a href="/">Bruce Fraser</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="https://github.com/pengasuzie/ai-voice-kit">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Local AI voice tools<br>for <span>Claude Code.</span></h1>
+    <p class="hero-sub">
+      Convert text to speech with 50 voices. Transcribe audio with speaker identification.
+      Everything runs on your machine &mdash; no cloud APIs, no API keys, no recurring costs.
+      Install the skills, run a slash command, get audio.
+    </p>
+    <a href="https://github.com/pengasuzie/ai-voice-kit" class="btn primary">Get Started</a>
+    <a href="#setup" class="btn">Setup Guide</a>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section>
+  <div class="container">
+    <div class="section-label">What's Included</div>
+    <div class="two-col">
+      <div>
+        <h2>/text-to-voice</h2>
+        <p>Convert any text or markdown file to an MP3. The skill handles markdown cleanup, acronym expansion, voice selection, and MP3 encoding automatically.</p>
+        <ul class="feature-list">
+          <li>50 voices (American & British English)</li>
+          <li>Generates audio in seconds (Kokoro engine)</li>
+          <li>Auto-converts markdown to speech-friendly text</li>
+          <li>Outputs MP3 via ffmpeg</li>
+          <li>Optional: Orpheus (emotion tags) or Coqui (voice cloning)</li>
+        </ul>
+      </div>
+      <div>
+        <h2>/voice-to-text</h2>
+        <p>Transcribe any audio or video file with automatic speaker identification. Handles meetings, interviews, podcasts, voice memos &mdash; any recording with one or more speakers.</p>
+        <ul class="feature-list">
+          <li>Speaker diarization (who said what)</li>
+          <li>Supports m4a, mp3, wav, mp4, mkv, and more</li>
+          <li>Replace generic labels with real names</li>
+          <li>Output as txt, srt, vtt, or json</li>
+          <li>30-min file transcribes in ~3-5 minutes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SETUP -->
+<section id="setup">
+  <div class="container">
+    <div class="section-label">Setup Guide</div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-number">01</div>
+        <div>
+          <h3>Install the skills</h3>
+          <p>Clone the repo and copy the skill folders into your Claude Code config directory. That's all the "installation" there is for the skills themselves.</p>
+        </div>
+        <div class="code-block">
+<span class="cmd">git clone</span> https://github.com/pengasuzie/ai-voice-kit.git
+
+<span class="cmd">cp</span> <span class="flag">-r</span> ai-voice-kit/skills/text-to-voice ~/.claude/skills/
+<span class="cmd">cp</span> <span class="flag">-r</span> ai-voice-kit/skills/voice-to-text ~/.claude/skills/
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">02</div>
+        <div>
+          <h3>Install Kokoro TTS</h3>
+          <p>Kokoro is the default engine. Install the CLI with pipx, then download the model files (~350 MB). This is a one-time setup.</p>
+        </div>
+        <div class="code-block">
+<span class="cmd">pipx install</span> kokoro-tts
+
+<span class="cmd">mkdir</span> <span class="flag">-p</span> ~/.local/share/kokoro
+
+<span class="cmd">curl</span> <span class="flag">-L -o</span> ~/.local/share/kokoro/kokoro-v1.0.onnx \
+  <span class="string">https://github.com/thewh1teagle/kokoro-onnx/
+  releases/download/model-files-v1.0/
+  kokoro-v1.0.onnx</span>
+
+<span class="cmd">curl</span> <span class="flag">-L -o</span> ~/.local/share/kokoro/voices-v1.0.bin \
+  <span class="string">https://github.com/thewh1teagle/kokoro-onnx/
+  releases/download/model-files-v1.0/
+  voices-v1.0.bin</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">03</div>
+        <div>
+          <h3>Install ffmpeg</h3>
+          <p>Required for converting WAV output to MP3. If you're on a Mac, one command.</p>
+        </div>
+        <div class="code-block">
+<span class="comment"># macOS</span>
+<span class="cmd">brew install</span> ffmpeg
+
+<span class="comment"># Ubuntu / Debian</span>
+<span class="cmd">sudo apt install</span> ffmpeg
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">04</div>
+        <div>
+          <h3>Use it</h3>
+          <p>Open Claude Code and type the slash command. That's it. The skill handles engine selection, voice picking, format conversion, and output reporting.</p>
+        </div>
+        <div class="code-block">
+<span class="output">&gt;</span> <span class="cmd">/text-to-voice</span> meeting-notes.md
+
+<span class="comment">Reading meeting-notes.md... 847 words, ~4 min</span>
+<span class="comment">Converting markdown to speech text...</span>
+<span class="comment">Generating with Kokoro (voice: bf_lily)...</span>
+
+<span class="output">Output:</span>
+<span class="output">├── meeting-notes.mp3  (4m 12s, 3.8 MB)</span>
+<span class="output">└── Engine: Kokoro, Voice: bf_lily</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VOICES -->
+<section>
+  <div class="container">
+    <div class="section-label">Kokoro Voices (Selection of 50)</div>
+    <div class="voice-grid">
+      <div class="voice">
+        <div class="voice-name">bf_lily</div>
+        <div class="voice-desc">British female (default)</div>
+      </div>
+      <div class="voice">
+        <div class="voice-name">af_heart</div>
+        <div class="voice-desc">American female</div>
+      </div>
+      <div class="voice">
+        <div class="voice-name">am_adam</div>
+        <div class="voice-desc">American male</div>
+      </div>
+      <div class="voice">
+        <div class="voice-name">bm_george</div>
+        <div class="voice-desc">British male</div>
+      </div>
+      <div class="voice">
+        <div class="voice-name">af_bella</div>
+        <div class="voice-desc">American female</div>
+      </div>
+      <div class="voice">
+        <div class="voice-name">af_sarah</div>
+        <div class="voice-desc">American female</div>
+      </div>
+      <div class="voice">
+        <div class="voice-name">am_michael</div>
+        <div class="voice-desc">American male</div>
+      </div>
+      <div class="voice">
+        <div class="voice-name">bf_emma</div>
+        <div class="voice-desc">British female</div>
+      </div>
+      <div class="voice">
+        <div class="voice-name">af_nova</div>
+        <div class="voice-desc">American female</div>
+      </div>
+      <div class="voice">
+        <div class="voice-name">am_eric</div>
+        <div class="voice-desc">American male</div>
+      </div>
+      <div class="voice">
+        <div class="voice-name">bm_daniel</div>
+        <div class="voice-desc">British male</div>
+      </div>
+      <div class="voice">
+        <div class="voice-name">bf_isabella</div>
+        <div class="voice-desc">British female</div>
+      </div>
+    </div>
+    <p style="font-size: 13px; color: var(--grey); margin-top: 16px;">
+      Run <code style="background: var(--light); padding: 2px 6px; border-radius: 3px;">kokoro-tts --help-voices</code> for the full list of 50 voices.
+    </p>
+  </div>
+</section>
+
+<!-- CHAIN -->
+<section>
+  <div class="container">
+    <div class="section-label">Chain the Skills</div>
+    <div class="two-col">
+      <div>
+        <h2>Transcribe, then re-voice</h2>
+        <p>Record a meeting on your phone, transcribe it with speaker labels, then turn the summary into an audio briefing you can listen to on your commute.</p>
+        <p>Or: dictate rough notes into a voice memo, transcribe, clean up in Claude, then generate a polished audio version.</p>
+      </div>
+      <div class="code-block">
+<span class="comment"># Step 1: Transcribe a recording</span>
+<span class="output">&gt;</span> <span class="cmd">/voice-to-text</span> meeting.m4a
+
+<span class="comment">Transcribing... 2 speakers detected.</span>
+<span class="output">Output: meeting.txt (4,231 words)</span>
+
+<span class="comment"># Step 2: Turn it into audio</span>
+<span class="output">&gt;</span> <span class="cmd">/text-to-voice</span> meeting.txt
+
+<span class="output">Output:</span>
+<span class="output">├── meeting.mp3  (18m 34s, 16.2 MB)</span>
+<span class="output">└── Engine: Kokoro, Voice: am_adam</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENGINES -->
+<section>
+  <div class="container">
+    <div class="section-label">Three Engines, One Skill</div>
+    <div class="two-col">
+      <div>
+        <h2>Pick the right tool</h2>
+        <p>Kokoro is the default and handles 95% of use cases. But the skill also supports Orpheus (for emotional, natural-sounding speech with tags like <code style="background: var(--light); padding: 2px 6px; border-radius: 3px;">&lt;laugh&gt;</code>) and Coqui XTTS v2 (for cloning any voice from a 6-second WAV sample).</p>
+        <p>Just tell the skill which engine you want when it asks. Setup instructions for the optional engines are in the <a href="https://github.com/pengasuzie/ai-voice-kit" style="color: var(--blue);">GitHub README</a>.</p>
+      </div>
+      <div>
+        <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--black); text-align: left;">
+              <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">Engine</th>
+              <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">Speed</th>
+              <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">Best For</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 12px 0; font-weight: 700;">Kokoro</td>
+              <td style="padding: 12px 0; color: var(--grey);">Seconds</td>
+              <td style="padding: 12px 0; color: var(--grey);">Daily use, bulk</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 12px 0; font-weight: 700;">Orpheus</td>
+              <td style="padding: 12px 0; color: var(--grey);">~3.5x RT</td>
+              <td style="padding: 12px 0; color: var(--grey);">Emotion, prosody</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 12px 0; font-weight: 700;">Coqui XTTS</td>
+              <td style="padding: 12px 0; color: var(--grey);">~1x RT</td>
+              <td style="padding: 12px 0; color: var(--grey);">Voice cloning</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Fraser. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie/ai-voice-kit">GitHub</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
