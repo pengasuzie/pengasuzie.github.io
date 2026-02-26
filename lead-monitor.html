@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Monitor — Automated Lead Signals from Reddit, Hacker News & RSS</title>
+<meta name="description" content="Monitor Reddit, Hacker News, and RSS feeds for buying signals. Keyword matching with relevance scoring, Slack and email notifications. Run it on a schedule.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === SECTIONS === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* === TWO COL === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* === CODE === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .cmd { color: #67e8f9; }
+  .code-block .string { color: #86efac; }
+  .code-block .flag { color: #818cf8; }
+  .code-block .output { color: #fbbf24; }
+  .code-block .key { color: #f472b6; }
+
+  /* === STEPS === */
+  .steps {
+    counter-reset: step;
+  }
+
+  .step {
+    padding: 40px 0;
+    border-top: 2px solid var(--black);
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .step-number {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--blue);
+    counter-increment: step;
+  }
+
+  .step h3 {
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+
+  .step p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+  }
+
+  /* === FEATURES === */
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* === SOURCE GRID === */
+  .source-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .source {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .source:not(:first-child) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .source-name {
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .source h3 {
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+
+  .source p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.6;
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .step { grid-template-columns: 1fr; gap: 16px; }
+    .step .code-block { grid-column: 1; }
+    .source-grid { grid-template-columns: 1fr; }
+    .source:not(:first-child) { border-left: none; padding-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo"><a href="/">Bruce Fraser</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="https://github.com/pengasuzie/lead-monitor">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Automated lead signals<br>from <span>Reddit, HN & RSS.</span></h1>
+    <p class="hero-sub">
+      Define your keywords, pick your sources, run it on a schedule. New buying signals
+      show up in Slack or your inbox with relevance scores. No browser extensions,
+      no SaaS subscriptions &mdash; just a script and a cron job.
+    </p>
+    <a href="https://github.com/pengasuzie/lead-monitor" class="btn primary">Get Started</a>
+    <a href="#setup" class="btn">Setup Guide</a>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">How It Works</div>
+
+    <!-- Architecture diagram -->
+    <div style="background: var(--black); color: #a1a1aa; border-radius: 8px; padding: 24px 32px; font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 2; margin-bottom: 48px; text-align: center;">
+      <span style="color: #67e8f9;">config.json</span>
+      <span style="color: #52525b;">&rarr;</span> <span style="color: #86efac;">Reddit + HN + RSS</span>
+      <span style="color: #52525b;">&rarr;</span> <span style="color: #818cf8;">keyword matching</span>
+      <span style="color: #52525b;">&rarr;</span> <span style="color: #f472b6;">scoring</span>
+      <span style="color: #52525b;">&rarr;</span> <span style="color: #fbbf24;">Slack / Email / Console</span>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h2>Keyword scoring</h2>
+        <p>Split your keywords into two intent levels. <strong>High-intent</strong> keywords score 3 points each &mdash; these are direct buying signals like "looking for a tool" or "competitor alternative". <strong>Medium-intent</strong> keywords score 1 point &mdash; topic and pain signals.</p>
+        <p>Posts matching multiple keywords accumulate points. A post matching one high-intent and two medium-intent keywords scores 5. You see the highest-scoring signals first.</p>
+      </div>
+      <div>
+        <h2>Incremental dedup</h2>
+        <p>State is stored in a local JSON file. Each source tracks its cursor: Reddit stores the newest post ID per subreddit, HN stores a timestamp, RSS stores the newest GUID per feed.</p>
+        <p>On each run, only truly new posts are checked. First run establishes a baseline without notifying. Delete <code style="background: var(--light); padding: 2px 6px; border-radius: 3px;">.state.json</code> to reset and re-scan everything.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section>
+  <div class="container">
+    <div class="section-label">Three Sources</div>
+    <div class="source-grid">
+      <div class="source">
+        <div class="source-name">Reddit</div>
+        <h3>Subreddit monitoring</h3>
+        <p>Fetches new posts from each configured subreddit via the public JSON API. No OAuth, no API key. Rate limited at 1.5s between requests. Configurable number of posts per subreddit.</p>
+      </div>
+      <div class="source">
+        <div class="source-name">Hacker News</div>
+        <h3>Algolia search</h3>
+        <p>Searches HN via Algolia with configurable queries and a minimum points filter. Posts with 10+ points get a bonus score. Timestamp-based dedup means zero duplicates across runs.</p>
+      </div>
+      <div class="source">
+        <div class="source-name">RSS</div>
+        <h3>Industry feeds</h3>
+        <p>Parses any RSS feed via rss-parser. Strips HTML from content before keyword matching. GUID-based dedup. Add as many feeds as you want &mdash; industry blogs, competitor blogs, news sites.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SETUP -->
+<section id="setup">
+  <div class="container">
+    <div class="section-label">Setup Guide</div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-number">01</div>
+        <div>
+          <h3>Clone and install</h3>
+          <p>Clone the repo and install dependencies. Node 18+ required.</p>
+        </div>
+        <div class="code-block">
+<span class="cmd">git clone</span> https://github.com/pengasuzie/lead-monitor.git
+<span class="cmd">cd</span> lead-monitor
+<span class="cmd">npm install</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">02</div>
+        <div>
+          <h3>Configure your keywords</h3>
+          <p>Copy the example config and edit it. Add your high-intent buying signals, medium-intent topic keywords, subreddits, RSS feeds, and HN search queries.</p>
+        </div>
+        <div class="code-block">
+<span class="cmd">cp</span> config.example.json config.json
+
+<span class="comment"># Edit config.json:</span>
+{
+  <span class="key">"keywords"</span>: {
+    <span class="key">"high"</span>: [<span class="string">"your product alternative"</span>],
+    <span class="key">"medium"</span>: [<span class="string">"pain point"</span>]
+  },
+  <span class="key">"reddit"</span>: {
+    <span class="key">"subreddits"</span>: [<span class="string">"SaaS"</span>, <span class="string">"startups"</span>]
+  }
+}
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">03</div>
+        <div>
+          <h3>Run it</h3>
+          <p>First run scans recent posts and saves a baseline. Second run onwards notifies you about new signals only. Results always print to console.</p>
+        </div>
+        <div class="code-block">
+<span class="cmd">npm run</span> monitor
+
+<span class="output">=== Lead Monitor === 2026-02-26T10:00:00Z ===</span>
+
+<span class="comment">[sources] Checking Reddit...</span>
+<span class="comment">[sources] Checking RSS feeds...</span>
+<span class="comment">[sources] Checking Hacker News...</span>
+
+<span class="output">[results] reddit: 3 | rss: 1 | hn: 2 | total: 6</span>
+
+  <span class="string">[reddit] score:6 | r/SaaS | Need a CRM alternative</span>
+  <span class="string">  Keywords: crm alternative, looking for</span>
+
+<span class="output">[done] State saved.</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">04</div>
+        <div>
+          <h3>Add notifications</h3>
+          <p>Optionally add Slack or email notifications. Set environment variables and signals arrive automatically.</p>
+        </div>
+        <div class="code-block">
+<span class="comment"># Slack — set incoming webhook URL</span>
+<span class="cmd">export</span> LEAD_MONITOR_SLACK_WEBHOOK=<span class="string">"https://hooks.slack.com/..."</span>
+
+<span class="comment"># Email — requires Resend API key</span>
+<span class="cmd">export</span> RESEND_API_KEY=<span class="string">"re_..."</span>
+<span class="cmd">export</span> EMAIL_FROM=<span class="string">"Leads &lt;leads@yourdomain.com&gt;"</span>
+
+<span class="comment"># Schedule with cron (every 30 min)</span>
+<span class="flag">*/30 * * * *</span> <span class="cmd">cd</span> /path/to/lead-monitor && <span class="cmd">npm run</span> monitor
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BACKFILL -->
+<section>
+  <div class="container">
+    <div class="section-label">30-Day Backfill</div>
+    <div class="two-col">
+      <div>
+        <h2>Historical scan</h2>
+        <p>Run a one-time 30-day backfill to find signals you missed. Uses Reddit's search API (broader than the /new endpoint) and a 30-day HN lookback. RSS feeds return whatever history they retain, typically 2-4 weeks.</p>
+        <p>The backfill does <strong>not</strong> touch .state.json, so it's safe to run alongside the regular monitor. Optionally sends an email digest with all results.</p>
+      </div>
+      <div class="code-block">
+<span class="cmd">npm run</span> backfill
+
+<span class="output">=== Lead Monitor &mdash; 30-Day Backfill ===</span>
+
+<span class="comment">[sources] Searching Reddit (takes a few min)...</span>
+<span class="string">  Found 12 Reddit signals</span>
+<span class="comment">[sources] Searching Hacker News...</span>
+<span class="string">  Found 5 HN signals</span>
+<span class="comment">[sources] Scanning RSS feeds...</span>
+<span class="string">  Found 3 RSS signals</span>
+
+<span class="output">[total] 18 unique signals</span>
+
+  <span class="string">[6] r/SaaS | 14 Feb | Need a CRM alternative</span>
+  <span class="string">[4] HN | 8 Feb | Show HN: Tool for...</span>
+  <span class="string">[3] TechCrunch | 2 Feb | Startup raises...</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOTIFICATIONS -->
+<section>
+  <div class="container">
+    <div class="section-label">Notifications</div>
+    <div class="two-col">
+      <div>
+        <h2>Slack</h2>
+        <p>Sends Block Kit messages via incoming webhook. Each signal shows source, linked title, relevance score, matched keywords, and a body preview. Up to 10 signals per message.</p>
+        <ul class="feature-list">
+          <li>Source icons: [Reddit], [HN], [News]</li>
+          <li>Clickable titles link to original post</li>
+          <li>Score and keyword summary per signal</li>
+          <li>Body preview (200 chars)</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Email</h2>
+        <p>HTML digest via Resend with color-coded score badges. Red for high relevance (3+), amber for medium (2), grey for low (1). Timestamps in AEST.</p>
+        <ul class="feature-list">
+          <li>Color-coded score badges</li>
+          <li>Source labels and matched keywords</li>
+          <li>Body preview (300 chars)</li>
+          <li>Sorted by relevance score</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Fraser. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie/lead-monitor">GitHub</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
