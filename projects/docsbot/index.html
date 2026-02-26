@@ -471,30 +471,10 @@
         <a href="https://github.com/pengasuzie/docsbot" class="btn primary">Get Started</a>
         <a href="#setup" class="btn">Setup Guide</a>
       </div>
-      <div style="display: flex; justify-content: center;">
-        <div class="widget-demo">
-          <div class="widget-header">
-            <div class="widget-header-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
-              Help
-            </div>
-          </div>
-          <div class="widget-suggested">
-            <button>How do I get started?</button>
-            <button>What features are available?</button>
-          </div>
-          <div class="widget-body">
-            <div class="widget-msg user">How do I invite team members?</div>
-            <div class="widget-msg bot">Go to <strong>Settings &rarr; Team</strong> and click <strong>Invite</strong>. Enter their email and assign a role: Admin, Editor, or Viewer. They'll get an invite link immediately.</div>
-            <div class="widget-msg user">Can I limit access by project?</div>
-            <div class="widget-msg bot">Yes &mdash; on the <strong>Projects</strong> page, click the lock icon next to any project to manage who can view or edit it.</div>
-          </div>
-          <div class="widget-input">
-            <input type="text" placeholder="Ask a question..." disabled>
-            <button disabled>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            </button>
-          </div>
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <div style="text-align: center;">
+          <p style="font-size: 15px; color: var(--grey); margin-bottom: 12px;">Try it now &darr;</p>
+          <p style="font-size: 13px; color: var(--grey);">Click the chat button in the bottom-right corner.<br>It knows everything about docsbot.</p>
         </div>
       </div>
     </div>
@@ -798,6 +778,303 @@ Settings page...
     </div>
   </div>
 </footer>
+
+<!-- LIVE DEMO WIDGET -->
+<style>
+  .demo-trigger {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,70,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s, box-shadow 0.15s;
+    z-index: 1000;
+  }
+  .demo-trigger:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 24px rgba(0,70,255,0.4);
+  }
+  .demo-trigger.open svg { display: none; }
+  .demo-trigger.open::after { content: '\00d7'; font-size: 28px; font-weight: 300; }
+
+  .demo-panel {
+    position: fixed;
+    bottom: 96px;
+    right: 24px;
+    width: 380px;
+    max-height: 520px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1000;
+    font-family: 'Inter', sans-serif;
+  }
+  .demo-panel.visible { display: flex; }
+
+  .demo-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+    font-weight: 600;
+    font-size: 14px;
+    color: #1e293b;
+  }
+  .demo-panel-header svg { color: var(--blue); flex-shrink: 0; }
+  .demo-panel-header span {
+    font-size: 11px;
+    font-weight: 400;
+    color: #94a3b8;
+    margin-left: auto;
+  }
+
+  .demo-suggestions {
+    padding: 10px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .demo-suggestions button {
+    font-family: inherit;
+    font-size: 12px;
+    padding: 6px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: white;
+    color: #475569;
+    cursor: pointer;
+    transition: background 0.1s, border-color 0.1s;
+  }
+  .demo-suggestions button:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+  }
+
+  .demo-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    min-height: 200px;
+    max-height: 320px;
+  }
+
+  .demo-msg {
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    max-width: 85%;
+    animation: fadeIn 0.15s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .demo-msg.user {
+    background: var(--blue);
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+  }
+  .demo-msg.bot {
+    background: #f8fafc;
+    color: #1e293b;
+    border-bottom-left-radius: 4px;
+  }
+  .demo-msg.bot .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 14px;
+    background: var(--blue);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink 0.6s infinite;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  .demo-input-bar {
+    display: flex;
+    gap: 6px;
+    padding: 10px;
+    border-top: 1px solid #e2e8f0;
+  }
+  .demo-input-bar input {
+    flex: 1;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    color: var(--black);
+  }
+  .demo-input-bar input:focus { border-color: var(--blue); }
+  .demo-input-bar input::placeholder { color: #94a3b8; }
+  .demo-input-bar button {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: none;
+    background: var(--blue);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .demo-input-bar button:disabled { opacity: 0.5; cursor: default; }
+
+  @media (max-width: 480px) {
+    .demo-panel { width: calc(100vw - 32px); right: 16px; bottom: 88px; }
+  }
+</style>
+
+<button class="demo-trigger" id="demoTrigger" aria-label="Open help widget demo">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+</button>
+
+<div class="demo-panel" id="demoPanel">
+  <div class="demo-panel-header">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+    docsbot Help
+    <span>Live demo</span>
+  </div>
+  <div class="demo-suggestions" id="demoSuggestions">
+    <button>How do I install docsbot?</button>
+    <button>What can I customize?</button>
+    <button>Is there a headless mode?</button>
+  </div>
+  <div class="demo-messages" id="demoMessages"></div>
+  <div class="demo-input-bar">
+    <input type="text" id="demoInput" placeholder="Ask about docsbot...">
+    <button id="demoSend">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function() {
+  const QA = [
+    { q: "how do i install docsbot", a: "Run <strong>npm install docsbot @anthropic-ai/sdk</strong>, create a knowledge base markdown file, add a one-file API route, and drop the <strong>&lt;DocsBot&gt;</strong> component into your page. Four steps, under 5 minutes." },
+    { q: "what can i customize", a: "Everything visual is controlled by CSS custom properties: <strong>--docsbot-primary</strong> for brand color, <strong>--docsbot-width</strong> and <strong>--docsbot-height</strong> for sizing, <strong>--docsbot-radius</strong> for corners. You can also set the title, placeholder, position (bottom-right or bottom-left), and suggested questions via props." },
+    { q: "is there a headless mode", a: "Yes &mdash; import <strong>useDocsBot()</strong> instead of the widget component. You get messages, loading state, error handling, sendMessage, and clearMessages. Build whatever UI you want on top." },
+    { q: "what model does it use", a: "Claude Haiku by default &mdash; fast and cheap. You can swap it to any Claude model by setting the <strong>model</strong> option in createDocsBotHandler. Sonnet or Opus work too if you need deeper reasoning." },
+    { q: "how does the knowledge base work", a: "Write your docs as a markdown string. The handler injects it into Claude's system prompt. You can also add <strong>getContext</strong> to inject dynamic per-request data like the current page or user role." },
+    { q: "what frameworks does it support", a: "The widget is React. The backend handler works with <strong>Next.js</strong> (App Router or Pages), <strong>Express</strong>, or any Node server that handles POST requests. The handler returns a standard Response object." },
+    { q: "how much does it cost to run", a: "The only cost is Claude API usage. Haiku is very cheap &mdash; a typical help conversation costs fractions of a cent. There's no docsbot license fee. It's MIT licensed and free." },
+    { q: "can i add suggested questions", a: "Yes &mdash; pass a <strong>suggestedQuestions</strong> prop as a string array or a function. You can make them static or dynamic per page. They show as clickable pills above the chat." },
+    { q: "how do i theme it", a: "Override CSS custom properties on <strong>:root</strong>. Key variables: --docsbot-primary, --docsbot-user-bg, --docsbot-radius, --docsbot-width, --docsbot-height. No build step needed &mdash; just CSS." },
+    { q: "what dependencies does it have", a: "Just one runtime dependency: <strong>react-markdown</strong> for rendering markdown in responses. The widget itself is lightweight. Plus @anthropic-ai/sdk on the backend." },
+  ];
+
+  const fallback = "I can answer questions about docsbot &mdash; how to install it, customize it, what frameworks it supports, pricing, the headless hook, and more. Try asking one of those!";
+
+  function findAnswer(input) {
+    const q = input.toLowerCase().replace(/[?!.,]/g, '');
+    let best = null, bestScore = 0;
+    for (const item of QA) {
+      const words = item.q.split(' ');
+      const score = words.filter(w => q.includes(w)).length / words.length;
+      if (score > bestScore) { bestScore = score; best = item; }
+    }
+    return bestScore > 0.3 ? best.a : fallback;
+  }
+
+  const trigger = document.getElementById('demoTrigger');
+  const panel = document.getElementById('demoPanel');
+  const messages = document.getElementById('demoMessages');
+  const input = document.getElementById('demoInput');
+  const sendBtn = document.getElementById('demoSend');
+  const suggestions = document.getElementById('demoSuggestions');
+  let typing = false;
+
+  trigger.addEventListener('click', () => {
+    const open = panel.classList.toggle('visible');
+    trigger.classList.toggle('open', open);
+    if (open) input.focus();
+  });
+
+  function addMsg(text, role) {
+    const div = document.createElement('div');
+    div.className = 'demo-msg ' + role;
+    div.innerHTML = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+    return div;
+  }
+
+  function typewrite(el, html, cb) {
+    typing = true;
+    sendBtn.disabled = true;
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    const text = tmp.textContent;
+    let i = 0;
+    el.innerHTML = '<span class="cursor"></span>';
+    const interval = setInterval(() => {
+      i++;
+      // Rebuild innerHTML up to character i, preserving tags
+      el.innerHTML = html.slice(0, findHtmlIndex(html, i)) + '<span class="cursor"></span>';
+      messages.scrollTop = messages.scrollHeight;
+      if (i >= text.length) {
+        clearInterval(interval);
+        el.innerHTML = html;
+        typing = false;
+        sendBtn.disabled = false;
+        if (cb) cb();
+      }
+    }, 18);
+  }
+
+  // Map plain-text index to HTML index (skip tags)
+  function findHtmlIndex(html, charCount) {
+    let chars = 0, inTag = false;
+    for (let i = 0; i < html.length; i++) {
+      if (html[i] === '<') inTag = true;
+      if (!inTag) chars++;
+      if (chars >= charCount && !inTag) return i + 1;
+      if (html[i] === '>') inTag = false;
+    }
+    return html.length;
+  }
+
+  function send(text) {
+    if (typing || !text.trim()) return;
+    addMsg(text, 'user');
+    input.value = '';
+    suggestions.style.display = 'none';
+    setTimeout(() => {
+      const answer = findAnswer(text);
+      const el = addMsg('', 'bot');
+      typewrite(el, answer);
+    }, 300 + Math.random() * 400);
+  }
+
+  sendBtn.addEventListener('click', () => send(input.value));
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') send(input.value); });
+
+  suggestions.addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON') send(e.target.textContent);
+  });
+})();
+</script>
 
 </body>
 </html>
