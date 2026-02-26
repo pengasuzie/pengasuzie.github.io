@@ -510,39 +510,40 @@
   <div class="container">
     <div class="section-label">Open Source Projects</div>
 
-    <!-- docsbot -->
+    <!-- ai-voice-kit -->
     <div class="project-card">
       <div class="project-info">
         <div class="project-tag">Released</div>
-        <h2>docsbot</h2>
-        <p class="desc">Drop-in AI help assistant for any website. Add a floating chat widget powered by Claude that answers questions from your knowledge base. Three lines of code.</p>
+        <h2>ai-voice-kit</h2>
+        <p class="desc">Local AI voice tools for Claude Code. Text-to-speech with 50 voices (Kokoro), audio transcription with speaker identification (WhisperX). No cloud APIs, runs on your machine.</p>
         <ul class="feature-list">
-          <li>React widget with typewriter animation</li>
-          <li>Headless hook for custom UI</li>
-          <li>Backend handler for Next.js / Express</li>
-          <li>CSS custom properties for theming</li>
-          <li>One dependency (react-markdown)</li>
+          <li>3 skills: voice-to-text, strategic-analysis, text-to-voice</li>
+          <li>50 voices, generates audio in seconds</li>
+          <li>Transcription with speaker diarization</li>
+          <li>4 analysis modes: sales, consulting, competitive, debrief</li>
+          <li>Full chain: recording &rarr; analysis &rarr; audio briefing</li>
         </ul>
-        <a href="https://github.com/pengasuzie/docsbot" class="btn primary">View on GitHub</a>
+        <a href="https://github.com/pengasuzie/ai-voice-kit" class="btn primary">View on GitHub</a>
+        <a href="/projects/ai-voice-kit/" class="btn">Setup Guide</a>
       </div>
       <div class="project-demo">
-        <div class="widget-demo">
-          <div class="widget-header">
-            <div class="widget-header-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
-              Help
-            </div>
-          </div>
-          <div class="widget-body">
-            <div class="widget-msg user">How do I invite team members?</div>
-            <div class="widget-msg bot">Go to <strong>Settings &rarr; Team</strong> and click <strong>Invite</strong>. Enter their email and assign a role: Admin, Editor, or Viewer. They'll get an invite link immediately.</div>
-          </div>
-          <div class="widget-input">
-            <input type="text" placeholder="Ask a question..." disabled>
-            <button disabled>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            </button>
-          </div>
+        <div class="code-block">
+<span class="comment"># The full chain</span>
+> <span class="fn">/voice-to-text</span> client-call.m4a
+<span class="string">Transcribing... 2 speakers found.</span>
+
+> <span class="fn">/strategic-analysis</span> client-call.txt
+<span class="string">Gathering project context...</span>
+<span class="string">Output: analysis.md + analysis-voice.txt</span>
+
+> <span class="fn">/text-to-voice</span> analysis-voice.txt
+<span class="string">Generating with Kokoro (bf_lily)...</span>
+
+<span class="tag">Output:</span>
+<span class="tag">&boxvr;&boxh; analysis-voice.mp3  (6m 18s)</span>
+<span class="tag">&boxur;&boxh; Engine: Kokoro, Voice: bf_lily</span>
+
+<span class="comment"># Listen on the drive home.</span>
         </div>
       </div>
     </div>
@@ -585,40 +586,39 @@
       </div>
     </div>
 
-    <!-- ai-voice-kit -->
+    <!-- docsbot -->
     <div class="project-card">
       <div class="project-info">
         <div class="project-tag">Released</div>
-        <h2>ai-voice-kit</h2>
-        <p class="desc">Local AI voice tools for Claude Code. Text-to-speech with 50 voices (Kokoro), audio transcription with speaker identification (WhisperX). No cloud APIs, runs on your machine.</p>
+        <h2>docsbot</h2>
+        <p class="desc">Drop-in AI help assistant for any website. Add a floating chat widget powered by Claude that answers questions from your knowledge base. Three lines of code.</p>
         <ul class="feature-list">
-          <li>3 skills: voice-to-text, strategic-analysis, text-to-voice</li>
-          <li>50 voices, generates audio in seconds</li>
-          <li>Transcription with speaker diarization</li>
-          <li>4 analysis modes: sales, consulting, competitive, debrief</li>
-          <li>Full chain: recording &rarr; analysis &rarr; audio briefing</li>
+          <li>React widget with typewriter animation</li>
+          <li>Headless hook for custom UI</li>
+          <li>Backend handler for Next.js / Express</li>
+          <li>CSS custom properties for theming</li>
+          <li>One dependency (react-markdown)</li>
         </ul>
-        <a href="https://github.com/pengasuzie/ai-voice-kit" class="btn primary">View on GitHub</a>
-        <a href="/projects/ai-voice-kit/" class="btn">Setup Guide</a>
+        <a href="https://github.com/pengasuzie/docsbot" class="btn primary">View on GitHub</a>
       </div>
       <div class="project-demo">
-        <div class="code-block">
-<span class="comment"># The full chain</span>
-> <span class="fn">/voice-to-text</span> client-call.m4a
-<span class="string">Transcribing... 2 speakers found.</span>
-
-> <span class="fn">/strategic-analysis</span> client-call.txt
-<span class="string">Gathering project context...</span>
-<span class="string">Output: analysis.md + analysis-voice.txt</span>
-
-> <span class="fn">/text-to-voice</span> analysis-voice.txt
-<span class="string">Generating with Kokoro (bf_lily)...</span>
-
-<span class="tag">Output:</span>
-<span class="tag">&boxvr;&boxh; analysis-voice.mp3  (6m 18s)</span>
-<span class="tag">&boxur;&boxh; Engine: Kokoro, Voice: bf_lily</span>
-
-<span class="comment"># Listen on the drive home.</span>
+        <div class="widget-demo">
+          <div class="widget-header">
+            <div class="widget-header-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+              Help
+            </div>
+          </div>
+          <div class="widget-body">
+            <div class="widget-msg user">How do I invite team members?</div>
+            <div class="widget-msg bot">Go to <strong>Settings &rarr; Team</strong> and click <strong>Invite</strong>. Enter their email and assign a role: Admin, Editor, or Viewer. They'll get an invite link immediately.</div>
+          </div>
+          <div class="widget-input">
+            <input type="text" placeholder="Ask a question..." disabled>
+            <button disabled>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
