@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bruce Stronge — AI Tools & Open Source</title>
-<meta name="description" content="Open-source AI tools for sales, marketing, and automation. Lead generation, text-to-speech, help widgets, and Claude agent skills.">
+<title>Tools & Skills — Bruce Stronge</title>
+<meta name="description" content="Open-source AI tools and Claude Code skills. Lead generation, voice synthesis, help widgets, opportunity evaluation, and product development.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta property="og:title" content="Bruce Stronge — AI Tools & Open Source">
-<meta property="og:description" content="Open source AI automation tools. Lead generation, voice synthesis, help widgets, and Claude Code skills.">
+<meta property="og:title" content="Tools & Skills — Bruce Stronge">
+<meta property="og:description" content="Open-source AI tools and Claude Code skills. Lead generation, voice synthesis, help widgets, opportunity evaluation, and product development.">
 <meta property="og:image" content="https://pengasuzie.github.io/images/social-card.png">
-<meta property="og:url" content="https://pengasuzie.github.io/">
+<meta property="og:url" content="https://pengasuzie.github.io/tools/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Bruce Stronge — AI Tools & Open Source">
-<meta name="twitter:description" content="Open source AI automation tools. Lead generation, voice synthesis, help widgets, and Claude Code skills.">
+<meta name="twitter:title" content="Tools & Skills — Bruce Stronge">
+<meta name="twitter:description" content="Open-source AI tools and Claude Code skills. Lead generation, voice synthesis, help widgets, opportunity evaluation, and product development.">
 <meta name="twitter:image" content="https://pengasuzie.github.io/images/social-card.png">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -63,6 +63,9 @@
     letter-spacing: 0.15em;
     text-transform: uppercase;
   }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
 
   nav {
     text-align: right;
@@ -133,11 +136,6 @@
     grid-template-columns: 1fr 1fr;
     gap: 0;
     border-top: 2px solid var(--black);
-    margin-bottom: 0;
-  }
-
-  .project-card + .project-card {
-    margin-top: 0;
   }
 
   .project-info {
@@ -163,8 +161,6 @@
     padding: 3px 8px;
     margin-bottom: 16px;
   }
-
-  .project-tag.coming { background: var(--grey); }
 
   .project-info h2 {
     font-size: 28px;
@@ -242,7 +238,7 @@
     color: #a1a1aa;
     border-radius: 8px;
     padding: 20px 24px;
-    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
     font-size: 13px;
     line-height: 1.7;
     overflow-x: auto;
@@ -253,91 +249,6 @@
   .code-block .string { color: #86efac; }
   .code-block .fn { color: #67e8f9; }
   .code-block .tag { color: #fbbf24; }
-
-  /* === CHAT WIDGET DEMO === */
-  .widget-demo {
-    background: #fff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    overflow: hidden;
-    max-width: 340px;
-  }
-
-  .widget-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 16px;
-    border-bottom: 1px solid #e2e8f0;
-    background: #f8fafc;
-  }
-
-  .widget-header-title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    font-size: 13px;
-    color: #1e293b;
-  }
-
-  .widget-header-title svg { color: var(--blue); }
-
-  .widget-body { padding: 16px; }
-
-  .widget-msg {
-    padding: 8px 12px;
-    border-radius: 12px;
-    font-size: 13px;
-    line-height: 1.5;
-    margin-bottom: 8px;
-    max-width: 85%;
-  }
-
-  .widget-msg.user {
-    background: var(--blue);
-    color: white;
-    margin-left: auto;
-    border-bottom-right-radius: 4px;
-  }
-
-  .widget-msg.bot {
-    background: #f8fafc;
-    color: #1e293b;
-    border-bottom-left-radius: 4px;
-  }
-
-  .widget-input {
-    display: flex;
-    gap: 6px;
-    padding: 8px;
-    border-top: 1px solid #e2e8f0;
-  }
-
-  .widget-input input {
-    flex: 1;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 13px;
-    font-family: inherit;
-    outline: none;
-    color: #94a3b8;
-  }
-
-  .widget-input button {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    border: none;
-    background: var(--blue);
-    color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 
   /* === SKILLS GRID === */
   .skills {
@@ -370,10 +281,6 @@
     margin-bottom: 8px;
   }
 
-  .skill-cat.coming {
-    color: var(--grey);
-  }
-
   .skill h3 {
     font-size: 16px;
     font-weight: 900;
@@ -384,56 +291,6 @@
     font-size: 13px;
     color: var(--grey);
     line-height: 1.5;
-  }
-
-  /* === ABOUT === */
-  .about {
-    padding: 60px 0;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .about-grid {
-    display: grid;
-    grid-template-columns: 7fr 5fr;
-    gap: 80px;
-  }
-
-  .about-text {
-    font-size: 15px;
-    color: var(--grey);
-    line-height: 1.8;
-  }
-
-  .about-text p + p { margin-top: 16px; }
-
-  .about-links {
-    border-left: 3px solid var(--black);
-    padding-left: 24px;
-  }
-
-  .about-links h3 {
-    font-size: 16px;
-    font-weight: 900;
-    margin-bottom: 16px;
-  }
-
-  .about-links a {
-    display: block;
-    padding: 8px 0;
-    font-size: 14px;
-    font-weight: 700;
-    text-decoration: none;
-    color: var(--black);
-    border-bottom: 1px solid var(--light);
-  }
-
-  .about-links a:hover { color: var(--blue); }
-
-  .about-links a span {
-    font-weight: 400;
-    color: var(--grey);
-    font-size: 13px;
-    margin-left: 8px;
   }
 
   /* === FOOTER === */
@@ -475,15 +332,13 @@
   @media (max-width: 768px) {
     .container { padding: 0 24px; }
     .hero h1 { font-size: 36px; }
-    .hero-grid,
-    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 32px; }
     .project-card { grid-template-columns: 1fr; }
     .project-demo { padding: 0 0 40px; border-left: none; }
     .skills-grid { grid-template-columns: 1fr 1fr; }
     .skill:not(:nth-child(4n+1)) { border-left: none; padding-left: 0; }
     .skill:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
     .hero-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 24px; }
-    .about-links { border-left: none; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 24px; }
   }
 </style>
 </head>
@@ -492,10 +347,9 @@
 <header>
   <div class="container">
     <div class="header-grid">
-      <div class="logo">Bruce Stronge</div>
+      <div class="logo"><a href="/">Bruce Stronge</a></div>
       <nav>
-        <a href="/tools/">Tools</a>
-        <a href="#about">About</a>
+        <a href="/">Home</a>
         <a href="https://github.com/pengasuzie">GitHub</a>
       </nav>
     </div>
@@ -506,10 +360,10 @@
   <div class="container">
     <div class="hero-grid">
       <div>
-        <h1>Get on their wavelength<br>Automate stuff<br><span>With AI tools.</span></h1>
+        <h1>Tools &amp;<br><span>Skills.</span></h1>
       </div>
       <div class="hero-aside">
-        I build AI automation tools for me, customers, and open source. Lead generation, voice synthesis, help widgets, and agent skills &mdash; all used in production systems.
+        Open-source tools and Claude Code skills for lead generation, voice synthesis, strategic analysis, opportunity evaluation, and product development. All used in production.
       </div>
     </div>
   </div>
@@ -519,9 +373,46 @@
 <!-- TOOLS                                         -->
 <!-- ============================================ -->
 
-<section class="projects" id="tools">
+<section class="projects">
   <div class="container">
-    <div class="section-label">Open Source Tools</div>
+    <div class="section-label">Tools</div>
+
+    <!-- claude-code-starter -->
+    <div class="project-card">
+      <div class="project-info">
+        <div class="project-tag">Starter Kit</div>
+        <h2>claude-code-starter</h2>
+        <p class="desc">A pre-configured Claude Code project with 20 skills for voice/audio, strategic analysis, opportunity evaluation, and product development. Clone it, open it, start talking.</p>
+        <ul class="feature-list">
+          <li>20 skills across 4 categories, ready to use</li>
+          <li>Interactive getting-started guide</li>
+          <li>6-step opportunity evaluation pipeline</li>
+          <li>BMAD Method with 7 product dev agents</li>
+          <li>Pre-approved permissions, no constant prompts</li>
+        </ul>
+        <a href="https://github.com/pengasuzie/claude-code-starter" class="btn primary">View on GitHub</a>
+        <a href="/tools/claude-code-starter/" class="btn">Details</a>
+      </div>
+      <div class="project-demo">
+        <div class="code-block">
+<span class="comment"># Clone and go</span>
+<span class="fn">git clone</span> https://github.com/pengasuzie/claude-code-starter.git
+<span class="fn">cd</span> claude-code-starter
+<span class="fn">claude</span>
+
+<span class="comment"># Just talk naturally</span>
+> <span class="string">Transcribe this meeting recording</span>
+<span class="tag">Transcribing... 2 speakers found.</span>
+
+> <span class="string">I have a new business idea</span>
+<span class="tag">Let's capture this. Starting with the pitch...</span>
+
+> <span class="string">Score this opportunity</span>
+<span class="tag">Scoring across 8 dimensions...</span>
+<span class="tag">Recommendation: Conditional Go (7.2/10)</span>
+        </div>
+      </div>
+    </div>
 
     <!-- ai-voice-kit -->
     <div class="project-card">
@@ -555,8 +446,6 @@
 <span class="tag">Output:</span>
 <span class="tag">&boxvr;&boxh; analysis-voice.mp3  (6m 18s)</span>
 <span class="tag">&boxur;&boxh; Engine: Kokoro, Voice: bf_lily</span>
-
-<span class="comment"># Listen on the drive home.</span>
         </div>
       </div>
     </div>
@@ -616,58 +505,55 @@
         <a href="/tools/docsbot/" class="btn">Setup Guide</a>
       </div>
       <div class="project-demo">
-        <div class="widget-demo">
-          <div class="widget-header">
-            <div class="widget-header-title">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
-              Help
-            </div>
-          </div>
-          <div class="widget-body">
-            <div class="widget-msg user">How do I invite team members?</div>
-            <div class="widget-msg bot">Go to <strong>Settings &rarr; Team</strong> and click <strong>Invite</strong>. Enter their email and assign a role: Admin, Editor, or Viewer. They'll get an invite link immediately.</div>
-          </div>
-          <div class="widget-input">
-            <input type="text" placeholder="Ask a question..." disabled>
-            <button disabled>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            </button>
-          </div>
+        <div class="code-block">
+<span class="comment">// Three lines to add AI help</span>
+<span class="keyword">import</span> { DocsBot } <span class="keyword">from</span> <span class="string">'@pengasuzie/docsbot'</span>
+
+<span class="keyword">function</span> <span class="fn">App</span>() {
+  <span class="keyword">return</span> (
+    &lt;<span class="tag">DocsBot</span>
+      <span class="fn">apiEndpoint</span>=<span class="string">"/api/help"</span>
+      <span class="fn">title</span>=<span class="string">"Help"</span>
+    /&gt;
+  )
+}
         </div>
       </div>
     </div>
 
-    <!-- claude-code-starter -->
+    <!-- lead-research-assistant -->
     <div class="project-card">
       <div class="project-info">
-        <div class="project-tag">Starter Kit</div>
-        <h2>claude-code-starter</h2>
-        <p class="desc">A pre-configured Claude Code project with 20 skills for voice/audio, strategic analysis, opportunity evaluation, and product development. Clone it, open it, start talking.</p>
+        <div class="project-tag">Skill</div>
+        <h2>lead-research-assistant</h2>
+        <p class="desc">A Claude Code skill that understands your product, researches target companies, and generates interactive HTML reports with fit scoring, digital maturity assessment, and outreach strategies.</p>
         <ul class="feature-list">
-          <li>20 skills across 4 categories, ready to use</li>
-          <li>Interactive getting-started guide</li>
-          <li>6-step opportunity evaluation pipeline</li>
-          <li>BMAD Method with 7 product dev agents</li>
-          <li>Pre-approved permissions, no constant prompts</li>
+          <li>3 product context modes (describe, codebase, both)</li>
+          <li>Fit scoring (1&ndash;10) with tier classification</li>
+          <li>Interactive HTML report output</li>
+          <li>HubSpot CRM integration</li>
+          <li>Contact strategies and outreach angles</li>
         </ul>
-        <a href="https://github.com/pengasuzie/claude-code-starter" class="btn primary">View on GitHub</a>
-        <a href="/tools/claude-code-starter/" class="btn">Details</a>
+        <a href="https://github.com/pengasuzie/claude-skills" class="btn primary">View on GitHub</a>
+        <a href="/tools/lead-research-assistant/" class="btn">Setup Guide</a>
       </div>
       <div class="project-demo">
         <div class="code-block">
-<span class="comment"># Clone and go</span>
-> <span class="fn">git clone</span> github.com/.../claude-code-starter
-> <span class="fn">cd</span> claude-code-starter && <span class="fn">claude</span>
+<span class="comment"># One command, shareable output</span>
+> <span class="fn">/lead-research-assistant</span>
+  We're a compliance platform for freight
+  forwarders. Find 15 prospects in Brisbane.
 
-<span class="comment"># Just talk naturally</span>
-> <span class="string">Transcribe this meeting recording</span>
-<span class="tag">Transcribing... 2 speakers found.</span>
+<span class="string">Researching target companies...</span>
+<span class="string">Found 18 matching companies.</span>
+<span class="string">Scoring and enriching leads...</span>
 
-> <span class="string">I have a new business idea</span>
-<span class="tag">Let's capture this properly...</span>
+<span class="tag">Report saved:</span>
+<span class="tag">  lead-research-brisbane-2026-02-27.html</span>
 
-> <span class="string">Score this opportunity</span>
-<span class="tag">Recommendation: Conditional Go (7.2/10)</span>
+  <span class="fn">6 HIGH</span> &mdash; ideal prospects
+  <span class="keyword">7 MEDIUM</span> &mdash; possible fit
+  <span class="comment">2 LOW</span> &mdash; already using competitor
         </div>
       </div>
     </div>
@@ -676,96 +562,72 @@
 </section>
 
 <!-- ============================================ -->
-<!-- MORE TOOLS                                    -->
+<!-- SKILLS                                        -->
 <!-- ============================================ -->
 
-<section class="skills" id="more-tools">
+<section class="skills">
   <div class="container">
-    <div class="section-label">More Tools</div>
+    <div class="section-label">Individual Skills</div>
     <div class="skills-grid">
       <div class="skill">
-        <div class="skill-cat">Skill</div>
+        <div class="skill-cat">Voice</div>
         <h3>voice-to-text</h3>
         <p>Transcribe audio and video files with speaker identification. WhisperX-powered diarization, local processing.</p>
       </div>
       <div class="skill">
-        <div class="skill-cat">Skill</div>
+        <div class="skill-cat">Voice</div>
         <h3>text-to-voice</h3>
         <p>Convert text to natural speech with 50 voices. Kokoro engine, no cloud APIs. Generates MP3 in seconds.</p>
       </div>
       <div class="skill">
-        <div class="skill-cat">Skill</div>
+        <div class="skill-cat">Voice</div>
+        <h3>voice-briefing</h3>
+        <p>Turn a meeting transcript or document into a concise spoken audio briefing you can listen to on the go.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Strategy</div>
         <h3>strategic-analysis</h3>
-        <p>Analyze meeting transcripts with full project context. Four modes: sales, consulting, competitive, debrief.</p>
+        <p>Analyze documents with full project context. Four modes: sales, consulting, competitive, debrief.</p>
       </div>
       <div class="skill">
-        <div class="skill-cat">Skill</div>
-        <h3>opportunity-brief</h3>
-        <p>Capture a new business opportunity: pitch, model, people, risks, and initial assessment in a structured brief.</p>
-      </div>
-      <div class="skill">
-        <div class="skill-cat">Skill</div>
-        <h3>market-research</h3>
-        <p>Size the market, find demand signals, check trends. TAM/SAM/SOM analysis with evidence-based scoring.</p>
-      </div>
-      <div class="skill">
-        <div class="skill-cat">Skill</div>
-        <h3>competitor-landscape</h3>
-        <p>Map existing players in a market. Identify gaps, positioning opportunities, and competitive dynamics.</p>
-      </div>
-      <div class="skill">
-        <div class="skill-cat">Skill</div>
-        <h3>strategy-session</h3>
-        <p>Brainstorm go-to-market, differentiation, and blue ocean strategy. Interactive creative thinking session.</p>
-      </div>
-      <div class="skill">
-        <div class="skill-cat">Skill</div>
-        <h3>due-diligence</h3>
-        <p>Vet people, financials, legal, and technical feasibility. Structured DD findings with red flag tracking.</p>
-      </div>
-      <div class="skill">
-        <div class="skill-cat">Skill</div>
-        <h3>viability-assessment</h3>
-        <p>Score an opportunity across 8 weighted dimensions. Produces a go/no-go recommendation with confidence level.</p>
-      </div>
-      <div class="skill">
-        <div class="skill-cat">Skill</div>
-        <h3>new-idea</h3>
-        <p>Scaffold a new idea directory with brief, research, competitors, and assessment files. Starting point for evaluation.</p>
-      </div>
-      <div class="skill">
-        <div class="skill-cat">Skill</div>
+        <div class="skill-cat">Strategy</div>
         <h3>competitive-intel</h3>
         <p>Competitive gap analysis. Signal vs noise classification, gap matrix, and actionable report.</p>
       </div>
       <div class="skill">
-        <div class="skill-cat">Skill</div>
-        <h3>voice-briefing</h3>
-        <p>Turn a meeting transcript or document into a concise spoken audio briefing you can listen to on the go.</p>
+        <div class="skill-cat">Evaluation</div>
+        <h3>opportunity-brief</h3>
+        <p>Capture a new business opportunity: pitch, model, people, risks, and initial assessment in a structured brief.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================ -->
-<!-- ABOUT                                         -->
-<!-- ============================================ -->
-
-<section class="about" id="about">
-  <div class="container">
-    <div class="section-label">About</div>
-    <div class="about-grid">
-      <div class="about-text">
-        <p>Based in Brisbane, Australia, I built a software consulting business (2008-2019) and then a private equity backed enterprise SaaS company acquired by Seattle-listed Smartsheet in 2022. I'm now building an AI-native logistics platform and helping small businesses ship production AI solutions in document intelligence, workflow automation, RAG, LLM integration. The useful stuff gets open-sourced along the way.</p>
-        <p>Everything here started as something I needed for a real project. The lead monitor runs daily for a client. The help widget is live in production. The Claude Code skills power my consulting practice. If you're in sales, marketing, or building a startup and want to automate with AI &mdash; I hope you find them as useful as I have. Reach out if I can help.</p>
+      <div class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>market-research</h3>
+        <p>Size the market, find demand signals, check trends. TAM/SAM/SOM analysis with evidence-based scoring.</p>
       </div>
-      <div class="about-links">
-        <h3>Links</h3>
-        <a href="https://www.linkedin.com/in/bruces/">LinkedIn <span>&rarr; connect</span></a>
-        <a href="https://github.com/pengasuzie">GitHub <span>&rarr; all repos</span></a>
-        <a href="https://github.com/pengasuzie/docsbot">docsbot <span>&rarr; AI help widget</span></a>
-        <a href="https://github.com/pengasuzie/lead-monitor">lead-monitor <span>&rarr; lead signal scanner</span></a>
-        <a href="https://github.com/pengasuzie/ai-voice-kit">ai-voice-kit <span>&rarr; voice tools</span></a>
+      <div class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>competitor-landscape</h3>
+        <p>Map existing players in a market. Identify gaps, positioning opportunities, and competitive dynamics.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>strategy-session</h3>
+        <p>Brainstorm go-to-market, differentiation, and blue ocean strategy. Interactive creative thinking session.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>due-diligence</h3>
+        <p>Vet people, financials, legal, and technical feasibility. Structured DD findings with red flag tracking.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>viability-assessment</h3>
+        <p>Score an opportunity across 8 weighted dimensions. Produces a go/no-go recommendation with confidence level.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Utility</div>
+        <h3>new-idea</h3>
+        <p>Scaffold a new idea directory with brief, research, competitors, and assessment files. Starting point for evaluation.</p>
       </div>
     </div>
   </div>
@@ -778,6 +640,7 @@
       <div class="footer-right">
         <a href="https://www.linkedin.com/in/bruces/">LinkedIn</a>
         <a href="https://github.com/pengasuzie">GitHub</a>
+        <a href="/">Home</a>
       </div>
     </div>
   </div>

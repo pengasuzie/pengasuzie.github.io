@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Research Assistant — AI Lead Generation for Claude Code</title>
+<meta name="description" content="A Claude Code skill that identifies high-quality leads by analyzing your business, researching target companies, and generating interactive HTML reports with scoring, filters, and contact strategies.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Lead Research Assistant — AI Lead Generation for Claude Code">
+<meta property="og:description" content="A Claude Code skill that identifies high-quality leads by analyzing your business, researching target companies, and generating interactive HTML reports with scoring and filters.">
+<meta property="og:image" content="https://pengasuzie.github.io/images/social-card.png">
+<meta property="og:url" content="https://pengasuzie.github.io/tools/lead-research-assistant/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lead Research Assistant — AI Lead Generation for Claude Code">
+<meta name="twitter:description" content="A Claude Code skill that identifies high-quality leads by analyzing your business, researching target companies, and generating interactive HTML reports with scoring and filters.">
+<meta name="twitter:image" content="https://pengasuzie.github.io/images/social-card.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === SECTIONS === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* === TWO COL === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* === CODE === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .cmd { color: #67e8f9; }
+  .code-block .string { color: #86efac; }
+  .code-block .flag { color: #818cf8; }
+  .code-block .output { color: #fbbf24; }
+  .code-block .key { color: #f472b6; }
+
+  /* === STEPS === */
+  .steps {
+    counter-reset: step;
+  }
+
+  .step {
+    padding: 40px 0;
+    border-top: 2px solid var(--black);
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .step-number {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--blue);
+    counter-increment: step;
+  }
+
+  .step h3 {
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+
+  .step p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+  }
+
+  /* === FEATURES === */
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* === MODE GRID === */
+  .mode-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .mode {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .mode:not(:first-child) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .mode-label {
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .mode h3 {
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+
+  .mode p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.6;
+  }
+
+  /* === REPORT PREVIEW === */
+  .report-preview {
+    background: #0f172a;
+    border-radius: 12px;
+    padding: 32px;
+    color: #e2e8f0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+
+  .report-preview h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #e2e8f0;
+  }
+
+  .report-stats {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .report-stat {
+    background: #1e293b;
+    border-radius: 8px;
+    padding: 12px 16px;
+    text-align: center;
+    flex: 1;
+    min-width: 80px;
+  }
+
+  .report-stat-num {
+    font-size: 24px;
+    font-weight: 700;
+    color: #38bdf8;
+    display: block;
+  }
+
+  .report-stat-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #94a3b8;
+  }
+
+  .report-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .report-filter {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    color: #94a3b8;
+  }
+
+  .report-filter.active {
+    background: #38bdf8;
+    border-color: #38bdf8;
+    color: white;
+  }
+
+  .report-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .report-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .report-card-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #38bdf8;
+  }
+
+  .report-card-score {
+    background: rgba(74, 222, 128, 0.15);
+    color: #4ade80;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+  }
+
+  .report-card-badges {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .report-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: rgba(56, 189, 248, 0.1);
+    color: #38bdf8;
+  }
+
+  .report-badge.green {
+    background: rgba(74, 222, 128, 0.1);
+    color: #4ade80;
+  }
+
+  .report-badge.amber {
+    background: rgba(251, 191, 36, 0.1);
+    color: #fbbf24;
+  }
+
+  .report-card-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 12px 0;
+    border-top: 1px solid #334155;
+    border-bottom: 1px solid #334155;
+    margin-bottom: 12px;
+  }
+
+  .report-meta-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #64748b;
+  }
+
+  .report-meta-value {
+    font-size: 13px;
+    color: #cbd5e1;
+  }
+
+  .report-card-section {
+    padding-top: 10px;
+  }
+
+  .report-card-section-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #64748b;
+    margin-bottom: 6px;
+  }
+
+  .report-card-section p {
+    font-size: 13px;
+    color: #94a3b8;
+    line-height: 1.6;
+  }
+
+  .report-maturity-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+    margin-top: 4px;
+    overflow: hidden;
+  }
+
+  .report-maturity-fill {
+    height: 100%;
+    background: #fbbf24;
+    border-radius: 3px;
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .step { grid-template-columns: 1fr; gap: 16px; }
+    .step .code-block { grid-column: 1; }
+    .mode-grid { grid-template-columns: 1fr; }
+    .mode:not(:first-child) { border-left: none; padding-left: 0; }
+    .report-card-meta { grid-template-columns: 1fr; }
+    .report-stats { gap: 8px; }
+    .report-stat { min-width: 60px; padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo"><a href="/">Bruce Stronge</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="https://github.com/pengasuzie/claude-skills">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Find your next customers<br>with <span>AI lead research.</span></h1>
+    <p class="hero-sub">
+      A Claude Code skill that understands your product, researches target companies,
+      and generates interactive HTML reports with fit scoring, digital maturity
+      assessment, and personalized outreach strategies. One command, shareable output.
+    </p>
+    <a href="https://github.com/pengasuzie/claude-skills" class="btn primary">Get the Skill</a>
+    <a href="#setup" class="btn">Setup Guide</a>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">How It Works</div>
+
+    <!-- Flow diagram -->
+    <div style="background: var(--black); color: #a1a1aa; border-radius: 8px; padding: 24px 32px; font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 2; margin-bottom: 48px; text-align: center;">
+      <span style="color: #67e8f9;">/lead-research</span>
+      <span style="color: #52525b;">&rarr;</span> <span style="color: #86efac;">understand product</span>
+      <span style="color: #52525b;">&rarr;</span> <span style="color: #818cf8;">research companies</span>
+      <span style="color: #52525b;">&rarr;</span> <span style="color: #f472b6;">score &amp; rank</span>
+      <span style="color: #52525b;">&rarr;</span> <span style="color: #fbbf24;">interactive HTML report</span>
+      <span style="color: #52525b;">&rarr;</span> <span style="color: #67e8f9;">push to CRM</span>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h2>Understands your business</h2>
+        <p>Three modes for product context. <strong>Mode A</strong>: you describe your product and target market. <strong>Mode B</strong>: it reads your codebase to figure out what you're building. <strong>Mode C</strong>: both combined for the most accurate picture.</p>
+        <p>Smart inference picks the right mode automatically. If you're in a repo and provide a description, it suggests Mode C. It also checks for existing product context files before asking questions.</p>
+      </div>
+      <div>
+        <h2>Scores and prioritizes</h2>
+        <p>Each lead gets a <strong>fit score</strong> (1&ndash;10) based on ICP alignment, signals of need, budget indicators, competitive landscape, and timing. Scores map to tiers: <strong>HIGH</strong> (8&ndash;10), <strong>MEDIUM</strong> (5&ndash;7), <strong>LOW</strong> (1&ndash;4).</p>
+        <p>A separate <strong>digital maturity</strong> score (0&ndash;100%) estimates tech adoption from website quality, portals, TMS usage, API integrations, social presence, and online reputation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THREE MODES -->
+<section>
+  <div class="container">
+    <div class="section-label">Three Product Context Modes</div>
+    <div class="mode-grid">
+      <div class="mode">
+        <div class="mode-label">Mode A</div>
+        <h3>You describe it</h3>
+        <p>Provide your value prop, target market, and differentiators directly in the prompt. Best when you have a clear pitch and want to control the framing.</p>
+      </div>
+      <div class="mode">
+        <div class="mode-label">Mode B</div>
+        <h3>Codebase analysis</h3>
+        <p>Reads your README, package files, CLAUDE.md, and marketing pages to figure out what you're building. Presents its assessment for confirmation before proceeding.</p>
+      </div>
+      <div class="mode">
+        <div class="mode-label">Mode C &mdash; Recommended</div>
+        <h3>Both merged</h3>
+        <p>Combines your description with codebase analysis. Flags any differences between what you say and what the code shows. The most accurate targeting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REPORT OUTPUT -->
+<section>
+  <div class="container">
+    <div class="section-label">Interactive HTML Reports</div>
+    <div class="two-col">
+      <div>
+        <h2>Shareable dashboards</h2>
+        <p>Output is a self-contained HTML file with embedded CSS and vanilla JS. No dependencies, no build step. Open it in a browser, share it with your team, or email it to a co-founder.</p>
+        <ul class="feature-list">
+          <li>Stats bar with totals and tier counts</li>
+          <li>Full-text search across all cards</li>
+          <li>Tag-based filter buttons (score, industry, certs, size)</li>
+          <li>Company cards with scoring, contacts, and outreach angles</li>
+          <li>Summary tables: top prospects ranked, tech landscape</li>
+          <li>Inactive/merged companies shown with context</li>
+        </ul>
+      </div>
+      <div>
+        <!-- Report preview mockup -->
+        <div class="report-preview">
+          <h3>Brisbane Freight Forwarders Research</h3>
+          <div class="report-stats">
+            <div class="report-stat"><span class="report-stat-num">18</span><span class="report-stat-label">Total</span></div>
+            <div class="report-stat"><span class="report-stat-num">15</span><span class="report-stat-label">Active</span></div>
+            <div class="report-stat"><span class="report-stat-num">6</span><span class="report-stat-label">High</span></div>
+            <div class="report-stat"><span class="report-stat-num">7</span><span class="report-stat-label">Medium</span></div>
+          </div>
+          <div class="report-filters">
+            <span class="report-filter active">All</span>
+            <span class="report-filter">High</span>
+            <span class="report-filter">Medium</span>
+            <span class="report-filter">IATA</span>
+            <span class="report-filter">CargoWise</span>
+          </div>
+          <div class="report-card">
+            <div class="report-card-header">
+              <span class="report-card-name">Acme Freight Pty Ltd</span>
+              <span class="report-card-score">9/10 HIGH</span>
+            </div>
+            <div class="report-card-badges">
+              <span class="report-badge">Est. 1981</span>
+              <span class="report-badge green">80+ staff</span>
+              <span class="report-badge amber">IATA</span>
+            </div>
+            <div class="report-card-meta">
+              <div><span class="report-meta-label">Location</span><br><span class="report-meta-value">45 Trade Circuit, Hamilton</span></div>
+              <div><span class="report-meta-label">Software</span><br><span class="report-meta-value">No TMS confirmed</span></div>
+            </div>
+            <div class="report-card-section">
+              <div class="report-card-section-label">Digital Maturity</div>
+              <div class="report-maturity-bar"><div class="report-maturity-fill" style="width: 25%;"></div></div>
+            </div>
+            <div class="report-card-section">
+              <div class="report-card-section-label">Why They're a Fit</div>
+              <p>Large independent with 16 licensed brokers, no confirmed TMS, low digital maturity &mdash; ideal for digital uplift.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA ENRICHMENT -->
+<section>
+  <div class="container">
+    <div class="section-label">Data Per Lead</div>
+    <div class="two-col">
+      <div>
+        <h2>Company intelligence</h2>
+        <ul class="feature-list">
+          <li>Company name, website, phone, location</li>
+          <li>Founded year and company size</li>
+          <li>Industry, sector, and services offered</li>
+          <li>Certifications and accreditations</li>
+          <li>Current software and TMS platforms</li>
+          <li>ABN or company registration number</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Contact strategies</h2>
+        <ul class="feature-list">
+          <li>Multiple key people with titles</li>
+          <li>LinkedIn URLs for decision-makers</li>
+          <li>Personalized outreach strategy per lead</li>
+          <li>Conversation starters and value propositions</li>
+          <li>Digital maturity assessment (0&ndash;100%)</li>
+          <li>HubSpot CRM integration (push leads directly)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SETUP -->
+<section id="setup">
+  <div class="container">
+    <div class="section-label">Setup Guide</div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-number">01</div>
+        <div>
+          <h3>Get the skill file</h3>
+          <p>Clone the skills repo (or just download the single file) and copy it into your Claude Code skills directory.</p>
+        </div>
+        <div class="code-block">
+<span class="cmd">git clone</span> https://github.com/pengasuzie/claude-skills.git
+<span class="cmd">mkdir</span> <span class="flag">-p</span> ~/.claude/skills/lead-research-assistant
+<span class="cmd">cp</span> claude-skills/lead-research-assistant/SKILL.md \
+   ~/.claude/skills/lead-research-assistant/
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">02</div>
+        <div>
+          <h3>Use it</h3>
+          <p>Open Claude Code and run the skill. Describe your product and target market, or let it read your codebase. It handles the rest.</p>
+        </div>
+        <div class="code-block">
+<span class="cmd">claude</span>
+<span class="comment"># Mode A &mdash; you describe it</span>
+> <span class="string">/lead-research-assistant</span>
+  I'm building a compliance tool for freight
+  forwarders. Find 15 prospects in Brisbane.
+
+<span class="comment"># Mode B &mdash; codebase analysis</span>
+> <span class="string">/lead-research-assistant</span>
+  Look at this repo and find 15 companies
+  in Melbourne that would be customers.
+
+<span class="comment"># Mode C &mdash; both (recommended)</span>
+> <span class="string">/lead-research-assistant</span>
+  We're a trade compliance platform &mdash; check
+  the codebase too. Find 20 prospects in Sydney.
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">03</div>
+        <div>
+          <h3>Get your report</h3>
+          <p>The skill generates a self-contained HTML file. Open it in your browser to search, filter, and review leads. Share it with anyone &mdash; no dependencies needed.</p>
+        </div>
+        <div class="code-block">
+<span class="output">Researching target companies...</span>
+<span class="output">Found 18 matching companies.</span>
+<span class="output">Scoring and enriching leads...</span>
+
+<span class="string">Report saved:</span>
+<span class="string">  lead-research-brisbane-freight-2026-02-27.html</span>
+
+<span class="output">Summary:</span>
+  <span class="flag">6 HIGH</span> (8-10) &mdash; ideal prospects
+  <span class="key">7 MEDIUM</span> (5-7) &mdash; possible fit
+  <span class="comment">2 LOW</span> (1-4) &mdash; already using competitor
+
+<span class="string">Want me to add these to HubSpot CRM?</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- NEXT STEPS -->
+<section>
+  <div class="container">
+    <div class="section-label">After the Research</div>
+    <div class="two-col">
+      <div>
+        <h2>CRM integration</h2>
+        <p>With the HubSpot MCP server connected, the skill can push leads directly into your CRM. It creates Company records, Contact records for decision-makers, and optionally creates Deals in your pipeline. Always confirms before creating anything.</p>
+        <p>Without HubSpot, it falls back to CSV export.</p>
+      </div>
+      <div>
+        <h2>Cold outreach</h2>
+        <p>Pairs with the <strong>cold-email</strong> skill for follow-up. The lead research provides the targeting and personalization data, then cold-email generates outreach sequences tailored to each prospect's situation.</p>
+        <p>The outreach strategy section in each lead card gives you conversation starters and value propositions ready to use.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Stronge. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie/claude-skills">GitHub</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

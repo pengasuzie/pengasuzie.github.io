@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Starter — Pre-configured Project with 20 Skills</title>
+<meta name="description" content="A pre-configured Claude Code project with 20 skills for voice/audio, strategic analysis, opportunity evaluation, and product development. Open the folder, start talking.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Claude Code Starter — Pre-configured Project with 20 Skills">
+<meta property="og:description" content="A pre-configured Claude Code project with 20 skills for voice/audio, strategic analysis, opportunity evaluation, and product development.">
+<meta property="og:image" content="https://pengasuzie.github.io/images/social-card.png">
+<meta property="og:url" content="https://pengasuzie.github.io/tools/claude-code-starter/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claude Code Starter — Pre-configured Project with 20 Skills">
+<meta name="twitter:description" content="A pre-configured Claude Code project with 20 skills for voice/audio, strategic analysis, opportunity evaluation, and product development.">
+<meta name="twitter:image" content="https://pengasuzie.github.io/images/social-card.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === SECTIONS === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* === TWO COL === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* === CODE === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .cmd { color: #67e8f9; }
+  .code-block .string { color: #86efac; }
+  .code-block .flag { color: #818cf8; }
+  .code-block .output { color: #fbbf24; }
+
+  /* === STEPS === */
+  .steps {
+    counter-reset: step;
+  }
+
+  .step {
+    padding: 40px 0;
+    border-top: 2px solid var(--black);
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .step-number {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--blue);
+    counter-increment: step;
+  }
+
+  .step h3 {
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+
+  .step p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+  }
+
+  /* === FEATURE LIST === */
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* === SKILLS GRID === */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .skill {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .skill:not(:nth-child(4n+1)) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .skill-cat {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .skill h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .skill p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .step { grid-template-columns: 1fr; gap: 16px; }
+    .step .code-block { grid-column: 1; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .skill:not(:nth-child(4n+1)) { border-left: none; padding-left: 0; }
+    .skill:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo"><a href="/">Bruce Stronge</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Start with<br><span>20 skills ready to go.</span></h1>
+    <p class="hero-sub">
+      A pre-configured Claude Code project with skills for voice/audio, strategic analysis,
+      opportunity evaluation, and structured product development. Clone the repo, open it,
+      and start talking.
+    </p>
+    <a href="https://github.com/pengasuzie/claude-code-starter" class="btn primary">View on GitHub</a>
+    <a href="#setup" class="btn">Setup Guide</a>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section>
+  <div class="container">
+    <div class="section-label">What's Included</div>
+    <div class="two-col">
+      <div>
+        <h2>4 skill categories</h2>
+        <p>Everything is pre-configured and ready to use. Claude automatically detects the <code>.claude/</code> folder and loads all skills. Just ask naturally and it picks the right one.</p>
+        <ul class="feature-list">
+          <li>Voice &amp; Audio &mdash; transcription, text-to-speech, audio briefings</li>
+          <li>Strategic Analysis &mdash; document analysis, competitive intelligence</li>
+          <li>Opportunity Evaluation &mdash; 6-step idea evaluation pipeline</li>
+          <li>Product Development &mdash; BMAD Method with 7 specialised agents</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Plus an interactive guide</h2>
+        <p>Includes a <code>guide.html</code> with a sidebar, expandable skill descriptions, example conversations, and the full evaluation workflow &mdash; all in one page. Open it in a browser for a visual overview of everything available.</p>
+        <ul class="feature-list">
+          <li>Pre-approved permissions (no constant prompts)</li>
+          <li>CLAUDE.md project instructions already configured</li>
+          <li>/new-idea command to scaffold evaluation directories</li>
+          <li>MIT licensed &mdash; use it however you want</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALL SKILLS -->
+<section>
+  <div class="container">
+    <div class="section-label">All 20 Skills</div>
+    <div class="skills-grid">
+      <div class="skill">
+        <div class="skill-cat">Voice</div>
+        <h3>voice-to-text</h3>
+        <p>Transcribe audio and video with speaker identification. WhisperX-powered, runs locally.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Voice</div>
+        <h3>text-to-voice</h3>
+        <p>Convert text to natural speech with 50 voices. Kokoro engine, no cloud APIs.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Voice</div>
+        <h3>voice-briefing</h3>
+        <p>Turn a transcript or document into a concise spoken audio briefing.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Strategy</div>
+        <h3>strategic-analysis</h3>
+        <p>Analyse documents with full project context. Themes, threats, and action items.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Strategy</div>
+        <h3>competitive-intel</h3>
+        <p>Competitive gap analysis with signal vs noise classification and gap matrix.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>opportunity-brief</h3>
+        <p>Capture a business opportunity: pitch, model, people, risks, and initial assessment.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>market-research</h3>
+        <p>Size the market, find demand signals, check trends. TAM/SAM/SOM analysis.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>competitor-landscape</h3>
+        <p>Map existing players in a market. Identify gaps and positioning opportunities.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>strategy-session</h3>
+        <p>Brainstorm go-to-market, differentiation, and blue ocean strategy.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>due-diligence</h3>
+        <p>Vet people, financials, legal, and technical feasibility. Red flag tracking.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>viability-assessment</h3>
+        <p>Score across 8 weighted dimensions. Go/no-go recommendation with confidence.</p>
+      </div>
+      <div class="skill">
+        <div class="skill-cat">Product</div>
+        <h3>BMAD Method</h3>
+        <p>7 specialised agents: analyst, PM, architect, designer, scrum master, developer, creative.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVALUATION PIPELINE -->
+<section>
+  <div class="container">
+    <div class="section-label">Evaluation Pipeline</div>
+    <div class="two-col">
+      <div>
+        <h2>Structured idea evaluation</h2>
+        <p>The opportunity evaluation skills work as a pipeline. Each step builds on the last &mdash; market research informs the competitor analysis, which informs the strategy session, and so on.</p>
+        <p>You can also run any skill independently if you just need one piece.</p>
+      </div>
+      <div>
+        <ul class="feature-list">
+          <li><strong>/new-idea</strong> &mdash; Scaffold a directory for the idea</li>
+          <li><strong>/opportunity-brief</strong> &mdash; Capture pitch, model, people, risks</li>
+          <li><strong>/market-research</strong> &mdash; Size the market, find demand signals</li>
+          <li><strong>/competitor-landscape</strong> &mdash; Map existing players, find gaps</li>
+          <li><strong>/strategy-session</strong> &mdash; Brainstorm go-to-market</li>
+          <li><strong>/due-diligence</strong> &mdash; Vet feasibility</li>
+          <li><strong>/viability-assessment</strong> &mdash; Score and decide</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SETUP -->
+<section id="setup">
+  <div class="container">
+    <div class="section-label">Setup Guide</div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-number">01</div>
+        <div>
+          <h3>Install Claude Code</h3>
+          <p>If you haven't already, install Claude Code globally. You'll need an Anthropic API key from <a href="https://console.anthropic.com">console.anthropic.com</a>.</p>
+        </div>
+        <div class="code-block">
+<span class="cmd">npm install</span> <span class="flag">-g</span> @anthropic-ai/claude-code
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">02</div>
+        <div>
+          <h3>Clone and open</h3>
+          <p>Clone the repo and start Claude Code inside it. All 20 skills load automatically from the <code>.claude/</code> folder.</p>
+        </div>
+        <div class="code-block">
+<span class="cmd">git clone</span> https://github.com/pengasuzie/claude-code-starter.git
+<span class="cmd">cd</span> claude-code-starter
+<span class="cmd">claude</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">03</div>
+        <div>
+          <h3>Start talking</h3>
+          <p>Just ask for what you need. Claude picks the right skill automatically. Or type a slash command directly.</p>
+        </div>
+        <div class="code-block">
+<span class="comment"># These all work</span>
+> <span class="string">Transcribe this meeting recording</span>
+> <span class="string">I have a new business idea &mdash; evaluate it</span>
+> <span class="string">Analyse this transcript for competitive threats</span>
+> <span class="string">Help me write a PRD for my product</span>
+> <span class="string">Score this opportunity &mdash; should I pursue it?</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOMISE -->
+<section>
+  <div class="container">
+    <div class="section-label">Make It Yours</div>
+    <div class="two-col">
+      <div>
+        <h2>Everything is editable</h2>
+        <p>Skills are just markdown files. Open any <code>.claude/skills/[name]/SKILL.md</code> in a text editor to customise how Claude approaches that task.</p>
+        <p>Edit <code>.claude/CLAUDE.md</code> to add your own project context, preferences, and conventions.</p>
+      </div>
+      <div>
+        <h2>Add more skills</h2>
+        <p>Browse and install from the open skills ecosystem. Create a new folder in <code>.claude/skills/</code> with a <code>SKILL.md</code> file, or use the skills CLI:</p>
+        <div class="code-block">
+<span class="cmd">npx skills find</span> <span class="string">seo</span>
+<span class="cmd">npx skills find</span> <span class="string">cloudflare</span>
+<span class="cmd">npx skills find</span> <span class="string">react</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Stronge. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+        <a href="/tools/">Tools</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
