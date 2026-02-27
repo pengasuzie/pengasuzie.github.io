@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategy Session — Think Beyond the Obvious</title>
+<meta name="description" content="Seven strategic thinking frameworks for business opportunities. Go-to-market, business model exploration, differentiation, blue ocean, problem reframe, risk mitigation, and open brainstorm.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Strategy Session — Think Beyond the Obvious">
+<meta property="og:description" content="Seven strategic thinking frameworks for business opportunities. Go-to-market, business model exploration, differentiation, blue ocean, problem reframe, risk mitigation, and open brainstorm.">
+<meta property="og:image" content="https://pengasuzie.github.io/images/social-card.png">
+<meta property="og:url" content="https://pengasuzie.github.io/tools/strategy-session/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Strategy Session — Think Beyond the Obvious">
+<meta name="twitter:description" content="Seven strategic thinking frameworks for business opportunities. Go-to-market, business model exploration, differentiation, blue ocean, problem reframe, risk mitigation, and open brainstorm.">
+<meta name="twitter:image" content="https://pengasuzie.github.io/images/social-card.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === SECTIONS === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* === TWO COL === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* === CODE === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .cmd { color: #67e8f9; }
+  .code-block .string { color: #86efac; }
+  .code-block .flag { color: #818cf8; }
+  .code-block .output { color: #fbbf24; }
+
+  /* === FEATURES === */
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* === AREAS GRID === */
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+  }
+
+  .area {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .area:not(:first-child) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .area-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .area h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .area p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  /* === SKILLS GRID === */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .skill {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .skill:not(:nth-child(4n+1)) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .skill-cat {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .skill h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .skill p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  a.skill {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: background 0.15s;
+  }
+
+  a.skill:hover {
+    background: var(--light);
+  }
+
+  a.skill:hover h3 {
+    color: var(--blue);
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .areas-grid { grid-template-columns: 1fr 1fr; }
+    .area:not(:first-child) { border-left: none; padding-left: 0; }
+    .area:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .skill:not(:nth-child(4n+1)) { border-left: none; padding-left: 0; }
+    .skill:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo"><a href="/">Bruce Stronge</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Think beyond<br>the <span>obvious.</span></h1>
+    <p class="hero-sub">
+      Seven strategic thinking frameworks to explore angles, challenge assumptions, and find creative
+      approaches. Go-to-market, business model, differentiation, blue ocean, problem reframe, risk
+      mitigation, and open brainstorm &mdash; all interactive, all captured.
+    </p>
+    <a href="https://github.com/pengasuzie/claude-code-starter" class="btn primary">Get the Skill</a>
+    <a href="/tools/claude-code-starter/" class="btn">Part of Starter Kit</a>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section>
+  <div class="container">
+    <div class="section-label">Evaluation Pipeline</div>
+    <div class="code-block" style="text-align: center; font-size: 14px; line-height: 2;">
+<a href="/tools/new-idea/" style="color: #a1a1aa; text-decoration: none;">/new-idea</a> <span class="comment">&rarr;</span>
+<a href="/tools/opportunity-brief/" style="color: #a1a1aa; text-decoration: none;">/opportunity-brief</a> <span class="comment">&rarr;</span>
+<a href="/tools/market-research/" style="color: #a1a1aa; text-decoration: none;">/market-research</a> <span class="comment">&rarr;</span>
+<a href="/tools/competitor-landscape/" style="color: #a1a1aa; text-decoration: none;">/competitor-landscape</a> <span class="comment">&rarr;</span>
+<span class="cmd">/strategy-session</span> <span class="comment">&rarr;</span>
+<a href="/tools/due-diligence/" style="color: #a1a1aa; text-decoration: none;">/due-diligence</a> <span class="comment">&rarr;</span>
+<a href="/tools/viability-assessment/" style="color: #a1a1aa; text-decoration: none;">/viability-assessment</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <div class="two-col">
+      <div>
+        <h2>A conversation, not a framework dump</h2>
+        <p>The skill thinks WITH you, not AT you. Part provocateur, part strategist, part devil's advocate. It reads all existing research, then pushes your thinking beyond the obvious with the right framework for what you need.</p>
+        <ul class="feature-list">
+          <li>Reads opportunity brief, research, and competitor data</li>
+          <li>You choose the session type (7 frameworks)</li>
+          <li>Interactive back-and-forth, not a report dump</li>
+          <li>Challenges assumptions and pushes for specificity</li>
+          <li>Captures key insights, decisions, and next steps</li>
+          <li>Saves session notes to your opportunity directory</li>
+        </ul>
+      </div>
+      <div class="code-block">
+<span class="output">&gt;</span> <span class="cmd">/strategy-session</span>
+
+<span class="comment">Reading opportunity context...</span>
+<span class="comment">Found: brief.md, market-research.md,</span>
+<span class="comment">       competitors/landscape.md</span>
+
+What kind of thinking do you need?
+1. <span class="string">Go-to-market</span> &mdash; how to enter and get traction
+2. <span class="string">Business model</span> &mdash; how should this make money
+3. <span class="string">Differentiation</span> &mdash; how to stand out
+4. <span class="string">Blue ocean</span> &mdash; a completely different approach
+5. <span class="string">Problem reframe</span> &mdash; solving the right problem?
+6. <span class="string">Risk mitigation</span> &mdash; what could go wrong
+7. <span class="string">Open brainstorm</span> &mdash; explore and see what emerges
+
+<span class="output">&gt;</span> 4
+
+<span class="comment">Blue Ocean thinking. Let's challenge</span>
+<span class="comment">everything about how this market works...</span>
+
+What factors that the industry competes on
+can you eliminate entirely?
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEVEN FRAMEWORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">Seven Frameworks</div>
+    <div class="two-col">
+      <div>
+        <h2>Different thinking for different needs</h2>
+        <p>Each framework is designed for a specific type of strategic question. Some sessions need structured analysis. Others need creative provocation. Pick the one that matches where you're stuck &mdash; or let the skill recommend one based on your context.</p>
+        <p>Every framework is interactive. The skill asks questions, challenges your answers, and pushes you to think deeper rather than just generating a report you'll never read.</p>
+      </div>
+      <div>
+        <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--black); text-align: left;">
+              <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">Framework</th>
+              <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">When To Use</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">Go-to-Market</td>
+              <td style="padding: 10px 0; color: var(--grey);">Which segment first? What channel? What wedge gets you in the door?</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">Business Model</td>
+              <td style="padding: 10px 0; color: var(--grey);">SaaS, marketplace, productised service, licensing, freemium, pay-per-use?</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">Differentiation</td>
+              <td style="padding: 10px 0; color: var(--grey);">Cost leadership, unique approach, niche focus, or new category?</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">Blue Ocean</td>
+              <td style="padding: 10px 0; color: var(--grey);">Eliminate, reduce, raise, create &mdash; redesign the value curve.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">Problem Reframe</td>
+              <td style="padding: 10px 0; color: var(--grey);">Are you solving the right problem? For the right customer?</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">Risk Mitigation</td>
+              <td style="padding: 10px 0; color: var(--grey);">Name it, rate it, mitigate it. Build a risk matrix with contingencies.</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">Open Brainstorm</td>
+              <td style="padding: 10px 0; color: var(--grey);">What if it were easy? What would it look like with $5K and 30 days?</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT GETS CAPTURED -->
+<section>
+  <div class="container">
+    <div class="section-label">What Gets Captured</div>
+    <div class="two-col">
+      <div>
+        <h2>Every session ends with structured capture</h2>
+        <p>No matter which framework you choose, the session always ends the same way &mdash; with a structured summary of insights, ideas, decisions, open questions, and action items. Everything saved to your opportunity directory so nothing gets lost.</p>
+        <p>The capture format is consistent across all seven frameworks, making it easy to review past sessions and track how your thinking evolved over time.</p>
+      </div>
+      <div class="code-block">
+<span class="comment">## Strategy Session: Freight Automation</span>
+<span class="comment">Date: 2026-02-27</span>
+<span class="comment">Session type: Blue Ocean</span>
+
+<span class="string">Key Insights</span>
+1. Industry competes on feature count &mdash; we
+   can eliminate the complexity
+2. No one offers per-document pricing
+3. SMB forwarders are completely ignored
+
+<span class="string">Ideas to Explore Further</span>
+- Document-as-a-service model
+- Vertical integration with customs APIs
+
+<span class="string">Decisions Made</span>
+- Focus on SMB segment (&lt;50 staff)
+- Per-document pricing, not subscription
+
+<span class="string">Next Steps</span>
+<span class="output">- [ ]</span> Validate pricing with 5 forwarders
+<span class="output">- [ ]</span> Build document processing prototype
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED SKILLS -->
+<section>
+  <div class="container">
+    <div class="section-label">Related Skills</div>
+    <div class="skills-grid">
+      <a href="/tools/opportunity-brief/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>opportunity-brief</h3>
+        <p>Capture a business opportunity: pitch, model, people, risks, and initial assessment.</p>
+      </a>
+      <a href="/tools/market-research/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>market-research</h3>
+        <p>Size the market, find demand signals, check trends. TAM/SAM/SOM analysis.</p>
+      </a>
+      <a href="/tools/competitor-landscape/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>competitor-landscape</h3>
+        <p>Map existing players, find gaps, and identify positioning opportunities.</p>
+      </a>
+      <a href="/tools/due-diligence/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>due-diligence</h3>
+        <p>Vet people, financials, legal, technical feasibility, and market validation.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Stronge. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+        <a href="/tools/">Tools</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

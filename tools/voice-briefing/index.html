@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice Briefing — Meeting to Audio Briefing in One Command</title>
+<meta name="description" content="Analyze a meeting transcript with full project context, then generate an MP3 audio briefing. Combines strategic analysis and text-to-voice into a single end-to-end workflow.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Voice Briefing — Meeting to Audio Briefing in One Command">
+<meta property="og:description" content="Analyze a meeting transcript with full project context, then generate an MP3 audio briefing. Combines strategic analysis and text-to-voice into a single end-to-end workflow.">
+<meta property="og:image" content="https://pengasuzie.github.io/images/social-card.png">
+<meta property="og:url" content="https://pengasuzie.github.io/tools/voice-briefing/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Voice Briefing — Meeting to Audio Briefing in One Command">
+<meta name="twitter:description" content="Analyze a meeting transcript with full project context, then generate an MP3 audio briefing. Combines strategic analysis and text-to-voice into a single end-to-end workflow.">
+<meta name="twitter:image" content="https://pengasuzie.github.io/images/social-card.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === SECTIONS === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* === TWO COL === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* === CODE === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .cmd { color: #67e8f9; }
+  .code-block .string { color: #86efac; }
+  .code-block .flag { color: #818cf8; }
+  .code-block .output { color: #fbbf24; }
+
+  /* === FEATURES === */
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* === SKILLS GRID === */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .skill {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .skill:not(:nth-child(4n+1)) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .skill-cat {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .skill h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .skill p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  a.skill {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: background 0.15s;
+  }
+
+  a.skill:hover {
+    background: var(--light);
+  }
+
+  a.skill:hover h3 {
+    color: var(--blue);
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .skill:not(:nth-child(4n+1)) { border-left: none; padding-left: 0; }
+    .skill:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo"><a href="/">Bruce Stronge</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Meeting to audio briefing<br>in <span>one command.</span></h1>
+    <p class="hero-sub">
+      Give it a transcript and it does everything: gathers project context, runs a strategic
+      analysis grounded in your CLAUDE.md, docs, and git history, generates a TTS-optimized
+      voice text, produces an MP3, and drops it in your Dropbox. Listen to the briefing on
+      the drive home.
+    </p>
+    <a href="https://github.com/pengasuzie/claude-code-starter" class="btn primary">Get the Skill</a>
+    <a href="/tools/ai-voice-kit/" class="btn">Voice Kit Setup</a>
+    <p style="font-size: 13px; color: var(--grey); margin-top: 16px;">
+      Also available in <a href="/tools/ai-voice-kit/" style="color: var(--blue); font-weight: 700;">ai-voice-kit</a>.
+    </p>
+  </div>
+</section>
+
+<!-- VOICE CHAIN -->
+<section>
+  <div class="container">
+    <div class="section-label">Voice Chain</div>
+    <div class="code-block" style="text-align: center; font-size: 14px; line-height: 2;">
+<a href="/tools/voice-to-text/" style="color: #a1a1aa; text-decoration: none;">/voice-to-text</a> <span class="comment">&rarr;</span> transcript <span class="comment">&rarr;</span> <span class="cmd">/voice-briefing</span> <span class="comment">&rarr;</span> analysis + voice text + <span class="output">audio.mp3</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <div class="two-col">
+      <div>
+        <h2>The full chain, one command</h2>
+        <p>Combines strategic analysis and text-to-voice into a single workflow. Reads your project context, analyzes the transcript with product-aware intelligence, converts the analysis to speech-friendly text, generates an MP3, and copies it to Dropbox. You get a written analysis AND an audio briefing.</p>
+        <ul class="feature-list">
+          <li>Project-aware analysis (reads CLAUDE.md, docs, git log)</li>
+          <li>Identifies participants from transcript</li>
+          <li>Cross-references competitors with existing intel</li>
+          <li>Produces analysis.md + analysis-voice.txt + analysis-audio.mp3</li>
+          <li>Auto-copies to Dropbox for mobile listening</li>
+          <li>Works after /voice-to-text or with any transcript</li>
+        </ul>
+      </div>
+      <div class="code-block">
+<span class="output">&gt;</span> <span class="cmd">/voice-briefing</span> transcript.md
+
+<span class="comment">Gathering project context...</span>
+<span class="comment">  .claude/CLAUDE.md &mdash; product stage</span>
+<span class="comment">  git log &mdash; 12 commits this week</span>
+<span class="comment">  docs/private/ &mdash; competitor analysis</span>
+
+<span class="comment">Analyzing transcript...</span>
+<span class="comment">  2 participants identified</span>
+<span class="comment">  Mode: Consulting engagement</span>
+
+<span class="comment">Generating audio briefing...</span>
+
+<span class="output">Output:</span>
+<span class="output">&boxur;&boxh;&boxh; analysis.md</span>            <span class="comment">(written)</span>
+<span class="output">&boxvr;&boxh;&boxh; analysis-voice.txt</span>     <span class="comment">(TTS-ready)</span>
+<span class="output">&boxur;&boxh;&boxh; analysis-audio.mp3</span>     <span class="comment">(6m 18s)</span>
+
+<span class="string">Dropbox:</span>
+<span class="output">&boxur;&boxh;&boxh; Voice Files Work/</span>
+    Client Call - analysis.mp3
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT GETS PRODUCED -->
+<section>
+  <div class="container">
+    <div class="section-label">What Gets Produced</div>
+    <div class="two-col">
+      <div>
+        <h2>Three files, one workflow</h2>
+        <p>The written analysis (analysis.md) is a full strategic breakdown. The voice text (analysis-voice.txt) strips markdown and adds spoken cues. The audio (analysis-audio.mp3) is the voice text converted to speech, ready for your commute.</p>
+      </div>
+      <div class="code-block">
+<span class="string">analysis.md</span> <span class="comment">(written)</span>
+<span class="output">&boxur;&boxh;&boxh;</span> Product Context <span class="comment">(auto-gathered)</span>
+<span class="output">&boxvr;&boxh;&boxh;</span> Comprehensive Summary
+<span class="output">&boxvr;&boxh;&boxh;</span> Strategic Analysis
+<span class="output">&boxv;</span>   <span class="output">&boxur;&boxh;&boxh;</span> Win Probability
+<span class="output">&boxv;</span>   <span class="output">&boxvr;&boxh;&boxh;</span> Feature-by-Feature Fit
+<span class="output">&boxv;</span>   <span class="output">&boxvr;&boxh;&boxh;</span> Development Velocity
+<span class="output">&boxv;</span>   <span class="output">&boxur;&boxh;&boxh;</span> Strategic Angles
+<span class="output">&boxvr;&boxh;&boxh;</span> The Hard Truths
+<span class="output">&boxv;</span>   <span class="output">&boxur;&boxh;&boxh;</span> Competitive Landscape
+<span class="output">&boxv;</span>   <span class="output">&boxvr;&boxh;&boxh;</span> Red Flags
+<span class="output">&boxv;</span>   <span class="output">&boxur;&boxh;&boxh;</span> Next Actions
+<span class="output">&boxur;&boxh;&boxh;</span> Roadmap Impact Assessment
+
+<span class="string">analysis-voice.txt</span> <span class="comment">(TTS-optimized)</span>
+  Markdown stripped, tables &rarr; prose,
+  acronyms expanded, spoken transitions.
+  <span class="flag">"Now let's move to the hard truths..."</span>
+
+<span class="string">analysis-audio.mp3</span>
+  Kokoro TTS, am_michael voice
+  6m 18s, 5.2 MB
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT CONTEXT AWARENESS -->
+<section>
+  <div class="container">
+    <div class="section-label">Project Context Awareness</div>
+    <div class="two-col">
+      <div>
+        <h2>Grounded in what you know</h2>
+        <p>The analysis is only as good as the context. The skill reads everything available &mdash; CLAUDE.md for product state, git log for development velocity, docs for competitor intel, and memory for prior conversations. The result is advice grounded in reality, not generic strategy.</p>
+      </div>
+      <div>
+        <ul class="feature-list">
+          <li>.claude/CLAUDE.md &mdash; product identity, stage, roadmap, milestones</li>
+          <li>git log &mdash; recent commits, development velocity, what just shipped</li>
+          <li>docs/private/ &mdash; competitor analysis, strategic documents</li>
+          <li>notes/ &mdash; prior meeting summaries, strategy sessions</li>
+          <li>memory/ &mdash; persistent context from prior conversations</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED SKILLS -->
+<section>
+  <div class="container">
+    <div class="section-label">Related Skills</div>
+    <div class="skills-grid">
+      <a href="/tools/voice-to-text/" class="skill">
+        <div class="skill-cat">Voice</div>
+        <h3>voice-to-text</h3>
+        <p>Transcribe the meeting audio first.</p>
+      </a>
+      <a href="/tools/text-to-voice/" class="skill">
+        <div class="skill-cat">Voice</div>
+        <h3>text-to-voice</h3>
+        <p>Convert any text file to speech separately.</p>
+      </a>
+      <a href="/tools/strategic-analysis/" class="skill">
+        <div class="skill-cat">Voice</div>
+        <h3>strategic-analysis</h3>
+        <p>Run the analysis step standalone.</p>
+      </a>
+      <a href="/tools/competitive-intel/" class="skill">
+        <div class="skill-cat">Strategy</div>
+        <h3>competitive-intel</h3>
+        <p>Fortnightly competitive gap analysis.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Stronge. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+        <a href="/tools/">Tools</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

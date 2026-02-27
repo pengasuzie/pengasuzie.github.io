@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice to Text — Transcribe Audio with Speaker Identification</title>
+<meta name="description" content="Transcribe audio and video files to text with automatic speaker identification. WhisperX-powered diarization, runs locally, supports m4a, mp3, wav, mp4, and more.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Voice to Text — Transcribe Audio with Speaker Identification">
+<meta property="og:description" content="Transcribe audio and video files to text with automatic speaker identification. WhisperX-powered diarization, runs locally, supports m4a, mp3, wav, mp4, and more.">
+<meta property="og:image" content="https://pengasuzie.github.io/images/social-card.png">
+<meta property="og:url" content="https://pengasuzie.github.io/tools/voice-to-text/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Voice to Text — Transcribe Audio with Speaker Identification">
+<meta name="twitter:description" content="Transcribe audio and video files to text with automatic speaker identification. WhisperX-powered diarization, runs locally, supports m4a, mp3, wav, mp4, and more.">
+<meta name="twitter:image" content="https://pengasuzie.github.io/images/social-card.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === SECTIONS === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* === TWO COL === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* === CODE === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .cmd { color: #67e8f9; }
+  .code-block .string { color: #86efac; }
+  .code-block .flag { color: #818cf8; }
+  .code-block .output { color: #fbbf24; }
+
+  /* === FEATURES === */
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* === SKILLS GRID === */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .skill {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .skill:not(:nth-child(4n+1)) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .skill-cat {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .skill h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .skill p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  a.skill {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: background 0.15s;
+  }
+
+  a.skill:hover {
+    background: var(--light);
+  }
+
+  a.skill:hover h3 {
+    color: var(--blue);
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .skill:not(:nth-child(4n+1)) { border-left: none; padding-left: 0; }
+    .skill:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo"><a href="/">Bruce Stronge</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Transcribe audio<br>with <span>speaker labels.</span></h1>
+    <p class="hero-sub">
+      Transcribe any audio or video file with automatic speaker identification. WhisperX-powered
+      diarization that runs locally &mdash; no cloud APIs, no data leaving your machine. Handles
+      meetings, interviews, podcasts, and voice memos.
+    </p>
+    <a href="https://github.com/pengasuzie/claude-code-starter" class="btn primary">Get the Skill</a>
+    <a href="/tools/ai-voice-kit/" class="btn">Voice Kit Setup</a>
+    <p style="font-size: 13px; color: var(--grey); margin-top: 16px;">
+      Also available in <a href="/tools/ai-voice-kit/" style="color: var(--blue); font-weight: 700;">ai-voice-kit</a>.
+    </p>
+  </div>
+</section>
+
+<!-- VOICE CHAIN -->
+<section>
+  <div class="container">
+    <div class="section-label">Voice Chain</div>
+    <div class="code-block" style="text-align: center; font-size: 14px; line-height: 2;">
+<span class="cmd">/voice-to-text</span> <span class="comment">&rarr;</span> transcript <span class="comment">&rarr;</span>
+<a href="/tools/strategic-analysis/" style="color: #a1a1aa; text-decoration: none;">/strategic-analysis</a> <span class="comment">&rarr;</span> analysis + voice text <span class="comment">&rarr;</span>
+<a href="/tools/text-to-voice/" style="color: #a1a1aa; text-decoration: none;">/text-to-voice</a> <span class="comment">&rarr;</span> <span class="output">briefing.mp3</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <div class="two-col">
+      <div>
+        <h2>Drop in a file, get a transcript</h2>
+        <p>Point the skill at any audio or video file. It auto-detects the format, runs WhisperX with speaker diarization, and produces a clean transcript with speaker labels. Then asks if you want to replace generic labels with real names.</p>
+        <ul class="feature-list">
+          <li>Speaker diarization (who said what)</li>
+          <li>Supports m4a, mp3, wav, flac, ogg, webm, mp4, mkv, avi</li>
+          <li>Auto-checks ~/Downloads for recent recordings</li>
+          <li>Replace generic labels with real names</li>
+          <li>Output as txt, srt, vtt, or json</li>
+          <li>30-min file transcribes in ~3-5 minutes on Mac</li>
+        </ul>
+      </div>
+      <div class="code-block">
+<span class="output">&gt;</span> <span class="cmd">/voice-to-text</span>
+
+<span class="comment">Checking ~/Downloads for recent audio...</span>
+<span class="comment">Found: client-call-2026-02-27.m4a (42 min)</span>
+Is this the right file?
+
+<span class="output">&gt;</span> yes
+
+<span class="comment">Transcribing with WhisperX...</span>
+<span class="comment">  Speakers: 2 detected</span>
+<span class="comment">  Language: en</span>
+<span class="comment">  Duration: 42:18</span>
+
+<span class="string">SPEAKER_00:</span> I wanted to walk you through
+our current document processing workflow...
+
+<span class="string">SPEAKER_01:</span> Great, and how many documents
+are you processing per month roughly?
+
+Replace speaker labels with real names?
+
+<span class="output">&gt;</span> SPEAKER_00 = Aaron, SPEAKER_01 = Bruce
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORTED FORMATS -->
+<section>
+  <div class="container">
+    <div class="section-label">Supported Formats</div>
+    <div class="two-col">
+      <div>
+        <h2>Audio and video, all handled</h2>
+        <p>WhisperX extracts the audio track from any supported container format. Point it at a video file and it just works &mdash; no need to extract audio manually first.</p>
+        <p>iPhone Voice Memos (m4a), Zoom recordings (mp4), podcast downloads (mp3), lossless archives (flac) &mdash; whatever you have, drop it in.</p>
+      </div>
+      <div>
+        <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--black); text-align: left;">
+              <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">Format</th>
+              <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">Type</th>
+              <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">m4a</td>
+              <td style="padding: 10px 0; color: var(--grey);">Audio</td>
+              <td style="padding: 10px 0; color: var(--grey);">iPhone recordings, Voice Memos</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">mp3</td>
+              <td style="padding: 10px 0; color: var(--grey);">Audio</td>
+              <td style="padding: 10px 0; color: var(--grey);">Standard compressed audio</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">wav</td>
+              <td style="padding: 10px 0; color: var(--grey);">Audio</td>
+              <td style="padding: 10px 0; color: var(--grey);">Uncompressed, best quality</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">flac</td>
+              <td style="padding: 10px 0; color: var(--grey);">Audio</td>
+              <td style="padding: 10px 0; color: var(--grey);">Lossless compression</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">ogg</td>
+              <td style="padding: 10px 0; color: var(--grey);">Audio</td>
+              <td style="padding: 10px 0; color: var(--grey);">Open format</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">webm</td>
+              <td style="padding: 10px 0; color: var(--grey);">Audio/Video</td>
+              <td style="padding: 10px 0; color: var(--grey);">Web recordings</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">mp4</td>
+              <td style="padding: 10px 0; color: var(--grey);">Video</td>
+              <td style="padding: 10px 0; color: var(--grey);">Standard video format</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">mkv</td>
+              <td style="padding: 10px 0; color: var(--grey);">Video</td>
+              <td style="padding: 10px 0; color: var(--grey);">Container format</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED SKILLS -->
+<section>
+  <div class="container">
+    <div class="section-label">Related Skills</div>
+    <div class="skills-grid">
+      <a href="/tools/strategic-analysis/" class="skill">
+        <div class="skill-cat">Voice</div>
+        <h3>strategic-analysis</h3>
+        <p>Analyze the transcript with full project context.</p>
+      </a>
+      <a href="/tools/text-to-voice/" class="skill">
+        <div class="skill-cat">Voice</div>
+        <h3>text-to-voice</h3>
+        <p>Convert text to natural speech with 50 voices.</p>
+      </a>
+      <a href="/tools/voice-briefing/" class="skill">
+        <div class="skill-cat">Voice</div>
+        <h3>voice-briefing</h3>
+        <p>Full chain: transcript to analysis to audio in one command.</p>
+      </a>
+      <a href="/tools/due-diligence/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>due-diligence</h3>
+        <p>Vet an opportunity discussed in a meeting.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Stronge. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+        <a href="/tools/">Tools</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

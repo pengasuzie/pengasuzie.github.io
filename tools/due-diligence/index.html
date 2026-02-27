@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Due Diligence — Find the Red Flags Before You Commit</title>
+<meta name="description" content="Structured due diligence for business opportunities. Vet people, financials, legal, technical feasibility, and market validation with interactive checklists and red flag tracking.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Due Diligence — Find the Red Flags Before You Commit">
+<meta property="og:description" content="Structured due diligence for business opportunities. Vet people, financials, legal, technical feasibility, and market validation.">
+<meta property="og:image" content="https://pengasuzie.github.io/images/social-card.png">
+<meta property="og:url" content="https://pengasuzie.github.io/tools/due-diligence/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Due Diligence — Find the Red Flags Before You Commit">
+<meta name="twitter:description" content="Structured due diligence for business opportunities. Vet people, financials, legal, technical feasibility, and market validation.">
+<meta name="twitter:image" content="https://pengasuzie.github.io/images/social-card.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === SECTIONS === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* === TWO COL === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* === CODE === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .cmd { color: #67e8f9; }
+  .code-block .string { color: #86efac; }
+  .code-block .flag { color: #818cf8; }
+  .code-block .output { color: #fbbf24; }
+
+  /* === FEATURES === */
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* === AREAS GRID === */
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+  }
+
+  .area {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .area:not(:first-child) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .area-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .area h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .area p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  /* === SKILLS GRID === */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .skill {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .skill:not(:nth-child(4n+1)) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .skill-cat {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .skill h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .skill p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  a.skill {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: background 0.15s;
+  }
+
+  a.skill:hover {
+    background: var(--light);
+  }
+
+  a.skill:hover h3 {
+    color: var(--blue);
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .areas-grid { grid-template-columns: 1fr 1fr; }
+    .area:not(:first-child) { border-left: none; padding-left: 0; }
+    .area:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .skill:not(:nth-child(4n+1)) { border-left: none; padding-left: 0; }
+    .skill:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo"><a href="/">Bruce Stronge</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Find the red flags<br>before you <span>commit.</span></h1>
+    <p class="hero-sub">
+      Structured due diligence across five areas: people, financials, legal, technical feasibility,
+      and market validation. Interactive checklists walk you through each area, flag risks, and
+      produce a summary with severity ratings and mitigations.
+    </p>
+    <a href="https://github.com/pengasuzie/claude-code-starter" class="btn primary">Get the Skill</a>
+    <a href="/tools/claude-code-starter/" class="btn">Part of Starter Kit</a>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section>
+  <div class="container">
+    <div class="section-label">Evaluation Pipeline</div>
+    <div class="code-block" style="text-align: center; font-size: 14px; line-height: 2;">
+<a href="/tools/new-idea/" style="color: #a1a1aa; text-decoration: none;">/new-idea</a> <span class="comment">&rarr;</span>
+<a href="/tools/opportunity-brief/" style="color: #a1a1aa; text-decoration: none;">/opportunity-brief</a> <span class="comment">&rarr;</span>
+<a href="/tools/market-research/" style="color: #a1a1aa; text-decoration: none;">/market-research</a> <span class="comment">&rarr;</span>
+<a href="/tools/competitor-landscape/" style="color: #a1a1aa; text-decoration: none;">/competitor-landscape</a> <span class="comment">&rarr;</span>
+<a href="/tools/strategy-session/" style="color: #a1a1aa; text-decoration: none;">/strategy-session</a> <span class="comment">&rarr;</span>
+<span class="cmd">/due-diligence</span> <span class="comment">&rarr;</span>
+<a href="/tools/viability-assessment/" style="color: #a1a1aa; text-decoration: none;">/viability-assessment</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <div class="two-col">
+      <div>
+        <h2>A checklist conversation, not a report</h2>
+        <p>The skill walks through each area interactively &mdash; asking questions, probing for gaps, and flagging red flags as you go. It reads any existing research from your opportunity directory so you don't repeat yourself.</p>
+        <ul class="feature-list">
+          <li>Reads prior research (opportunity brief, market research)</li>
+          <li>You choose which areas to investigate</li>
+          <li>Interactive Q&amp;A for each area with checklists</li>
+          <li>Red flags tracked with severity ratings</li>
+          <li>Summary saved to your opportunity directory</li>
+          <li>Links directly to /viability-assessment for final scoring</li>
+        </ul>
+      </div>
+      <div class="code-block">
+<span class="output">&gt;</span> <span class="cmd">/due-diligence</span>
+
+<span class="comment">Reading opportunity context...</span>
+<span class="comment">Found: brief.md, research/market-research.md</span>
+
+What areas do you want to dig into?
+1. <span class="string">People</span> &mdash; background, track record, alignment
+2. <span class="string">Financials</span> &mdash; unit economics, projections
+3. <span class="string">Legal</span> &mdash; IP, contracts, regulations
+4. <span class="string">Technical</span> &mdash; feasibility, build vs buy
+5. <span class="string">Market validation</span> &mdash; customer conversations
+6. <span class="string">Full sweep</span> &mdash; all of the above
+
+<span class="output">&gt;</span> 1, 2, 4
+
+<span class="comment">Starting with People...</span>
+Let's start with the founder. What's their
+background? Have they done something like
+this before?
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIVE AREAS -->
+<section>
+  <div class="container">
+    <div class="section-label">Five Areas of Investigation</div>
+    <div class="areas-grid">
+      <div class="area">
+        <div class="area-number">01</div>
+        <h3>People</h3>
+        <p>Background checks, track record, commitment level, equity expectations, working style, references.</p>
+      </div>
+      <div class="area">
+        <div class="area-number">02</div>
+        <h3>Financials</h3>
+        <p>Unit economics, LTV:CAC ratio, burn rate, runway, break-even analysis, capital requirements.</p>
+      </div>
+      <div class="area">
+        <div class="area-number">03</div>
+        <h3>Legal</h3>
+        <p>IP ownership, entity structure, partner agreements, vesting, regulatory compliance, insurance.</p>
+      </div>
+      <div class="area">
+        <div class="area-number">04</div>
+        <h3>Technical</h3>
+        <p>Build vs buy, MVP timeline, team capabilities, single-point-of-failure risks, third-party dependencies.</p>
+      </div>
+      <div class="area">
+        <div class="area-number">05</div>
+        <h3>Validation</h3>
+        <p>Customer conversations, willingness to pay, validation level (0&ndash;5 scale), pre-orders or LOIs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RED FLAGS -->
+<section>
+  <div class="container">
+    <div class="section-label">Red Flag Tracking</div>
+    <div class="two-col">
+      <div>
+        <h2>What the skill looks for</h2>
+        <p>Each area has its own red flag checklist. The skill doesn't just collect information &mdash; it actively probes for common failure patterns based on real-world due diligence frameworks.</p>
+        <ul class="feature-list">
+          <li>Vague about past ventures or roles</li>
+          <li>LTV:CAC below 3:1</li>
+          <li>No written partner agreement</li>
+          <li>Technology that doesn't exist yet</li>
+          <li>Only validated with friends and family</li>
+          <li>Handshake deals for equity, no vesting</li>
+          <li>Break-even requires 18+ months</li>
+          <li>Single point of technical failure</li>
+        </ul>
+      </div>
+      <div class="code-block">
+<span class="comment">## Due Diligence Summary</span>
+
+<span class="string">Areas Reviewed</span>
+<span class="output">[x]</span> People
+<span class="output">[x]</span> Financials
+<span class="comment">[ ]</span> Legal
+<span class="output">[x]</span> Technical
+<span class="output">[x]</span> Market Validation
+
+<span class="string">Red Flags Found</span>
+<span class="flag">Area</span>       <span class="flag">Flag</span>            <span class="flag">Severity</span>
+People     No vesting       <span class="output">High</span>
+Financial  18mo break-even  <span class="output">Medium</span>
+Technical  Solo developer   <span class="output">Medium</span>
+
+<span class="string">Recommendation:</span> <span class="output">Conditional Go</span>
+Address vesting before proceeding.
+Partner agreement needed within 30 days.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALIDATION SCALE -->
+<section>
+  <div class="container">
+    <div class="section-label">Market Validation Scale</div>
+    <div class="two-col">
+      <div>
+        <h2>How real is the demand?</h2>
+        <p>The market validation area uses a 6-level scale to assess how much evidence you have that customers actually want this. Level 0 is a hunch. Level 5 is money in the bank.</p>
+        <p>Most opportunities stall between Level 1 and 2 &mdash; where enthusiasm from friends gets mistaken for market demand. The skill pushes you to be honest about where you actually are.</p>
+      </div>
+      <div>
+        <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--black); text-align: left;">
+              <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">Level</th>
+              <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">Evidence</th>
+              <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">Confidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">0</td>
+              <td style="padding: 10px 0; color: var(--grey);">"I think people would want this"</td>
+              <td style="padding: 10px 0; color: var(--grey);">Lowest</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">1</td>
+              <td style="padding: 10px 0; color: var(--grey);">Friends/family said it's good</td>
+              <td style="padding: 10px 0; color: var(--grey);">Low</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">2</td>
+              <td style="padding: 10px 0; color: var(--grey);">5+ potential customers interviewed</td>
+              <td style="padding: 10px 0; color: var(--grey);">Moderate</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">3</td>
+              <td style="padding: 10px 0; color: var(--grey);">Customers said they'd pay $X</td>
+              <td style="padding: 10px 0; color: var(--grey);">Good</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">4</td>
+              <td style="padding: 10px 0; color: var(--grey);">Letter of intent or pre-order</td>
+              <td style="padding: 10px 0; color: var(--grey);">Strong</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">5</td>
+              <td style="padding: 10px 0; color: var(--grey);">Someone has already paid</td>
+              <td style="padding: 10px 0; color: var(--grey);">Highest</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED SKILLS -->
+<section>
+  <div class="container">
+    <div class="section-label">Related Skills</div>
+    <div class="skills-grid">
+      <a href="/tools/opportunity-brief/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>opportunity-brief</h3>
+        <p>Capture a business opportunity: pitch, model, people, risks, and initial assessment.</p>
+      </a>
+      <a href="/tools/viability-assessment/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>viability-assessment</h3>
+        <p>Score across 8 weighted dimensions. Go/no-go recommendation with confidence level.</p>
+      </a>
+      <a href="/tools/strategy-session/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>strategy-session</h3>
+        <p>Brainstorm go-to-market, differentiation, and blue ocean strategy.</p>
+      </a>
+      <a href="/tools/market-research/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>market-research</h3>
+        <p>Size the market, find demand signals, check trends. TAM/SAM/SOM analysis.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Stronge. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+        <a href="/tools/">Tools</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

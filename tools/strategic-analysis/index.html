@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategic Analysis — Project-Aware Document Analysis in Four Modes</title>
+<meta name="description" content="Analyze meeting transcripts and documents with full project context. Four modes: sales deal analysis, consulting engagement, competitive intelligence, and meeting debrief. Produces written analysis plus TTS-ready audio text.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Strategic Analysis — Project-Aware Document Analysis in Four Modes">
+<meta property="og:description" content="Analyze meeting transcripts and documents with full project context. Four modes: sales deal analysis, consulting engagement, competitive intelligence, and meeting debrief.">
+<meta property="og:image" content="https://pengasuzie.github.io/images/social-card.png">
+<meta property="og:url" content="https://pengasuzie.github.io/tools/strategic-analysis/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Strategic Analysis — Project-Aware Document Analysis in Four Modes">
+<meta name="twitter:description" content="Analyze meeting transcripts and documents with full project context. Four modes: sales deal analysis, consulting engagement, competitive intelligence, and meeting debrief.">
+<meta name="twitter:image" content="https://pengasuzie.github.io/images/social-card.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === SECTIONS === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* === TWO COL === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* === CODE === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .cmd { color: #67e8f9; }
+  .code-block .string { color: #86efac; }
+  .code-block .flag { color: #818cf8; }
+  .code-block .output { color: #fbbf24; }
+
+  /* === FEATURES === */
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* === AREAS GRID === */
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .area {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .area:not(:first-child) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .area-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .area h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .area p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  /* === SKILLS GRID === */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .skill {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .skill:not(:nth-child(4n+1)) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .skill-cat {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .skill h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .skill p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  a.skill {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: background 0.15s;
+  }
+
+  a.skill:hover {
+    background: var(--light);
+  }
+
+  a.skill:hover h3 {
+    color: var(--blue);
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .areas-grid { grid-template-columns: 1fr 1fr; }
+    .area:not(:first-child) { border-left: none; padding-left: 0; }
+    .area:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .skill:not(:nth-child(4n+1)) { border-left: none; padding-left: 0; }
+    .skill:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo"><a href="/">Bruce Stronge</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Project-aware analysis<br>in <span>four modes.</span></h1>
+    <p class="hero-sub">
+      Analyze meeting transcripts and documents grounded in everything you know &mdash; CLAUDE.md, docs, git history, competitor files, and memory. Four modes: sales deal analysis, consulting engagement, competitive intelligence, and meeting debrief. Outputs written analysis plus a TTS-ready voice text.
+    </p>
+    <a href="https://github.com/pengasuzie/claude-code-starter" class="btn primary">Get the Skill</a>
+    <a href="/tools/claude-code-starter/" class="btn">Part of Starter Kit</a>
+  </div>
+</section>
+
+<!-- VOICE CHAIN -->
+<section>
+  <div class="container">
+    <div class="section-label">Voice Chain</div>
+    <div class="code-block" style="text-align: center; font-size: 14px; line-height: 2;">
+<a href="/tools/voice-to-text/" style="color: #a1a1aa; text-decoration: none;">/voice-to-text</a> <span class="comment">&rarr;</span> transcript <span class="comment">&rarr;</span> <span class="cmd">/strategic-analysis</span> <span class="comment">&rarr;</span> analysis + voice text <span class="comment">&rarr;</span> <a href="/tools/text-to-voice/" style="color: #a1a1aa; text-decoration: none;">/text-to-voice</a> <span class="comment">&rarr;</span> <span class="output">briefing.mp3</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <div class="two-col">
+      <div>
+        <h2>Grounded in what you actually know</h2>
+        <p>Before touching the transcript, the skill gathers ALL available context: CLAUDE.md, prior conversations, competitor docs, git log, and strategic notes. Every assessment references actual product capabilities, not generic advice.</p>
+        <ul class="feature-list">
+          <li>Reads CLAUDE.md, docs, git history, competitor files</li>
+          <li>Identifies participants and roles from transcript</li>
+          <li>Cross-references mentioned competitors with existing intel</li>
+          <li>Produces analysis.md (written) + analysis-voice.txt (TTS-ready)</li>
+          <li>Voice text optimized for natural spoken delivery</li>
+          <li>Works standalone or chained with voice-to-text and text-to-voice</li>
+        </ul>
+      </div>
+      <div class="code-block">
+<span class="output">&gt;</span> <span class="cmd">/strategic-analysis</span> transcript.md
+
+What type of analysis?
+1. <span class="string">Sales Deal Analysis</span>
+2. <span class="string">Consulting Engagement Analysis</span>
+3. <span class="string">Competitive / Market Signal Analysis</span>
+4. <span class="string">Meeting Debrief</span>
+
+<span class="output">&gt;</span> 2
+
+<span class="comment">Gathering project context...</span>
+  .claude/CLAUDE.md &mdash; product stage, roadmap
+  git log &mdash; 12 commits this week
+  docs/private/ &mdash; competitor analysis found
+  notes/ &mdash; prior meeting summaries
+
+<span class="comment">Analyzing transcript with full context...</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUR ANALYSIS MODES -->
+<section>
+  <div class="container">
+    <div class="section-label">Four Analysis Modes</div>
+    <div class="areas-grid">
+      <div class="area">
+        <div class="area-number">01</div>
+        <h3>Sales Deal</h3>
+        <p>Win probability, feature-by-feature product fit against roadmap, competitive threats, development velocity signal, and prioritized next actions to close.</p>
+      </div>
+      <div class="area">
+        <div class="area-number">02</div>
+        <h3>Consulting</h3>
+        <p>What the client actually needs vs. what they said, AI opportunity map, recommended engagement approach, phased roadmap, and session preparation.</p>
+      </div>
+      <div class="area">
+        <div class="area-number">03</div>
+        <h3>Competitive Intel</h3>
+        <p>Extract competitive intelligence from conversations. Cross-reference against existing competitor docs. Market signals, pricing hints, positioning implications.</p>
+      </div>
+      <div class="area">
+        <div class="area-number">04</div>
+        <h3>Meeting Debrief</h3>
+        <p>Clean factual summary: decisions made, action items, commitments, open questions, key quotes. No strategic overlay &mdash; just the facts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT GETS PRODUCED -->
+<section>
+  <div class="container">
+    <div class="section-label">What Gets Produced</div>
+    <div class="two-col">
+      <div>
+        <h2>Two outputs, two purposes</h2>
+        <p>Every analysis produces two files. The written analysis is a full markdown document with sections, evidence, and recommendations. The voice text is a stripped-down version optimized for text-to-speech &mdash; no markdown syntax, acronyms expanded, spoken cues added for natural pacing.</p>
+        <p>The voice text is designed to be piped directly into <code>/text-to-voice</code> to produce an MP3 briefing you can listen to on the go.</p>
+      </div>
+      <div class="code-block">
+<span class="comment">docs/private/</span>
+<span class="string">&boxur;&boxh;&boxh;</span> analysis.md          <span class="comment">(written analysis)</span>
+<span class="string">&boxv;</span>   <span class="string">&boxur;&boxh;&boxh;</span> Product Context <span class="comment">(auto-gathered)</span>
+<span class="string">&boxv;</span>   <span class="string">&boxur;&boxh;&boxh;</span> Comprehensive Summary
+<span class="string">&boxv;</span>   <span class="string">&boxur;&boxh;&boxh;</span> Strategic Analysis
+<span class="string">&boxv;</span>   <span class="string">&boxur;&boxh;&boxh;</span> The Hard Truths
+<span class="string">&boxv;</span>   <span class="string">&boxdr;&boxh;&boxh;</span> Roadmap Impact Assessment
+<span class="string">&boxv;</span>
+<span class="string">&boxdr;&boxh;&boxh;</span> analysis-voice.txt   <span class="comment">(TTS-optimized)</span>
+    Markdown stripped, acronyms expanded,
+    spoken cues added, natural pacing.
+
+    Ready for: <span class="cmd">/text-to-voice</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED SKILLS -->
+<section>
+  <div class="container">
+    <div class="section-label">Related Skills</div>
+    <div class="skills-grid">
+      <a href="/tools/voice-to-text/" class="skill">
+        <div class="skill-cat">Voice</div>
+        <h3>voice-to-text</h3>
+        <p>Transcribe audio and video with speaker identification.</p>
+      </a>
+      <a href="/tools/text-to-voice/" class="skill">
+        <div class="skill-cat">Voice</div>
+        <h3>text-to-voice</h3>
+        <p>Convert the voice text to an MP3 audio briefing.</p>
+      </a>
+      <a href="/tools/voice-briefing/" class="skill">
+        <div class="skill-cat">Voice</div>
+        <h3>voice-briefing</h3>
+        <p>Full chain: transcript to analysis to audio in one command.</p>
+      </a>
+      <a href="/tools/competitive-intel/" class="skill">
+        <div class="skill-cat">Intelligence</div>
+        <h3>competitive-intel</h3>
+        <p>Fortnightly competitive gap analysis with email delivery.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Stronge. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+        <a href="/tools/">Tools</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

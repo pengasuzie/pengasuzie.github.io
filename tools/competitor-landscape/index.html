@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competitor Landscape — Map the Players, Find the Gaps</title>
+<meta name="description" content="Systematic competitive landscape mapping for market entry decisions. Direct, indirect, and adjacent competitors with positioning maps, gap analysis, and evidence-based weakness identification.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Competitor Landscape — Map the Players, Find the Gaps">
+<meta property="og:description" content="Systematic competitive landscape mapping for market entry decisions. Direct, indirect, and adjacent competitors with positioning maps, gap analysis, and evidence-based weakness identification.">
+<meta property="og:image" content="https://pengasuzie.github.io/images/social-card.png">
+<meta property="og:url" content="https://pengasuzie.github.io/tools/competitor-landscape/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Competitor Landscape — Map the Players, Find the Gaps">
+<meta name="twitter:description" content="Systematic competitive landscape mapping for market entry decisions. Direct, indirect, and adjacent competitors with positioning maps, gap analysis, and evidence-based weakness identification.">
+<meta name="twitter:image" content="https://pengasuzie.github.io/images/social-card.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === SECTIONS === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* === TWO COL === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* === CODE === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .cmd { color: #67e8f9; }
+  .code-block .string { color: #86efac; }
+  .code-block .flag { color: #818cf8; }
+  .code-block .output { color: #fbbf24; }
+
+  /* === FEATURES === */
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* === AREAS GRID === */
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .area {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .area:not(:first-child) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .area-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .area h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .area p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  /* === SKILLS GRID === */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .skill {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .skill:not(:nth-child(4n+1)) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .skill-cat {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .skill h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .skill p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  a.skill {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: background 0.15s;
+  }
+
+  a.skill:hover {
+    background: var(--light);
+  }
+
+  a.skill:hover h3 {
+    color: var(--blue);
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .areas-grid { grid-template-columns: 1fr; }
+    .area:not(:first-child) { border-left: none; padding-left: 0; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .skill:not(:nth-child(4n+1)) { border-left: none; padding-left: 0; }
+    .skill:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo"><a href="/">Bruce Stronge</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Map the players.<br>Find the <span>gaps.</span></h1>
+    <p class="hero-sub">
+      Systematic competitive analysis for market entry decisions. Map direct, indirect, and adjacent competitors. Identify weaknesses, positioning gaps, and what it would take to win &mdash; with evidence from reviews, funding, and pricing data.
+    </p>
+    <a href="https://github.com/pengasuzie/claude-code-starter" class="btn primary">Get the Skill</a>
+    <a href="/tools/claude-code-starter/" class="btn">Part of Starter Kit</a>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section>
+  <div class="container">
+    <div class="section-label">Evaluation Pipeline</div>
+    <div class="code-block" style="text-align: center; font-size: 14px; line-height: 2;">
+<a href="/tools/new-idea/" style="color: #a1a1aa; text-decoration: none;">/new-idea</a> <span class="comment">&rarr;</span>
+<a href="/tools/opportunity-brief/" style="color: #a1a1aa; text-decoration: none;">/opportunity-brief</a> <span class="comment">&rarr;</span>
+<a href="/tools/market-research/" style="color: #a1a1aa; text-decoration: none;">/market-research</a> <span class="comment">&rarr;</span>
+<span class="cmd">/competitor-landscape</span> <span class="comment">&rarr;</span>
+<a href="/tools/strategy-session/" style="color: #a1a1aa; text-decoration: none;">/strategy-session</a> <span class="comment">&rarr;</span>
+<a href="/tools/due-diligence/" style="color: #a1a1aa; text-decoration: none;">/due-diligence</a> <span class="comment">&rarr;</span>
+<a href="/tools/viability-assessment/" style="color: #a1a1aa; text-decoration: none;">/viability-assessment</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <div class="two-col">
+      <div>
+        <h2>Systematic competitor mapping</h2>
+        <p>The skill reads your existing brief and market research, then runs multi-approach searches to find competitors you know about &mdash; and the ones you don't. It captures structured data on each player and builds a positioning map.</p>
+        <ul class="feature-list">
+          <li>Reads opportunity brief and market research for context</li>
+          <li>Multi-approach search (direct, alternative, comparison, funding, reviews)</li>
+          <li>Captures 6 data points per competitor</li>
+          <li>Separates direct, indirect, and adjacent competitors</li>
+          <li>Builds a positioning map</li>
+          <li>Identifies market gaps and barriers to entry</li>
+        </ul>
+      </div>
+      <div class="code-block">
+<span class="output">&gt;</span> <span class="cmd">/competitor-landscape</span>
+
+<span class="comment">Reading opportunity context...</span>
+<span class="comment">Found: brief.md, market-research.md</span>
+
+Who do you already know about in this
+space? Names, URLs, anything.
+
+<span class="output">&gt;</span> <span class="string">CargoWise, Flexport, Magaya. Also heard</span>
+<span class="string">  of some smaller players but can't remember</span>
+
+<span class="comment">Researching competitors...</span>
+<span class="output">Found 8 players.</span> Here's how they break
+down...
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THREE LAYERS OF COMPETITION -->
+<section>
+  <div class="container">
+    <div class="section-label">Three Layers of Competition</div>
+    <div class="areas-grid">
+      <div class="area">
+        <div class="area-number">01</div>
+        <h3>Direct</h3>
+        <p>Same problem, same customer. The companies your target buyers would compare you to. Captured with pricing, funding, and key weakness.</p>
+      </div>
+      <div class="area">
+        <div class="area-number">02</div>
+        <h3>Indirect</h3>
+        <p>Different approach, same problem. They solve it another way &mdash; spreadsheets, agencies, manual processes. Often the real competition.</p>
+      </div>
+      <div class="area">
+        <div class="area-number">03</div>
+        <h3>Adjacent</h3>
+        <p>Could enter your space. Big companies or well-funded startups with the infrastructure to compete if they decide to.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POSITIONING MAP -->
+<section>
+  <div class="container">
+    <div class="section-label">Positioning &amp; Gap Analysis</div>
+    <div class="two-col">
+      <div>
+        <h2>What the analysis covers</h2>
+        <p>The competitor landscape skill doesn't just list names &mdash; it maps where each player sits and identifies the gaps where a new entrant could win. The positioning map and gap analysis feed directly into strategy sessions and viability scoring.</p>
+        <ul class="feature-list">
+          <li>Market gaps &mdash; underserved segments and unmet needs</li>
+          <li>Positioning map &mdash; price vs. specialisation matrix</li>
+          <li>Barriers to entry &mdash; what it takes to compete</li>
+          <li>What it would take to win &mdash; realistic requirements</li>
+          <li>Honest assessment &mdash; is this space too crowded?</li>
+        </ul>
+      </div>
+      <div class="code-block">
+<span class="comment">## Positioning Map</span>
+
+         <span class="flag">High Price</span>
+             |
+ CargoWise   |   Flexport
+             |
+<span class="string">Specialist</span> --+-- <span class="string">Generalist</span>
+             |
+ <span class="output">[Gap?]</span>      |   Magaya
+             |
+          <span class="flag">Low Price</span>
+
+<span class="string">Market Gaps</span>
+1. No AI-native solution for SMB forwarders
+2. Enterprise tools too complex for &lt;50 staff
+3. No per-document pricing model exists
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH PRINCIPLES -->
+<section>
+  <div class="container">
+    <div class="section-label">Research Principles</div>
+    <div class="two-col">
+      <div>
+        <h2>How to read the competitive landscape</h2>
+        <p>Competitor analysis isn't about counting names &mdash; it's about understanding what the landscape tells you about the opportunity. These principles guide the analysis.</p>
+      </div>
+      <div>
+        <ul class="feature-list">
+          <li>No competitors is a red flag &mdash; usually means no market</li>
+          <li>Well-funded competitors validate the market</li>
+          <li>Look at the failures too &mdash; search for shutdowns</li>
+          <li>Check their reviews &mdash; negative reviews are your opportunity roadmap</li>
+          <li>Watch for timing &mdash; recent funding vs. stalling</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED SKILLS -->
+<section>
+  <div class="container">
+    <div class="section-label">Related Skills</div>
+    <div class="skills-grid">
+      <a href="/tools/opportunity-brief/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>opportunity-brief</h3>
+        <p>Capture a business opportunity: pitch, model, people, risks, and initial assessment.</p>
+      </a>
+      <a href="/tools/market-research/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>market-research</h3>
+        <p>Size the market, find demand signals, check trends. TAM/SAM/SOM analysis.</p>
+      </a>
+      <a href="/tools/strategy-session/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>strategy-session</h3>
+        <p>Brainstorm go-to-market, differentiation, and blue ocean strategy.</p>
+      </a>
+      <a href="/tools/viability-assessment/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>viability-assessment</h3>
+        <p>Score across 8 weighted dimensions. Go/no-go recommendation with confidence level.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Stronge. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+        <a href="/tools/">Tools</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

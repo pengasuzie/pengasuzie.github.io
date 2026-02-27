@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viability Assessment — Score It. Eight Dimensions. One Decision.</title>
+<meta name="description" content="Weighted scorecard across 8 dimensions: problem severity, market size, competitive advantage, business model, team, capital efficiency, timing, and personal fit. Go/no-go recommendation with confidence level.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Viability Assessment — Score It. Eight Dimensions. One Decision.">
+<meta property="og:description" content="Weighted scorecard across 8 dimensions: problem severity, market size, competitive advantage, business model, team, capital efficiency, timing, and personal fit. Go/no-go recommendation with confidence level.">
+<meta property="og:image" content="https://pengasuzie.github.io/images/social-card.png">
+<meta property="og:url" content="https://pengasuzie.github.io/tools/viability-assessment/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Viability Assessment — Score It. Eight Dimensions. One Decision.">
+<meta name="twitter:description" content="Weighted scorecard across 8 dimensions: problem severity, market size, competitive advantage, business model, team, capital efficiency, timing, and personal fit. Go/no-go recommendation with confidence level.">
+<meta name="twitter:image" content="https://pengasuzie.github.io/images/social-card.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === SECTIONS === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* === TWO COL === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* === CODE === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .cmd { color: #67e8f9; }
+  .code-block .string { color: #86efac; }
+  .code-block .flag { color: #818cf8; }
+  .code-block .output { color: #fbbf24; }
+
+  /* === FEATURES === */
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* === AREAS GRID === */
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+  }
+
+  .area {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .area:not(:first-child) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .area-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .area h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .area p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  /* === SKILLS GRID === */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .skill {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .skill:not(:nth-child(4n+1)) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .skill-cat {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .skill h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .skill p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  a.skill {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: background 0.15s;
+  }
+
+  a.skill:hover {
+    background: var(--light);
+  }
+
+  a.skill:hover h3 {
+    color: var(--blue);
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .areas-grid { grid-template-columns: 1fr 1fr; }
+    .area:not(:first-child) { border-left: none; padding-left: 0; }
+    .area:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .skill:not(:nth-child(4n+1)) { border-left: none; padding-left: 0; }
+    .skill:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo"><a href="/">Bruce Stronge</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Score it. Eight dimensions.<br>One <span>decision.</span></h1>
+    <p class="hero-sub">
+      A weighted scorecard that forces honest evaluation. Walk through each dimension interactively &mdash; problem severity, market size, competitive advantage, business model clarity, team capability, capital efficiency, timing, and personal fit. Get a go/no-go recommendation backed by data from all your prior research.
+    </p>
+    <a href="https://github.com/pengasuzie/claude-code-starter" class="btn primary">Get the Skill</a>
+    <a href="/tools/claude-code-starter/" class="btn">Part of Starter Kit</a>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section>
+  <div class="container">
+    <div class="section-label">Evaluation Pipeline</div>
+    <div class="code-block" style="text-align: center; font-size: 14px; line-height: 2;">
+<a href="/tools/new-idea/" style="color: #a1a1aa; text-decoration: none;">/new-idea</a> <span class="comment">&rarr;</span>
+<a href="/tools/opportunity-brief/" style="color: #a1a1aa; text-decoration: none;">/opportunity-brief</a> <span class="comment">&rarr;</span>
+<a href="/tools/market-research/" style="color: #a1a1aa; text-decoration: none;">/market-research</a> <span class="comment">&rarr;</span>
+<a href="/tools/competitor-landscape/" style="color: #a1a1aa; text-decoration: none;">/competitor-landscape</a> <span class="comment">&rarr;</span>
+<a href="/tools/strategy-session/" style="color: #a1a1aa; text-decoration: none;">/strategy-session</a> <span class="comment">&rarr;</span>
+<a href="/tools/due-diligence/" style="color: #a1a1aa; text-decoration: none;">/due-diligence</a> <span class="comment">&rarr;</span>
+<span class="cmd">/viability-assessment</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <div class="two-col">
+      <div>
+        <h2>A conversation, not a test</h2>
+        <p>The skill reads all your existing research &mdash; brief, market data, competitor analysis, due diligence &mdash; then walks through each dimension collaboratively. You discuss, debate, and agree on each score before moving on.</p>
+        <ul class="feature-list">
+          <li>Reads all prior research automatically</li>
+          <li>Flags missing data before starting</li>
+          <li>Walks through 8 weighted dimensions interactively</li>
+          <li>Presents preliminary scores for discussion</li>
+          <li>Identifies kill criteria (any dimension at 2 or below)</li>
+          <li>Produces actionable recommendations based on score</li>
+        </ul>
+      </div>
+      <div class="code-block">
+<span class="output">&gt;</span> <span class="cmd">/viability-assessment</span>
+
+<span class="comment">Reading all available research...</span>
+<span class="comment">Found: brief.md, market-research.md,</span>
+<span class="comment">       landscape.md, due-diligence.md</span>
+
+Scoring across 8 dimensions...
+
+<span class="string">Problem Severity (15%)</span>: <span class="output">8/10</span>
+  Hair-on-fire for target customer.
+  Freight forwarders spend 40% of time
+  on manual document processing.
+  Agree, or see it differently?
+
+<span class="output">&gt;</span> Agree. Maybe 9 &mdash; they're paying for
+  bad workarounds already.
+
+Adjusting to 9/10. Next...
+
+<span class="string">Market Size &amp; Growth (15%)</span>: <span class="output">7/10</span>
+  $180B global freight forwarding,
+  4.2% CAGR. SAM for document
+  automation ~$2.4B...
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EIGHT DIMENSIONS -->
+<section>
+  <div class="container">
+    <div class="section-label">Eight Dimensions</div>
+    <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+      <thead>
+        <tr style="border-bottom: 2px solid var(--black); text-align: left;">
+          <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">Dimension</th>
+          <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">Weight</th>
+          <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">What It Measures</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid var(--rule);">
+          <td style="padding: 10px 0; font-weight: 700;">Problem Severity</td>
+          <td style="padding: 10px 0; color: var(--grey);">15%</td>
+          <td style="padding: 10px 0; color: var(--grey);">How painful is the problem? Hair-on-fire vs. nice-to-have</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--rule);">
+          <td style="padding: 10px 0; font-weight: 700;">Market Size &amp; Growth</td>
+          <td style="padding: 10px 0; color: var(--grey);">15%</td>
+          <td style="padding: 10px 0; color: var(--grey);">Is this market big enough and growing?</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--rule);">
+          <td style="padding: 10px 0; font-weight: 700;">Competitive Advantage</td>
+          <td style="padding: 10px 0; color: var(--grey);">15%</td>
+          <td style="padding: 10px 0; color: var(--grey);">Can you win and keep winning? Moat strength</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--rule);">
+          <td style="padding: 10px 0; font-weight: 700;">Business Model Clarity</td>
+          <td style="padding: 10px 0; color: var(--grey);">10%</td>
+          <td style="padding: 10px 0; color: var(--grey);">Do you know how this makes money?</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--rule);">
+          <td style="padding: 10px 0; font-weight: 700;">Team &amp; Capabilities</td>
+          <td style="padding: 10px 0; color: var(--grey);">15%</td>
+          <td style="padding: 10px 0; color: var(--grey);">Do the right people exist to make this work?</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--rule);">
+          <td style="padding: 10px 0; font-weight: 700;">Capital Efficiency</td>
+          <td style="padding: 10px 0; color: var(--grey);">10%</td>
+          <td style="padding: 10px 0; color: var(--grey);">How much money to reach meaningful milestones?</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--rule);">
+          <td style="padding: 10px 0; font-weight: 700;">Timing</td>
+          <td style="padding: 10px 0; color: var(--grey);">10%</td>
+          <td style="padding: 10px 0; color: var(--grey);">Is the timing right? Tailwinds vs. headwinds</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--rule);">
+          <td style="padding: 10px 0; font-weight: 700;">Personal Fit</td>
+          <td style="padding: 10px 0; color: var(--grey);">10%</td>
+          <td style="padding: 10px 0; color: var(--grey);">Is this right for YOU specifically?</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- THE VERDICT SCALE -->
+<section>
+  <div class="container">
+    <div class="section-label">The Verdict Scale</div>
+    <div class="two-col">
+      <div>
+        <h2>Five verdict levels</h2>
+        <p>Scores map to clear recommendations. The skill also identifies &ldquo;kill criteria&rdquo; &mdash; any single dimension scoring 2 or below is a potential deal-breaker regardless of total score.</p>
+      </div>
+      <div>
+        <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--black); text-align: left;">
+              <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">Score Range</th>
+              <th style="padding: 8px 0; font-size: 12px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;">Recommendation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">8.0&ndash;10.0</td>
+              <td style="padding: 10px 0; color: var(--grey);">Strong Go &mdash; rare. If you see this, move fast</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">6.5&ndash;7.9</td>
+              <td style="padding: 10px 0; color: var(--grey);">Conditional Go &mdash; good opportunity, address weak dimensions first</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">5.0&ndash;6.4</td>
+              <td style="padding: 10px 0; color: var(--grey);">Proceed with Caution &mdash; significant risks, consider pivoting</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">3.5&ndash;4.9</td>
+              <td style="padding: 10px 0; color: var(--grey);">Likely No &mdash; too many weak areas, needs fundamental changes</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--rule);">
+              <td style="padding: 10px 0; font-weight: 700;">1.0&ndash;3.4</td>
+              <td style="padding: 10px 0; color: var(--grey);">Hard No &mdash; walk away or completely rethink</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAMPLE SCORECARD -->
+<section>
+  <div class="container">
+    <div class="section-label">Example Scorecard</div>
+    <div class="two-col">
+      <div>
+        <h2>What the output looks like</h2>
+        <p>A complete scorecard with weighted scores, verdict, improvement recommendations, and kill criteria check. Everything saved to your opportunity directory.</p>
+      </div>
+      <div class="code-block">
+<span class="comment">Viability Scorecard: Freight Automation</span>
+
+<span class="flag">Dimension</span>          <span class="flag">Wt</span>    <span class="flag">Score</span>  <span class="flag">Weighted</span>
+<span class="string">Problem Severity</span>   15%   9/10   <span class="output">1.35</span>
+<span class="string">Market Size</span>        15%   7/10   <span class="output">1.05</span>
+<span class="string">Competitive Adv.</span>   15%   6/10   <span class="output">0.90</span>
+<span class="string">Business Model</span>     10%   7/10   <span class="output">0.70</span>
+<span class="string">Team</span>               15%   7/10   <span class="output">1.05</span>
+<span class="string">Capital Efficiency</span> 10%   8/10   <span class="output">0.80</span>
+<span class="string">Timing</span>             10%   8/10   <span class="output">0.80</span>
+<span class="string">Personal Fit</span>       10%   8/10   <span class="output">0.80</span>
+<span class="flag">TOTAL</span>              100%         <span class="output">7.45</span>
+
+Verdict: <span class="output">Conditional Go (7.45)</span>
+
+<span class="string">What Would Improve This Score:</span>
+1. Competitive Advantage (6): Build
+   proprietary document models
+2. Market Size (7): Expand to customs
+   brokerage adjacent market
+
+<span class="string">Kill Criteria:</span> <span class="output">None triggered</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED SKILLS -->
+<section>
+  <div class="container">
+    <div class="section-label">Related Skills</div>
+    <div class="skills-grid">
+      <a href="/tools/opportunity-brief/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>opportunity-brief</h3>
+        <p>Capture a business opportunity: pitch, model, people, risks, and initial assessment.</p>
+      </a>
+      <a href="/tools/market-research/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>market-research</h3>
+        <p>Size the market, find demand signals, check trends. TAM/SAM/SOM analysis.</p>
+      </a>
+      <a href="/tools/competitor-landscape/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>competitor-landscape</h3>
+        <p>Map existing players, find gaps, and identify competitive positioning opportunities.</p>
+      </a>
+      <a href="/tools/due-diligence/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>due-diligence</h3>
+        <p>Vet people, financials, legal, technical feasibility, and market validation with red flag tracking.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Stronge. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+        <a href="/tools/">Tools</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

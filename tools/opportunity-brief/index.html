@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opportunity Brief — Capture What You Know, Structure What You Don't</title>
+<meta name="description" content="Interactive 9-step interview to capture a business opportunity. Documents the pitch, problem, model, people, and risks in a structured brief that feeds into market research and viability scoring.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Opportunity Brief — Capture What You Know, Structure What You Don't">
+<meta property="og:description" content="Interactive 9-step interview to capture a business opportunity. Documents the pitch, problem, model, people, and risks in a structured brief that feeds into market research and viability scoring.">
+<meta property="og:image" content="https://pengasuzie.github.io/images/social-card.png">
+<meta property="og:url" content="https://pengasuzie.github.io/tools/opportunity-brief/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Opportunity Brief — Capture What You Know, Structure What You Don't">
+<meta name="twitter:description" content="Interactive 9-step interview to capture a business opportunity. Documents the pitch, problem, model, people, and risks in a structured brief that feeds into market research and viability scoring.">
+<meta name="twitter:image" content="https://pengasuzie.github.io/images/social-card.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === SECTIONS === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* === TWO COL === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* === CODE === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .cmd { color: #67e8f9; }
+  .code-block .string { color: #86efac; }
+  .code-block .flag { color: #818cf8; }
+  .code-block .output { color: #fbbf24; }
+
+  /* === FEATURES === */
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* === AREAS GRID === */
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+  }
+
+  .area {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .area:not(:first-child) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .area-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .area h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .area p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  /* === SKILLS GRID === */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .skill {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .skill:not(:nth-child(4n+1)) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .skill-cat {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .skill h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .skill p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  a.skill {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: background 0.15s;
+  }
+
+  a.skill:hover {
+    background: var(--light);
+  }
+
+  a.skill:hover h3 {
+    color: var(--blue);
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .areas-grid { grid-template-columns: 1fr 1fr; }
+    .area:not(:first-child) { border-left: none; padding-left: 0; }
+    .area:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .skill:not(:nth-child(4n+1)) { border-left: none; padding-left: 0; }
+    .skill:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo"><a href="/">Bruce Stronge</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Capture what you know.<br>Structure what you <span>don't.</span></h1>
+    <p class="hero-sub">
+      An interactive interview that walks you through every angle of a business opportunity &mdash; the pitch, the problem, the model, the people, the risks &mdash; and produces a structured brief that other evaluation skills can reference.
+    </p>
+    <a href="https://github.com/pengasuzie/claude-code-starter" class="btn primary">Get the Skill</a>
+    <a href="/tools/claude-code-starter/" class="btn">Part of Starter Kit</a>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section>
+  <div class="container">
+    <div class="section-label">Evaluation Pipeline</div>
+    <div class="code-block" style="text-align: center; font-size: 14px; line-height: 2;">
+<a href="/tools/new-idea/" style="color: #a1a1aa; text-decoration: none;">/new-idea</a> <span class="comment">&rarr;</span>
+<span class="cmd">/opportunity-brief</span> <span class="comment">&rarr;</span>
+<a href="/tools/market-research/" style="color: #a1a1aa; text-decoration: none;">/market-research</a> <span class="comment">&rarr;</span>
+<a href="/tools/competitor-landscape/" style="color: #a1a1aa; text-decoration: none;">/competitor-landscape</a> <span class="comment">&rarr;</span>
+<a href="/tools/strategy-session/" style="color: #a1a1aa; text-decoration: none;">/strategy-session</a> <span class="comment">&rarr;</span>
+<a href="/tools/due-diligence/" style="color: #a1a1aa; text-decoration: none;">/due-diligence</a> <span class="comment">&rarr;</span>
+<a href="/tools/viability-assessment/" style="color: #a1a1aa; text-decoration: none;">/viability-assessment</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <div class="two-col">
+      <div>
+        <h2>A guided interview, not a form fill</h2>
+        <p>The skill walks you through nine areas of a business opportunity &mdash; asking the right questions, capturing your answers, and building a structured brief that other evaluation skills can reference.</p>
+        <ul class="feature-list">
+          <li>9-step interactive interview (not a form fill)</li>
+          <li>Reads existing opportunity context if available</li>
+          <li>Captures elevator pitch, problem, market, model</li>
+          <li>Documents key people and their commitment</li>
+          <li>Records confidence levels and gut check</li>
+          <li>Saves structured brief.md for other skills to use</li>
+        </ul>
+      </div>
+      <div class="code-block">
+<span class="output">&gt;</span> <span class="cmd">/opportunity-brief</span>
+
+<span class="comment">Reading opportunity context...</span>
+<span class="comment">Found: ideas/freight-automation/</span>
+
+Give me the 30-second version.
+What's the opportunity? What would the
+business do?
+
+<span class="output">&gt;</span> <span class="string">SaaS platform that automates freight</span>
+<span class="string">  forwarding document processing using AI</span>
+
+What problem does this solve? And for whom?
+Who's the customer and how badly do they
+need this solved?
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT GETS CAPTURED -->
+<section>
+  <div class="container">
+    <div class="section-label">What Gets Captured</div>
+    <div class="two-col">
+      <div>
+        <h2>Nine areas, one structured brief</h2>
+        <p>Each interview covers nine areas that together give a complete picture of the opportunity. The output is a structured markdown brief that other skills &mdash; market research, competitor analysis, viability scoring &mdash; can read and build on.</p>
+        <ul class="feature-list">
+          <li>Elevator Pitch</li>
+          <li>Problem &amp; Market</li>
+          <li>Business Model</li>
+          <li>Your Angle</li>
+          <li>Key People</li>
+          <li>Confidence &amp; Risks</li>
+          <li>Resources</li>
+          <li>Gut Check</li>
+          <li>Next Steps</li>
+        </ul>
+      </div>
+      <div class="code-block">
+<span class="comment">## Freight Automation - Brief</span>
+
+<span class="string">## Elevator Pitch</span>
+SaaS platform automating freight
+forwarding documents with AI.
+
+<span class="string">## Problem &amp; Market</span>
+<span class="flag">Problem:</span> Manual document processing
+<span class="flag">Customer:</span> Freight forwarders
+<span class="flag">Pain level:</span> <span class="output">Hair-on-fire</span>
+
+<span class="string">## Business Model</span>
+<span class="flag">Revenue:</span> $X/month SaaS subscription
+<span class="flag">Pricing:</span> Per-document processing
+
+<span class="string">## Our Angle</span>
+<span class="flag">Unfair advantage:</span> Domain expertise
+<span class="flag">Timing:</span> AI capabilities now viable
+
+<span class="string">## Gut Check</span>
+<span class="flag">Excitement (1-10):</span> <span class="output">8</span>
+<span class="flag">Would go all-in if:</span> First paying customer
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED SKILLS -->
+<section>
+  <div class="container">
+    <div class="section-label">Related Skills</div>
+    <div class="skills-grid">
+      <a href="/tools/market-research/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>market-research</h3>
+        <p>Size the market, find demand signals, check trends. TAM/SAM/SOM analysis.</p>
+      </a>
+      <a href="/tools/competitor-landscape/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>competitor-landscape</h3>
+        <p>Map existing players, find gaps. Direct, indirect, and adjacent competitor analysis.</p>
+      </a>
+      <a href="/tools/viability-assessment/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>viability-assessment</h3>
+        <p>Score across 8 weighted dimensions. Go/no-go recommendation with confidence level.</p>
+      </a>
+      <a href="/tools/due-diligence/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>due-diligence</h3>
+        <p>Vet people, financials, legal, technical feasibility, and market validation.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Stronge. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+        <a href="/tools/">Tools</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

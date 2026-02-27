@@ -291,6 +291,21 @@
     line-height: 1.5;
   }
 
+  a.skill {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: background 0.15s;
+  }
+
+  a.skill:hover {
+    background: var(--light);
+  }
+
+  a.skill:hover h3 {
+    color: var(--blue);
+  }
+
   /* === FOOTER === */
   footer {
     padding: 40px 0;
@@ -344,7 +359,7 @@
 <header>
   <div class="container">
     <div class="header-grid">
-      <div class="logo"><a href="/">Bruce Stronge</a></div>
+      <div class="logo"><a href="/">Robot Signals</a></div>
       <nav>
         <a href="/">Home</a>
         <a href="/tools/">Tools</a>
@@ -401,61 +416,61 @@
   <div class="container">
     <div class="section-label">All 20 Skills</div>
     <div class="skills-grid">
-      <div class="skill">
+      <a href="/tools/voice-to-text/" class="skill">
         <div class="skill-cat">Voice</div>
         <h3>voice-to-text</h3>
         <p>Transcribe audio and video with speaker identification. WhisperX-powered, runs locally.</p>
-      </div>
-      <div class="skill">
+      </a>
+      <a href="/tools/text-to-voice/" class="skill">
         <div class="skill-cat">Voice</div>
         <h3>text-to-voice</h3>
         <p>Convert text to natural speech with 50 voices. Kokoro engine, no cloud APIs.</p>
-      </div>
-      <div class="skill">
+      </a>
+      <a href="/tools/voice-briefing/" class="skill">
         <div class="skill-cat">Voice</div>
         <h3>voice-briefing</h3>
         <p>Turn a transcript or document into a concise spoken audio briefing.</p>
-      </div>
-      <div class="skill">
+      </a>
+      <a href="/tools/strategic-analysis/" class="skill">
         <div class="skill-cat">Strategy</div>
         <h3>strategic-analysis</h3>
         <p>Analyse documents with full project context. Themes, threats, and action items.</p>
-      </div>
-      <div class="skill">
+      </a>
+      <a href="/tools/competitive-intel/" class="skill">
         <div class="skill-cat">Strategy</div>
         <h3>competitive-intel</h3>
         <p>Competitive gap analysis with signal vs noise classification and gap matrix.</p>
-      </div>
-      <div class="skill">
+      </a>
+      <a href="/tools/opportunity-brief/" class="skill">
         <div class="skill-cat">Evaluation</div>
         <h3>opportunity-brief</h3>
         <p>Capture a business opportunity: pitch, model, people, risks, and initial assessment.</p>
-      </div>
-      <div class="skill">
+      </a>
+      <a href="/tools/market-research/" class="skill">
         <div class="skill-cat">Evaluation</div>
         <h3>market-research</h3>
         <p>Size the market, find demand signals, check trends. TAM/SAM/SOM analysis.</p>
-      </div>
-      <div class="skill">
+      </a>
+      <a href="/tools/competitor-landscape/" class="skill">
         <div class="skill-cat">Evaluation</div>
         <h3>competitor-landscape</h3>
         <p>Map existing players in a market. Identify gaps and positioning opportunities.</p>
-      </div>
-      <div class="skill">
+      </a>
+      <a href="/tools/strategy-session/" class="skill">
         <div class="skill-cat">Evaluation</div>
         <h3>strategy-session</h3>
         <p>Brainstorm go-to-market, differentiation, and blue ocean strategy.</p>
-      </div>
-      <div class="skill">
+      </a>
+      <a href="/tools/due-diligence/" class="skill">
         <div class="skill-cat">Evaluation</div>
         <h3>due-diligence</h3>
         <p>Vet people, financials, legal, and technical feasibility. Red flag tracking.</p>
-      </div>
-      <div class="skill">
+      </a>
+      <a href="/tools/viability-assessment/" class="skill">
         <div class="skill-cat">Evaluation</div>
         <h3>viability-assessment</h3>
         <p>Score across 8 weighted dimensions. Go/no-go recommendation with confidence.</p>
-      </div>
+      </a>
       <div class="skill">
         <div class="skill-cat">Product</div>
         <h3>BMAD Method</h3>
@@ -566,7 +581,7 @@
 <footer>
   <div class="container">
     <div class="footer-grid">
-      <div class="footer-left">&copy; 2026 Bruce Stronge. Brisbane, Australia.</div>
+      <div class="footer-left">&copy; 2026 Robot Signals. Brisbane, Australia.</div>
       <div class="footer-right">
         <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
         <a href="/tools/">Tools</a>

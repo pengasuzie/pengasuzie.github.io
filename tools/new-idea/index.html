@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Idea — Capture the Idea While It's Fresh</title>
+<meta name="description" content="Scaffold a new idea directory with brief, research, competitors, and assessment files. Captures context from the current conversation and sets up the evaluation pipeline.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="New Idea — Capture the Idea While It's Fresh">
+<meta property="og:description" content="Scaffold a new idea directory with brief, research, competitors, and assessment files. Captures context from the current conversation and sets up the evaluation pipeline.">
+<meta property="og:image" content="https://pengasuzie.github.io/images/social-card.png">
+<meta property="og:url" content="https://pengasuzie.github.io/tools/new-idea/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="New Idea — Capture the Idea While It's Fresh">
+<meta name="twitter:description" content="Scaffold a new idea directory with brief, research, competitors, and assessment files. Captures context from the current conversation and sets up the evaluation pipeline.">
+<meta name="twitter:image" content="https://pengasuzie.github.io/images/social-card.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f7f5f0;
+    --blue: #0046ff;
+    --grey: #666666;
+    --light: #eceae4;
+    --rule: #d4d0c8;
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* === HEADER === */
+  header {
+    padding: 40px 0 0;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    padding-bottom: 24px;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .logo a { text-decoration: none; color: var(--black); }
+  .logo a:hover { color: var(--blue); }
+
+  nav {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+  }
+
+  nav a {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  nav a:hover { color: var(--blue); }
+
+  /* === HERO === */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 span { color: var(--blue); }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--grey);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--black);
+    color: var(--black);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  .btn.primary:hover {
+    background: #0039d4;
+    border-color: #0039d4;
+  }
+
+  .btn + .btn { margin-left: 12px; }
+
+  /* === SECTIONS === */
+  .section-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 40px;
+  }
+
+  section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* === TWO COL === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    color: var(--grey);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  /* === CODE === */
+  .code-block {
+    background: var(--black);
+    color: #a1a1aa;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .code-block .comment { color: #52525b; }
+  .code-block .cmd { color: #67e8f9; }
+  .code-block .string { color: #86efac; }
+  .code-block .flag { color: #818cf8; }
+  .code-block .output { color: #fbbf24; }
+
+  /* === FEATURES === */
+  .feature-list {
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feature-list li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--blue);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* === SKILLS GRID === */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .skill {
+    padding: 24px 24px 24px 0;
+    border-top: 2px solid var(--black);
+  }
+
+  .skill:not(:nth-child(4n+1)) {
+    padding-left: 24px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .skill-cat {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+
+  .skill h3 {
+    font-size: 16px;
+    font-weight: 900;
+    margin-bottom: 6px;
+  }
+
+  .skill p {
+    font-size: 13px;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  a.skill {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: background 0.15s;
+  }
+
+  a.skill:hover {
+    background: var(--light);
+  }
+
+  a.skill:hover h3 {
+    color: var(--blue);
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 40px 0;
+    border-top: 3px solid var(--black);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-size: 13px;
+    color: var(--grey);
+  }
+
+  .footer-right {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .footer-right a {
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--black);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .footer-right a:hover { color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .container { padding: 0 24px; }
+    .hero h1 { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .skill:not(:nth-child(4n+1)) { border-left: none; padding-left: 0; }
+    .skill:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--rule); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-grid">
+      <div class="logo"><a href="/">Bruce Stronge</a></div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Capture the idea<br>while it's <span>fresh.</span></h1>
+    <p class="hero-sub">
+      One command to scaffold an entire evaluation directory. Extracts context from your conversation,
+      creates the file structure, asks for your gut check, and sets up the idea as active so all other
+      evaluation skills know what you're working on.
+    </p>
+    <a href="https://github.com/pengasuzie/claude-code-starter" class="btn primary">Get the Skill</a>
+    <a href="/tools/claude-code-starter/" class="btn">Part of Starter Kit</a>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section>
+  <div class="container">
+    <div class="section-label">Evaluation Pipeline</div>
+    <div class="code-block" style="text-align: center; font-size: 14px; line-height: 2;">
+<span class="cmd">/new-idea</span> <span class="comment">&rarr;</span>
+<a href="/tools/opportunity-brief/" style="color: #a1a1aa; text-decoration: none;">/opportunity-brief</a> <span class="comment">&rarr;</span>
+<a href="/tools/market-research/" style="color: #a1a1aa; text-decoration: none;">/market-research</a> <span class="comment">&rarr;</span>
+<a href="/tools/competitor-landscape/" style="color: #a1a1aa; text-decoration: none;">/competitor-landscape</a> <span class="comment">&rarr;</span>
+<a href="/tools/strategy-session/" style="color: #a1a1aa; text-decoration: none;">/strategy-session</a> <span class="comment">&rarr;</span>
+<a href="/tools/due-diligence/" style="color: #a1a1aa; text-decoration: none;">/due-diligence</a> <span class="comment">&rarr;</span>
+<a href="/tools/viability-assessment/" style="color: #a1a1aa; text-decoration: none;">/viability-assessment</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <div class="two-col">
+      <div>
+        <h2>From thought to structure in 60 seconds</h2>
+        <p>Dump what you're thinking &mdash; a sentence, a paragraph, a link. The skill extracts a name, scans the conversation for context (links, technical details, prior art), scaffolds the directory, and asks two questions: why is this interesting, and what could kill it.</p>
+        <ul class="feature-list">
+          <li>Extracts idea name and one-liner from your description</li>
+          <li>Scans conversation for relevant context (links, details, constraints)</li>
+          <li>Creates full directory structure with README</li>
+          <li>Captures gut-check: why interesting + what could kill it</li>
+          <li>Sets idea as active for all other evaluation skills</li>
+          <li>Suggests next steps (opportunity-brief, market-research, competitor-landscape)</li>
+        </ul>
+      </div>
+      <div class="code-block">
+<span class="output">&gt;</span> <span class="cmd">/new-idea</span>
+
+What's the idea? Just dump what you're
+thinking &mdash; a sentence, a paragraph, a link.
+
+<span class="output">&gt;</span> SaaS that automates freight forwarding
+  docs using AI. Like what we built for
+  StarShipper but as a standalone product.
+  The market is huge and nobody's doing
+  AI-native document processing.
+
+<span class="comment">Creating: ideas/freight-automation/</span>
+
+Scaffolding directory...
+  <span class="string">README.md</span>
+  <span class="string">notes/initial-context.md</span>
+  <span class="string">research/</span>
+  <span class="string">competitors/</span>
+  <span class="string">docs/</span>
+
+Two quick questions:
+
+Why is this interesting?
+What's the bet &mdash; why could this work?
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT GETS CREATED -->
+<section>
+  <div class="container">
+    <div class="section-label">What Gets Created</div>
+    <div class="two-col">
+      <div>
+        <h2>Everything you need, nothing you don't</h2>
+        <p>The skill creates a clean directory structure designed for the full evaluation pipeline. Each folder has a purpose, and the README acts as your single source of truth &mdash; status, context, progress, and links all in one place.</p>
+        <p>The <code style="font-family: 'JetBrains Mono', monospace; font-size: 13px; background: var(--light); padding: 2px 6px; border-radius: 3px;">initial-context.md</code> file captures anything useful from your current conversation &mdash; links you mentioned, technical details, constraints, or prior art &mdash; so nothing gets lost.</p>
+        <p>As you run each evaluation skill, outputs land in the right folder automatically. No manual file management.</p>
+      </div>
+      <div class="code-block">
+<span class="string">ideas/freight-automation/</span>
+├── <span class="cmd">README.md</span>
+│   ├── Status: Evaluating
+│   ├── Tags: #saas #ai #b2b
+│   ├── One-liner summary
+│   ├── Why interesting / What could kill it
+│   ├── Key links &amp; people
+│   └── Evaluation progress checklist
+├── <span class="cmd">notes/</span>
+│   └── initial-context.md
+│       <span class="comment">(auto-captured from conversation)</span>
+├── <span class="cmd">research/</span>
+│   <span class="comment">(market research outputs go here)</span>
+├── <span class="cmd">competitors/</span>
+│   <span class="comment">(competitor analysis goes here)</span>
+└── <span class="cmd">docs/</span>
+    <span class="comment">(pitch decks, financials, uploads)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE EVALUATION PIPELINE -->
+<section>
+  <div class="container">
+    <div class="section-label">The Evaluation Pipeline</div>
+    <div class="two-col">
+      <div>
+        <h2>What happens next</h2>
+        <p>The README includes a progress checklist that tracks your evaluation journey. Each skill checks off its step automatically. You always know where you are and what's left.</p>
+        <p>The idea is set as active immediately &mdash; so when you run <code style="font-family: 'JetBrains Mono', monospace; font-size: 13px; background: var(--light); padding: 2px 6px; border-radius: 3px;">/opportunity-brief</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 13px; background: var(--light); padding: 2px 6px; border-radius: 3px;">/market-research</code>, or any other evaluation skill, it already knows which idea you're working on.</p>
+      </div>
+      <div class="code-block">
+<span class="comment">## Evaluation Progress</span>
+
+<span class="output">[x]</span> Idea captured <span class="flag">(/new-idea)</span>
+<span class="comment">[ ]</span> Opportunity brief <span class="flag">(/opportunity-brief)</span>
+<span class="comment">[ ]</span> Market research <span class="flag">(/market-research)</span>
+<span class="comment">[ ]</span> Competitor landscape <span class="flag">(/competitor-landscape)</span>
+<span class="comment">[ ]</span> Strategy session <span class="flag">(/strategy-session)</span>
+<span class="comment">[ ]</span> Due diligence <span class="flag">(/due-diligence)</span>
+<span class="comment">[ ]</span> Viability scored <span class="flag">(/viability-assessment)</span>
+<span class="comment">[ ]</span> Go/No-Go decision made
+
+<span class="string">Current:</span> Evaluating
+Active idea set. All skills will reference
+this opportunity automatically.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED SKILLS -->
+<section>
+  <div class="container">
+    <div class="section-label">Related Skills</div>
+    <div class="skills-grid">
+      <a href="/tools/opportunity-brief/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>opportunity-brief</h3>
+        <p>Capture a business opportunity: pitch, model, people, risks, and initial assessment.</p>
+      </a>
+      <a href="/tools/market-research/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>market-research</h3>
+        <p>Size the market, find demand signals, check trends. TAM/SAM/SOM analysis.</p>
+      </a>
+      <a href="/tools/competitor-landscape/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>competitor-landscape</h3>
+        <p>Map existing players, positioning, pricing, and gaps in the market.</p>
+      </a>
+      <a href="/tools/viability-assessment/" class="skill">
+        <div class="skill-cat">Evaluation</div>
+        <h3>viability-assessment</h3>
+        <p>Score across 8 weighted dimensions. Go/no-go recommendation with confidence level.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-left">&copy; 2026 Bruce Stronge. Brisbane, Australia.</div>
+      <div class="footer-right">
+        <a href="https://github.com/pengasuzie/claude-code-starter">GitHub</a>
+        <a href="/tools/">Tools</a>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
