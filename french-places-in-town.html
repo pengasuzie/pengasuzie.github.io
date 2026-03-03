@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>French Vocab - Places in Town</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-dark), #7c3aed);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+            animation: headerShine 8s linear infinite;
+        }
+
+        @keyframes headerShine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .app-header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+
+        .app-header h1 span { color: var(--accent); }
+
+        .app-header p {
+            color: rgba(255,255,255,0.8);
+            margin-top: 0.3rem;
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1rem 2rem;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .mode-nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 1rem;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            border-radius: 9999px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .mode-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .mode-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+
+        .game-area {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* ========== FLASHCARD MODE ========== */
+        .flashcard-container {
+            perspective: 1200px;
+            margin: 0 auto;
+            max-width: 450px;
+        }
+
+        .flashcard-progress {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 280px;
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .flashcard.flipped { transform: rotateY(180deg); }
+
+        .flashcard-face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            border-radius: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(145deg, #1e40af, #3b82f6);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.3);
+        }
+
+        .flashcard-back {
+            background: linear-gradient(145deg, #059669, #10b981);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-emoji {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .flashcard-word {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .flashcard-hint {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+
+        .flashcard-gender {
+            font-size: 0.8rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.2rem 0.8rem;
+            border-radius: 999px;
+            margin-top: 0.8rem;
+        }
+
+        .flashcard-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .flashcard-nav button {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 1rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-prev, .btn-next {
+            background: var(--card-bg);
+            color: var(--text);
+            border: 2px solid var(--border) !important;
+        }
+
+        .btn-prev:hover, .btn-next:hover { border-color: var(--primary) !important; }
+
+        .btn-know {
+            background: var(--success) !important;
+            color: white;
+        }
+
+        .btn-know:hover { filter: brightness(1.1); }
+
+        .flashcard-tap {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        /* ========== QUIZ MODE ========== */
+        .quiz-question {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-prompt-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .quiz-word {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .quiz-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+        }
+
+        @media (max-width: 500px) {
+            .quiz-options { grid-template-columns: 1fr; }
+        }
+
+        .quiz-option {
+            padding: 1.2rem;
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 1rem;
+            color: var(--text);
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .quiz-option:hover:not(.disabled) {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success) !important;
+            background: rgba(16, 185, 129, 0.15) !important;
+            color: var(--success) !important;
+            animation: correctPulse 0.5s;
+        }
+
+        .quiz-option.wrong {
+            border-color: var(--danger) !important;
+            background: rgba(239, 68, 68, 0.15) !important;
+            color: var(--danger) !important;
+            animation: shake 0.4s;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .quiz-feedback {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            min-height: 2rem;
+        }
+
+        .quiz-score-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0.3rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .score-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: all 0.3s;
+        }
+
+        .score-dot.correct { background: var(--success); box-shadow: 0 0 8px rgba(16,185,129,0.5); }
+        .score-dot.wrong { background: var(--danger); box-shadow: 0 0 8px rgba(239,68,68,0.5); }
+
+        /* ========== MATCH MODE ========== */
+        .match-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+        }
+
+        .match-card {
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 1rem;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .match-card:hover:not(.matched):not(.selected) {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .match-card.selected {
+            border-color: var(--accent);
+            background: rgba(245, 158, 11, 0.15);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+        }
+
+        .match-card.matched {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+            opacity: 0.6;
+            cursor: default;
+            transform: scale(0.95);
+        }
+
+        .match-card.wrong-match {
+            animation: shake 0.4s;
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .match-info {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+        }
+
+        .match-timer {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        /* ========== WRITE MODE ========== */
+        .write-container {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .write-prompt {
+            margin-bottom: 2rem;
+        }
+
+        .write-prompt .quiz-emoji {
+            font-size: 3rem;
+        }
+
+        .write-input-group {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .write-input {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 1rem;
+            color: var(--text);
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .write-input:focus { border-color: var(--primary); }
+        .write-input.correct-input { border-color: var(--success); background: rgba(16,185,129,0.1); }
+        .write-input.wrong-input { border-color: var(--danger); background: rgba(239,68,68,0.1); }
+
+        .write-submit {
+            padding: 0.8rem 3rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .write-submit:hover { background: var(--primary-dark); }
+
+        .write-hint-btn {
+            display: block;
+            margin: 1rem auto;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: underline;
+        }
+
+        .write-answer {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            min-height: 1.5rem;
+        }
+
+        .accent-keyboard {
+            display: flex;
+            justify-content: center;
+            gap: 0.4rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .accent-key {
+            width: 44px;
+            height: 44px;
+            border: 2px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text);
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .accent-key:hover { border-color: var(--primary); background: rgba(37,99,235,0.1); }
+
+        /* ========== RESULTS ========== */
+        .results-screen {
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .results-emoji {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .results-score {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .results-message {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .results-btn {
+            padding: 1rem 2.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 0.3rem;
+            transition: all 0.2s;
+        }
+
+        .results-btn:hover { background: var(--primary-dark); }
+        .results-btn.secondary { background: var(--card-bg); border: 2px solid var(--border); }
+
+        /* ========== CONFETTI ========== */
+        .confetti-piece {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            z-index: 999;
+            animation: confettiFall 3s ease-in forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .hidden { display: none !important; }
+
+        /* Direction helpers for quiz */
+        .quiz-direction {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .dir-btn {
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            border-radius: 999px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dir-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+
+        .streak-display {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            min-height: 1.4rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-header">
+    <h1>Les endroits en ville <span>&#127961;</span></h1>
+    <p>Places in Town &mdash; French Vocabulary Trainer</p>
+</div>
+
+<div class="stats-bar">
+    <div class="stat">
+        <div class="stat-value" id="totalStudied">0</div>
+        <div class="stat-label">Studied</div>
+    </div>
+    <div class="stat">
+        <div class="stat-value" id="totalCorrect">0</div>
+        <div class="stat-label">Correct</div>
+    </div>
+    <div class="stat">
+        <div class="stat-value" id="bestStreak">0</div>
+        <div class="stat-label">Best Streak</div>
+    </div>
+    <div class="stat">
+        <div class="stat-value" id="masteredCount">0</div>
+        <div class="stat-label">Mastered</div>
+    </div>
+</div>
+
+<nav class="mode-nav">
+    <button class="mode-btn active" onclick="switchMode('flashcards')">&#x1F4DA; Flashcards</button>
+    <button class="mode-btn" onclick="switchMode('quiz')">&#x2753; Quiz</button>
+    <button class="mode-btn" onclick="switchMode('match')">&#x1F500; Match</button>
+    <button class="mode-btn" onclick="switchMode('write')">&#x270D;&#xFE0F; Write</button>
+</nav>
+
+<div class="game-area" id="gameArea"></div>
+
+<script>
+// ============ VOCABULARY DATA ============
+const vocab = [
+    { fr: "la boulangerie", en: "the bakery", emoji: "&#x1F950;", gender: "feminine" },
+    { fr: "la pharmacie", en: "the pharmacy", emoji: "&#x1F48A;", gender: "feminine" },
+    { fr: "la banque", en: "the bank", emoji: "&#x1F3E6;", gender: "feminine" },
+    { fr: "la poste", en: "the post office", emoji: "&#x1F4EE;", gender: "feminine" },
+    { fr: "la gare", en: "the train station", emoji: "&#x1F689;", gender: "feminine" },
+    { fr: "l'h\u00f4pital", en: "the hospital", emoji: "&#x1F3E5;", gender: "masculine" },
+    { fr: "l'\u00e9cole", en: "the school", emoji: "&#x1F3EB;", gender: "feminine" },
+    { fr: "le supermarch\u00e9", en: "the supermarket", emoji: "&#x1F6D2;", gender: "masculine" },
+    { fr: "le march\u00e9", en: "the market", emoji: "&#x1F34E;", gender: "masculine" },
+    { fr: "la biblioth\u00e8que", en: "the library", emoji: "&#x1F4DA;", gender: "feminine" },
+    { fr: "le mus\u00e9e", en: "the museum", emoji: "&#x1F3DB;&#xFE0F;", gender: "masculine" },
+    { fr: "le cin\u00e9ma", en: "the cinema", emoji: "&#x1F3AC;", gender: "masculine" },
+    { fr: "le restaurant", en: "the restaurant", emoji: "&#x1F37D;&#xFE0F;", gender: "masculine" },
+    { fr: "le caf\u00e9", en: "the caf\u00e9", emoji: "&#x2615;", gender: "masculine" },
+    { fr: "le parc", en: "the park", emoji: "&#x1F333;", gender: "masculine" },
+    { fr: "la piscine", en: "the swimming pool", emoji: "&#x1F3CA;", gender: "feminine" },
+    { fr: "l'\u00e9glise", en: "the church", emoji: "&#x26EA;", gender: "feminine" },
+    { fr: "la mairie", en: "the town hall", emoji: "&#x1F3DB;&#xFE0F;", gender: "feminine" },
+    { fr: "le magasin", en: "the shop", emoji: "&#x1F6CD;&#xFE0F;", gender: "masculine" },
+    { fr: "le centre commercial", en: "the shopping centre", emoji: "&#x1F3EC;", gender: "masculine" },
+    { fr: "le stade", en: "the stadium", emoji: "&#x1F3DF;&#xFE0F;", gender: "masculine" },
+    { fr: "la place", en: "the town square", emoji: "&#x1F3D8;&#xFE0F;", gender: "feminine" },
+    { fr: "le coll\u00e8ge", en: "the secondary school", emoji: "&#x1F393;", gender: "masculine" },
+    { fr: "l'a\u00e9roport", en: "the airport", emoji: "&#x2708;&#xFE0F;", gender: "masculine" },
+    { fr: "la librairie", en: "the bookshop", emoji: "&#x1F4D6;", gender: "feminine" },
+    { fr: "le ch\u00e2teau", en: "the castle", emoji: "&#x1F3F0;", gender: "masculine" },
+    { fr: "le pont", en: "the bridge", emoji: "&#x1F309;", gender: "masculine" },
+    { fr: "la cath\u00e9drale", en: "the cathedral", emoji: "&#x26EA;", gender: "feminine" },
+    { fr: "le jardin public", en: "the public garden", emoji: "&#x1F337;", gender: "masculine" },
+    { fr: "l'h\u00f4tel", en: "the hotel", emoji: "&#x1F3E8;", gender: "masculine" },
+];
+
+// ============ STATE ============
+let currentMode = 'flashcards';
+let stats = { studied: 0, correct: 0, streak: 0, bestStreak: 0, mastered: new Set() };
+let flashcardIndex = 0;
+let flashcardFlipped = false;
+let quizIndex = 0;
+let quizScore = 0;
+let quizAnswers = [];
+let quizDirection = 'fr-en'; // fr-en or en-fr
+let quizOrder = [];
+let writeIndex = 0;
+let writeScore = 0;
+let writeOrder = [];
+
+// ============ UTILS ============
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function updateStats() {
+    document.getElementById('totalStudied').textContent = stats.studied;
+    document.getElementById('totalCorrect').textContent = stats.correct;
+    document.getElementById('bestStreak').textContent = stats.bestStreak;
+    document.getElementById('masteredCount').textContent = stats.mastered.size;
+}
+
+function normalize(str) {
+    return str.toLowerCase().trim()
+        .replace(/^(le |la |l'|les |un |une )/, '')
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function switchMode(mode) {
+    currentMode = mode;
+    document.querySelectorAll('.mode-btn').forEach((btn, i) => {
+        btn.classList.toggle('active',
+            (mode === 'flashcards' && i === 0) ||
+            (mode === 'quiz' && i === 1) ||
+            (mode === 'match' && i === 2) ||
+            (mode === 'write' && i === 3)
+        );
+    });
+    if (mode === 'flashcards') initFlashcards();
+    else if (mode === 'quiz') initQuiz();
+    else if (mode === 'match') initMatch();
+    else if (mode === 'write') initWrite();
+}
+
+function confetti() {
+    const colors = ['#f59e0b', '#10b981', '#3b82f6', '#ef4444', '#8b5cf6', '#ec4899'];
+    for (let i = 0; i < 40; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        el.style.width = (Math.random() * 8 + 5) + 'px';
+        el.style.height = (Math.random() * 8 + 5) + 'px';
+        el.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        el.style.animationDelay = Math.random() * 0.5 + 's';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 4000);
+    }
+}
+
+// ============ FLASHCARDS ============
+function initFlashcards() {
+    flashcardIndex = 0;
+    flashcardFlipped = false;
+    renderFlashcard();
+}
+
+function renderFlashcard() {
+    const item = vocab[flashcardIndex];
+    const area = document.getElementById('gameArea');
+    area.innerHTML = `
+        <div class="flashcard-container">
+            <div class="flashcard-progress">Card ${flashcardIndex + 1} of ${vocab.length}</div>
+            <div class="flashcard ${flashcardFlipped ? 'flipped' : ''}" onclick="flipCard()">
+                <div class="flashcard-face flashcard-front">
+                    <div class="flashcard-emoji">${item.emoji}</div>
+                    <div class="flashcard-word">${item.fr}</div>
+                    <div class="flashcard-gender">${item.gender === 'masculine' ? '&#x1F535; masculine' : '&#x1F534; feminine'}</div>
+                </div>
+                <div class="flashcard-face flashcard-back">
+                    <div class="flashcard-emoji">${item.emoji}</div>
+                    <div class="flashcard-word">${item.en}</div>
+                    <div class="flashcard-hint">${item.fr}</div>
+                </div>
+            </div>
+            <div class="flashcard-tap">Tap the card to flip it</div>
+            <div class="flashcard-nav">
+                <button class="flashcard-nav btn-prev" onclick="prevCard()">&#x2B05; Prev</button>
+                <button class="flashcard-nav btn-know" onclick="markKnown()">&#x2705; Got it!</button>
+                <button class="flashcard-nav btn-next" onclick="nextCard()">Next &#x27A1;</button>
+            </div>
+        </div>
+    `;
+}
+
+function flipCard() {
+    flashcardFlipped = !flashcardFlipped;
+    document.querySelector('.flashcard').classList.toggle('flipped', flashcardFlipped);
+    stats.studied++;
+    updateStats();
+}
+
+function nextCard() {
+    flashcardIndex = (flashcardIndex + 1) % vocab.length;
+    flashcardFlipped = false;
+    renderFlashcard();
+}
+
+function prevCard() {
+    flashcardIndex = (flashcardIndex - 1 + vocab.length) % vocab.length;
+    flashcardFlipped = false;
+    renderFlashcard();
+}
+
+function markKnown() {
+    stats.mastered.add(vocab[flashcardIndex].fr);
+    stats.correct++;
+    updateStats();
+    nextCard();
+}
+
+// ============ QUIZ ============
+function initQuiz() {
+    quizIndex = 0;
+    quizScore = 0;
+    quizAnswers = [];
+    quizOrder = shuffle([...Array(vocab.length).keys()]).slice(0, 10);
+    renderQuiz();
+}
+
+function renderQuiz() {
+    if (quizIndex >= quizOrder.length) {
+        showQuizResults();
+        return;
+    }
+    const item = vocab[quizOrder[quizIndex]];
+    const isFrToEn = quizDirection === 'fr-en';
+    const questionText = isFrToEn ? item.fr : item.en;
+    const correctAnswer = isFrToEn ? item.en : item.fr;
+
+    // Generate wrong answers
+    let wrongPool = vocab.filter((_, i) => i !== quizOrder[quizIndex]);
+    wrongPool = shuffle(wrongPool).slice(0, 3);
+    const options = shuffle([
+        { text: correctAnswer, correct: true },
+        ...wrongPool.map(w => ({ text: isFrToEn ? w.en : w.fr, correct: false }))
+    ]);
+
+    const area = document.getElementById('gameArea');
+    area.innerHTML = `
+        <div class="quiz-direction">
+            <button class="dir-btn ${quizDirection === 'fr-en' ? 'active' : ''}" onclick="setQuizDir('fr-en')">FR &#x2192; EN</button>
+            <button class="dir-btn ${quizDirection === 'en-fr' ? 'active' : ''}" onclick="setQuizDir('en-fr')">EN &#x2192; FR</button>
+        </div>
+        <div class="streak-display">${stats.streak > 1 ? '&#x1F525; ' + stats.streak + ' streak!' : ''}</div>
+        <div class="quiz-score-bar">
+            ${quizOrder.map((_, i) => `<div class="score-dot ${i < quizAnswers.length ? (quizAnswers[i] ? 'correct' : 'wrong') : ''}"></div>`).join('')}
+        </div>
+        <div class="quiz-question">
+            <div class="quiz-emoji">${item.emoji}</div>
+            <div class="quiz-prompt-label">${isFrToEn ? 'What does this mean?' : 'How do you say this in French?'}</div>
+            <div class="quiz-word">${questionText}</div>
+        </div>
+        <div class="quiz-options">
+            ${options.map((o, i) => `
+                <button class="quiz-option" onclick="answerQuiz(this, ${o.correct}, '${correctAnswer.replace(/'/g, "\\'")}')">${o.text}</button>
+            `).join('')}
+        </div>
+        <div class="quiz-feedback" id="quizFeedback"></div>
+    `;
+}
+
+function setQuizDir(dir) {
+    quizDirection = dir;
+    initQuiz();
+}
+
+function answerQuiz(btn, isCorrect, correctAnswer) {
+    const options = document.querySelectorAll('.quiz-option');
+    options.forEach(o => o.classList.add('disabled'));
+
+    if (isCorrect) {
+        btn.classList.add('correct');
+        document.getElementById('quizFeedback').innerHTML = '<span style="color: var(--success)">&#x2705; Correct!</span>';
+        quizScore++;
+        stats.correct++;
+        stats.streak++;
+        if (stats.streak > stats.bestStreak) stats.bestStreak = stats.streak;
+        stats.mastered.add(vocab[quizOrder[quizIndex]].fr);
+    } else {
+        btn.classList.add('wrong');
+        options.forEach(o => { if (!o.classList.contains('wrong')) { /* find correct */ } });
+        // Highlight correct
+        options.forEach(o => {
+            if (o.textContent === correctAnswer) o.classList.add('correct');
+        });
+        document.getElementById('quizFeedback').innerHTML = `<span style="color: var(--danger)">&#x274C; It was: ${correctAnswer}</span>`;
+        stats.streak = 0;
+    }
+
+    quizAnswers.push(isCorrect);
+    stats.studied++;
+    updateStats();
+
+    setTimeout(() => {
+        quizIndex++;
+        renderQuiz();
+    }, 1500);
+}
+
+function showQuizResults() {
+    const pct = Math.round((quizScore / quizOrder.length) * 100);
+    let emoji, message;
+    if (pct === 100) { emoji = '&#x1F3C6;'; message = "PERFECT! You're a French legend!"; confetti(); }
+    else if (pct >= 80) { emoji = '&#x1F929;'; message = "Amazing work! Almost perfect!"; confetti(); }
+    else if (pct >= 60) { emoji = '&#x1F60A;'; message = "Good effort! Keep practising!"; }
+    else if (pct >= 40) { emoji = '&#x1F914;'; message = "Getting there! Try the flashcards first."; }
+    else { emoji = '&#x1F4AA;'; message = "Don't give up! Practice makes perfect!"; }
+
+    document.getElementById('gameArea').innerHTML = `
+        <div class="results-screen">
+            <div class="results-emoji">${emoji}</div>
+            <div class="results-score">${quizScore} / ${quizOrder.length}</div>
+            <div class="results-message">${message}</div>
+            <button class="results-btn" onclick="initQuiz()">&#x1F504; Try Again</button>
+            <button class="results-btn secondary" onclick="switchMode('flashcards')">&#x1F4DA; Review Cards</button>
+        </div>
+    `;
+}
+
+// ============ MATCH MODE ============
+function initMatch() {
+    const subset = shuffle(vocab).slice(0, 6);
+    const frCards = subset.map((v, i) => ({ id: 'fr-' + i, text: v.fr, pairId: i, type: 'fr' }));
+    const enCards = subset.map((v, i) => ({ id: 'en-' + i, text: v.en, pairId: i, type: 'en' }));
+    const allCards = [...shuffle(frCards), ...shuffle(enCards)];
+
+    // Split into two columns
+    const leftCards = allCards.filter(c => c.type === 'fr');
+    const rightCards = allCards.filter(c => c.type === 'en');
+
+    window.matchState = {
+        cards: allCards,
+        selected: null,
+        matched: new Set(),
+        pairs: subset.length,
+        startTime: Date.now(),
+        attempts: 0
+    };
+
+    renderMatch(leftCards, rightCards);
+    startMatchTimer();
+}
+
+function renderMatch(leftCards, rightCards) {
+    const left = leftCards || window.matchState.cards.filter(c => c.type === 'fr');
+    const right = rightCards || window.matchState.cards.filter(c => c.type === 'en');
+
+    document.getElementById('gameArea').innerHTML = `
+        <div class="match-info">Match the French with the English! Tap one from each side.</div>
+        <div class="match-timer" id="matchTimer">0:00</div>
+        <div class="match-grid">
+            ${left.map(c => `
+                <div class="match-card ${window.matchState.matched.has(c.pairId) ? 'matched' : ''} ${window.matchState.selected?.id === c.id ? 'selected' : ''}"
+                     data-id="${c.id}" data-pair="${c.pairId}" data-type="${c.type}"
+                     onclick="selectMatch(this)">${c.text}</div>
+            `).join('')}
+            ${right.map(c => `
+                <div class="match-card ${window.matchState.matched.has(c.pairId) ? 'matched' : ''} ${window.matchState.selected?.id === c.id ? 'selected' : ''}"
+                     data-id="${c.id}" data-pair="${c.pairId}" data-type="${c.type}"
+                     onclick="selectMatch(this)">${c.text}</div>
+            `).join('')}
+        </div>
+    `;
+}
+
+function startMatchTimer() {
+    if (window.matchTimer) clearInterval(window.matchTimer);
+    window.matchTimer = setInterval(() => {
+        const el = document.getElementById('matchTimer');
+        if (!el) { clearInterval(window.matchTimer); return; }
+        const elapsed = Math.floor((Date.now() - window.matchState.startTime) / 1000);
+        const mins = Math.floor(elapsed / 60);
+        const secs = elapsed % 60;
+        el.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+    }, 200);
+}
+
+function selectMatch(el) {
+    if (el.classList.contains('matched')) return;
+
+    const state = window.matchState;
+    const id = el.dataset.id;
+    const pairId = parseInt(el.dataset.pair);
+    const type = el.dataset.type;
+
+    if (state.selected === null) {
+        state.selected = { id, pairId, type };
+        el.classList.add('selected');
+    } else {
+        if (state.selected.id === id) {
+            state.selected = null;
+            el.classList.remove('selected');
+            return;
+        }
+        if (state.selected.type === type) {
+            // Same side - switch selection
+            document.querySelectorAll('.match-card.selected').forEach(c => c.classList.remove('selected'));
+            state.selected = { id, pairId, type };
+            el.classList.add('selected');
+            return;
+        }
+
+        state.attempts++;
+
+        if (state.selected.pairId === pairId) {
+            // Match!
+            state.matched.add(pairId);
+            stats.correct++;
+            stats.streak++;
+            if (stats.streak > stats.bestStreak) stats.bestStreak = stats.streak;
+            stats.studied += 2;
+
+            document.querySelectorAll('.match-card.selected').forEach(c => {
+                c.classList.remove('selected');
+                c.classList.add('matched');
+            });
+            el.classList.add('matched');
+
+            if (state.matched.size === state.pairs) {
+                clearInterval(window.matchTimer);
+                const elapsed = Math.round((Date.now() - state.startTime) / 1000);
+                confetti();
+                setTimeout(() => {
+                    document.getElementById('gameArea').innerHTML = `
+                        <div class="results-screen">
+                            <div class="results-emoji">&#x1F389;</div>
+                            <div class="results-score">All matched!</div>
+                            <div class="results-message">Completed in ${elapsed}s with ${state.attempts} attempts</div>
+                            <button class="results-btn" onclick="initMatch()">&#x1F504; Play Again</button>
+                        </div>
+                    `;
+                }, 800);
+            }
+            state.selected = null;
+        } else {
+            // No match
+            el.classList.add('wrong-match');
+            const prevEl = document.querySelector(`[data-id="${state.selected.id}"]`);
+            if (prevEl) prevEl.classList.add('wrong-match');
+            stats.streak = 0;
+
+            setTimeout(() => {
+                document.querySelectorAll('.wrong-match').forEach(c => c.classList.remove('wrong-match'));
+                document.querySelectorAll('.selected').forEach(c => c.classList.remove('selected'));
+            }, 500);
+            state.selected = null;
+        }
+        updateStats();
+    }
+}
+
+// ============ WRITE MODE ============
+function initWrite() {
+    writeIndex = 0;
+    writeScore = 0;
+    writeOrder = shuffle([...Array(vocab.length).keys()]).slice(0, 10);
+    renderWrite();
+}
+
+function renderWrite() {
+    if (writeIndex >= writeOrder.length) {
+        showWriteResults();
+        return;
+    }
+
+    const item = vocab[writeOrder[writeIndex]];
+    document.getElementById('gameArea').innerHTML = `
+        <div class="write-container">
+            <div class="streak-display">${stats.streak > 1 ? '&#x1F525; ' + stats.streak + ' streak!' : ''}</div>
+            <div class="quiz-score-bar">
+                ${writeOrder.map((_, i) => `<div class="score-dot ${i < writeIndex ? (i < writeScore ? 'correct' : (quizAnswers[i] ? 'correct' : 'wrong')) : ''}"></div>`).join('')}
+            </div>
+            <div class="write-prompt">
+                <div class="quiz-emoji">${item.emoji}</div>
+                <div class="quiz-prompt-label">Write in French:</div>
+                <div class="quiz-word">${item.en}</div>
+            </div>
+            <div class="accent-keyboard">
+                ${['\u00e9', '\u00e8', '\u00ea', '\u00eb', '\u00e0', '\u00e2', '\u00f4', '\u00ee', '\u00f9', '\u00fb', '\u00e7'].map(c =>
+                    `<button class="accent-key" onclick="insertAccent('${c}')">${c}</button>`
+                ).join('')}
+            </div>
+            <div class="write-input-group">
+                <input type="text" class="write-input" id="writeInput" placeholder="Type in French..."
+                       onkeydown="if(event.key==='Enter')checkWrite()" autocomplete="off" autocapitalize="none" spellcheck="false">
+            </div>
+            <button class="write-submit" onclick="checkWrite()">Check &#x2713;</button>
+            <button class="write-hint-btn" onclick="showWriteHint()">Show hint</button>
+            <div class="write-answer" id="writeAnswer"></div>
+        </div>
+    `;
+    document.getElementById('writeInput').focus();
+}
+
+function insertAccent(char) {
+    const input = document.getElementById('writeInput');
+    const pos = input.selectionStart;
+    input.value = input.value.slice(0, pos) + char + input.value.slice(pos);
+    input.focus();
+    input.setSelectionRange(pos + 1, pos + 1);
+}
+
+function showWriteHint() {
+    const item = vocab[writeOrder[writeIndex]];
+    const hint = item.fr.split('').map((c, i) => i % 2 === 0 ? c : '_').join('');
+    document.getElementById('writeAnswer').innerHTML = `<span style="color: var(--text-muted)">Hint: ${hint}</span>`;
+}
+
+function checkWrite() {
+    const input = document.getElementById('writeInput');
+    const item = vocab[writeOrder[writeIndex]];
+    const userAnswer = input.value.trim().toLowerCase();
+    const correct = item.fr.toLowerCase();
+
+    // Check with and without article
+    const isCorrect = userAnswer === correct ||
+                      normalize(userAnswer) === normalize(correct) ||
+                      userAnswer === correct.replace(/^(le |la |l'|les )/, '');
+
+    if (isCorrect) {
+        input.classList.add('correct-input');
+        document.getElementById('writeAnswer').innerHTML = `<span style="color: var(--success)">&#x2705; Correct! ${item.fr}</span>`;
+        writeScore++;
+        stats.correct++;
+        stats.streak++;
+        if (stats.streak > stats.bestStreak) stats.bestStreak = stats.streak;
+        stats.mastered.add(item.fr);
+    } else {
+        input.classList.add('wrong-input');
+        document.getElementById('writeAnswer').innerHTML = `<span style="color: var(--danger)">&#x274C; Answer: <strong>${item.fr}</strong></span>`;
+        stats.streak = 0;
+    }
+
+    stats.studied++;
+    updateStats();
+
+    setTimeout(() => {
+        writeIndex++;
+        renderWrite();
+    }, 2000);
+}
+
+function showWriteResults() {
+    const pct = Math.round((writeScore / writeOrder.length) * 100);
+    let emoji, message;
+    if (pct === 100) { emoji = '&#x1F4AF;'; message = "Flawless spelling! Magnifique!"; confetti(); }
+    else if (pct >= 80) { emoji = '&#x1F44F;'; message = "Excellent writing! Nearly perfect!"; confetti(); }
+    else if (pct >= 60) { emoji = '&#x1F4DD;'; message = "Good progress! Keep at it!"; }
+    else { emoji = '&#x1F4AA;'; message = "Try flashcards first, then come back!"; }
+
+    document.getElementById('gameArea').innerHTML = `
+        <div class="results-screen">
+            <div class="results-emoji">${emoji}</div>
+            <div class="results-score">${writeScore} / ${writeOrder.length}</div>
+            <div class="results-message">${message}</div>
+            <button class="results-btn" onclick="initWrite()">&#x1F504; Try Again</button>
+            <button class="results-btn secondary" onclick="switchMode('flashcards')">&#x1F4DA; Review Cards</button>
+        </div>
+    `;
+}
+
+// ============ INIT ============
+updateStats();
+initFlashcards();
+</script>
+</body>
+</html>
