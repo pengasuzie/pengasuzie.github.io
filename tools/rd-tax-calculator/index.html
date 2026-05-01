@@ -564,6 +564,49 @@
       opacity: 0.5;
     }
 
+    /* Share link button */
+    .share-row {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--grey-200);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .share-btn {
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.5rem 0.85rem;
+      background: white;
+      color: var(--grey-700);
+      border: 1px solid var(--grey-300);
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s;
+    }
+
+    .share-btn:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .share-btn.copied {
+      border-color: var(--green);
+      color: var(--green);
+      background: var(--green-bg);
+    }
+
+    .share-hint {
+      font-size: 0.75rem;
+      color: var(--grey-500);
+    }
+
     /* Footer */
     footer {
       text-align: center;
@@ -731,6 +774,14 @@
           </div>
           <input type="text" class="text-input" id="months-until-refund" value="7" inputmode="numeric" style="width: 60px;">
           <span style="font-size: 0.85rem; color: var(--grey-500); margin-left: 0.25rem;">months</span>
+        </div>
+
+        <div class="share-row">
+          <button type="button" class="share-btn" id="share-btn">
+            <span class="share-icon">🔗</span>
+            <span class="share-label">Copy share link</span>
+          </button>
+          <span class="share-hint">Builds a URL with your current inputs — share with your accountant or co-founder.</span>
         </div>
       </section>
 
@@ -1251,7 +1302,98 @@
       renderSweetSpot(inputs);
     }
 
-    // Initial calc
+    // --- URL param sharing ---
+    // Param keys are short and stable so links stay readable.
+    // salary, other (income), rd (% time), costs (other R&D), fees (specialist),
+    // funding (mortgage|savings|external), coc (% cost of capital), months
+    function parseUrlParams() {
+      const p = new URLSearchParams(window.location.search);
+      if (![...p].length) return;
+
+      const setSlider = (slider, display, key, min, max, suffix) => {
+        if (!p.has(key)) return;
+        const v = parseInt(p.get(key), 10);
+        if (isNaN(v)) return;
+        const clamped = Math.max(min, Math.min(max, v));
+        slider.value = clamped;
+        display.textContent = suffix === '%' ? clamped + '%' : fmt(clamped);
+      };
+
+      const setMoneyInput = (input, key) => {
+        if (!p.has(key)) return;
+        const v = parseInt(p.get(key), 10);
+        if (isNaN(v) || v < 0) return;
+        input.value = v.toLocaleString('en-AU');
+      };
+
+      setSlider(salarySlider, salaryDisplay, 'salary', 0, 300000, '$');
+      setMoneyInput(otherIncomeInput, 'other');
+      setSlider(rdSlider, rdDisplay, 'rd', 0, 100, '%');
+      setMoneyInput(otherCostsInput, 'costs');
+      setMoneyInput(specialistFeesInput, 'fees');
+
+      if (p.has('funding')) {
+        const v = p.get('funding');
+        if (['mortgage', 'savings', 'external'].includes(v)) {
+          activeFunding = v;
+          fundingToggle.querySelectorAll('.toggle-btn').forEach(b => {
+            b.classList.toggle('active', b.dataset.value === v);
+          });
+          cocInput.value = defaultRates[v];
+          cocGroup.style.display = v === 'external' ? 'none' : '';
+        }
+      }
+
+      if (p.has('coc')) {
+        const v = parseFloat(p.get('coc'));
+        if (!isNaN(v) && v >= 0) cocInput.value = v;
+      }
+
+      if (p.has('months')) {
+        const v = parseInt(p.get('months'), 10);
+        if (!isNaN(v) && v >= 0) monthsInput.value = v;
+      }
+    }
+
+    function buildShareUrl() {
+      const params = new URLSearchParams();
+      params.set('salary', salarySlider.value);
+      params.set('other', parseMoney(otherIncomeInput.value));
+      params.set('rd', rdSlider.value);
+      params.set('costs', parseMoney(otherCostsInput.value));
+      params.set('fees', parseMoney(specialistFeesInput.value));
+      params.set('funding', activeFunding);
+      if (activeFunding !== 'external') params.set('coc', cocInput.value);
+      params.set('months', monthsInput.value);
+      return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+    }
+
+    const shareBtn = document.getElementById('share-btn');
+    shareBtn.addEventListener('click', async () => {
+      const url = buildShareUrl();
+      const label = shareBtn.querySelector('.share-label');
+      const icon = shareBtn.querySelector('.share-icon');
+      const showCopied = () => {
+        shareBtn.classList.add('copied');
+        icon.textContent = '✓';
+        label.textContent = 'Copied to clipboard';
+        setTimeout(() => {
+          shareBtn.classList.remove('copied');
+          icon.textContent = '🔗';
+          label.textContent = 'Copy share link';
+        }, 2000);
+      };
+      try {
+        await navigator.clipboard.writeText(url);
+        showCopied();
+      } catch (e) {
+        // Fallback when clipboard API is blocked (e.g. insecure context)
+        window.prompt('Copy this share link:', url);
+      }
+    });
+
+    // Initial calc — parse URL params first so they take effect on load
+    parseUrlParams();
     recalculate();
   </script>
 </body>
