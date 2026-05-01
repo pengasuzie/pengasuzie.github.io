@@ -670,6 +670,14 @@
 
         <div class="input-group">
           <div class="input-label">
+            Other taxable income
+            <span class="tooltip"><span class="tip-icon">?</span><span class="tooltip-text">Other taxable income you've earned this financial year outside the R&D company — consulting through your personal ABN, salary from another employer, dividends, rental income. Your R&D entity salary stacks on top, so it lands in higher marginal brackets.</span></span>
+          </div>
+          <input type="text" class="text-input" id="other-income" value="0" inputmode="numeric">
+        </div>
+
+        <div class="input-group">
+          <div class="input-label">
             R&D time %
             <span class="tooltip"><span class="tip-icon">?</span><span class="tooltip-text">The percentage of your working time spent on eligible R&D activities — building new or improved software, solving technical uncertainty. Must be documented.</span></span>
           </div>
@@ -810,6 +818,7 @@
     const salaryDisplay = document.getElementById('salary-display');
     const rdSlider = document.getElementById('rd-slider');
     const rdDisplay = document.getElementById('rd-display');
+    const otherIncomeInput = document.getElementById('other-income');
     const otherCostsInput = document.getElementById('other-costs');
     const specialistFeesInput = document.getElementById('specialist-fees');
     const fundingToggle = document.getElementById('funding-toggle');
@@ -855,7 +864,7 @@
     });
 
     // --- Text inputs ---
-    [otherCostsInput, specialistFeesInput].forEach(input => {
+    [otherIncomeInput, otherCostsInput, specialistFeesInput].forEach(input => {
       input.addEventListener('input', () => recalculate());
       input.addEventListener('blur', () => formatMoneyInput(input));
     });
@@ -868,6 +877,7 @@
     function getInputs() {
       return {
         salary: parseInt(salarySlider.value),
+        otherIncome: parseMoney(otherIncomeInput.value),
         rdPercent: parseInt(rdSlider.value) / 100,
         otherRdCosts: parseMoney(otherCostsInput.value),
         specialistFees: parseMoney(specialistFeesInput.value),
@@ -890,10 +900,14 @@
     const SUPER_RATE = 0.115;
     const RD_OFFSET_RATE = 0.435;
 
-    function calculateTax(salary) {
+    // Incremental tax on `salary` when it stacks on top of `otherIncome`.
+    // Bracket allocation shows the slice of salary that lands in each bracket.
+    function calculateTax(salary, otherIncome = 0) {
+      const lo = otherIncome;
+      const hi = otherIncome + salary;
       let totalTax = 0;
       const brackets = TAX_BRACKETS.map(b => {
-        const taxableAmount = Math.max(0, Math.min(salary, b.max) - b.min);
+        const taxableAmount = Math.max(0, Math.min(hi, b.max) - Math.max(lo, b.min));
         const tax = taxableAmount * b.rate;
         totalTax += tax;
         return { ...b, taxableAmount, tax };
@@ -903,7 +917,7 @@
     }
 
     function calculateRd(inputs) {
-      const { salary, rdPercent, otherRdCosts, specialistFees, fundingSource, costOfCapital, monthsUntilRefund } = inputs;
+      const { salary, otherIncome = 0, rdPercent, otherRdCosts, specialistFees, fundingSource, costOfCapital, monthsUntilRefund } = inputs;
 
       const super_ = salary * SUPER_RATE;
       const employmentCost = salary + super_;
@@ -912,7 +926,7 @@
       const rdExpenditure = employmentCost * rdPercent;
       const rdRefund = rdExpenditure * RD_OFFSET_RATE;
 
-      const tax = calculateTax(salary);
+      const tax = calculateTax(salary, otherIncome);
 
       // Capital injection = salary + super + specialist fees + other costs
       const injection = employmentCost + specialistFees + otherRdCosts;
@@ -938,7 +952,7 @@
       const accessibleCash = rdRefund - tax.totalWithMedicare - specialistFees - interestCost;
 
       return {
-        salary, super_, employmentCost, rdExpenditure, rdRefund,
+        salary, otherIncome, super_, employmentCost, rdExpenditure, rdRefund,
         tax, injection, netSalary, residual, interestCost,
         netValue, accessibleCash, specialistFees, otherRdCosts,
         meetsMinimum: rdExpenditure >= 20000,
@@ -998,6 +1012,14 @@
         : r.fundingSource === 'savings' ? 'Opportunity cost (savings)'
         : '';
 
+      const otherIncome = r.otherIncome || 0;
+      const taxLabel = otherIncome > 0
+        ? `Additional tax on R&D salary + Medicare`
+        : `Personal income tax + Medicare`;
+      const stackNote = otherIncome > 0
+        ? `<div class="breakdown-note" style="margin-bottom:0.25rem;">Salary stacks on ${fmt(otherIncome)} of other income, landing in higher brackets.</div>`
+        : '';
+
       // Build breakdown rows
       let rows = `
         <div class="breakdown-row">
@@ -1009,13 +1031,14 @@
         </div>
         <div class="breakdown-row">
           <div>
-            <div class="breakdown-label">Personal income tax + Medicare</div>
+            <div class="breakdown-label">${taxLabel}</div>
+            ${stackNote}
             <div class="breakdown-note">
               <button class="expandable-toggle" onclick="this.nextElementSibling.classList.toggle('open'); this.textContent = this.nextElementSibling.classList.contains('open') ? '▾ Hide bracket breakdown' : '▸ Show bracket breakdown'">▸ Show bracket breakdown</button>
               <div class="expandable-content">
                 ${r.tax.brackets.filter(b => b.taxableAmount > 0).map(b =>
                   `<div style="display:flex; justify-content:space-between; font-size:0.75rem; padding:0.15rem 0; color:var(--grey-500);">
-                    <span>${fmt(b.min)}–${b.max === Infinity ? '∞' : fmt(b.max)} @ ${(b.rate * 100).toFixed(0)}%</span>
+                    <span>${fmt(b.min)}–${b.max === Infinity ? '∞' : fmt(b.max)} @ ${(b.rate * 100).toFixed(0)}% on ${fmt(b.taxableAmount)}</span>
                     <span class="money">${fmt(b.tax)}</span>
                   </div>`
                 ).join('')}
